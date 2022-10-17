@@ -45,7 +45,7 @@ public class LoginUI implements ActionListener {
         Matcher passMatcher = passPattern.matcher(pass);
         if (userMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
-                    "Invalid username. Username msut be at least 3 characters long and can only contain letters, numbers and underscores.");
+                    "Invalid username. Username must be at least 3 characters long and can only contain letters, numbers and underscores.");
 
         } else if (passMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
@@ -112,15 +112,11 @@ public class LoginUI implements ActionListener {
         sc.close(); // closes the scanner
         Type type = new TypeToken<HashMap<String, String>>() {}.getType();
         users = gson.fromJson(jsonString,type);
-        System.out.println(users.keySet()); 
-        System.out.println(users.containsKey("zuhair"));
-        System.out.println(users.get("zuhair"));
         return users;
     }
 
     public boolean checkPassword(String user, String pass) throws FileNotFoundException {
         HashMap<String, String> users = readUsers(); // read users from csv file
-        System.out.println(users.get(user));
         if (users.containsKey(user)) {
             if (users.get(user).equals(pass)) {
                 return true;

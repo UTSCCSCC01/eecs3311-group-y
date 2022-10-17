@@ -1,6 +1,9 @@
 package statsVisualiser;
 
 import javax.swing.*;
+
+import statsVisualiser.gui.MainUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +21,10 @@ public class LoginUI implements ActionListener {
     public static JLabel username = new JLabel("Username");
     public static JLabel password = new JLabel("Password");
     public static JTextField usernameField = new JTextField("", 20);
-    public static JPasswordField passwordField = new JPasswordField();
+    public static JPasswordField passwordField = new JPasswordField(20);
+    Pattern userPattern = Pattern.compile("^[a-zA-Z0-9_]{3,20}$", Pattern.CASE_INSENSITIVE);
+    Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
+
 
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==login) { 
@@ -31,9 +37,7 @@ public class LoginUI implements ActionListener {
     public void loginUser(){
         String user = usernameField.getText();
         String pass = String.valueOf(passwordField.getPassword());
-        Pattern userPattern = Pattern.compile("^[a-zA-Z0-9_]{3,}$", Pattern.CASE_INSENSITIVE);
         Matcher userMatcher = userPattern.matcher(user);
-        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
         Matcher passMatcher = passPattern.matcher(pass);
         if (userMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
@@ -44,7 +48,13 @@ public class LoginUI implements ActionListener {
                     "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number.");
         } else {
             try {
-                checkPassword(user, pass);
+                if(checkPassword(user, pass) == true) {
+                    f.dispose();
+                    JFrame frame = MainUI.getInstance(); 
+                    frame.setSize(900, 600);
+		            frame.pack();
+		            frame.setVisible(true);
+                }
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
             }
@@ -54,9 +64,7 @@ public class LoginUI implements ActionListener {
     public void signupUser(){ 
         String user = usernameField.getText();
         String pass = String.valueOf(passwordField.getPassword());
-        Pattern userPattern = Pattern.compile("^[a-zA-Z0-9_]{3,}$", Pattern.CASE_INSENSITIVE);
         Matcher userMatcher = userPattern.matcher(user);
-        Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
         Matcher passMatcher = passPattern.matcher(pass);
         if (userMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
@@ -131,7 +139,7 @@ public class LoginUI implements ActionListener {
         p.add(signup); 
         f.setTitle("Login Form");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setResizable(true);
+        f.setResizable(false);
         f.setContentPane(p);
         f.pack();
         f.setLocationRelativeTo(null);

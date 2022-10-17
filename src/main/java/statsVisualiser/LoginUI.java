@@ -10,10 +10,15 @@ import java.awt.event.ActionListener;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.Scanner;
+import java.util.Map;
 import java.util.HashMap;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class LoginUI implements ActionListener {
+    Gson gson = new Gson(); 
     public static JFrame f = new JFrame();
     public static JPanel p = new JPanel();
     public static JButton login = new JButton();
@@ -25,16 +30,15 @@ public class LoginUI implements ActionListener {
     Pattern userPattern = Pattern.compile("^[a-zA-Z0-9_]{3,20}$", Pattern.CASE_INSENSITIVE);
     Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,20}$");
 
-
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==login) { 
-            loginUser(); 
-        }else if(e.getSource()==signup) { 
-            signupUser(); 
+        if (e.getSource() == login) {
+            loginUser();
+        } else if (e.getSource() == signup) {
+            signupUser();
         }
     }
 
-    public void loginUser(){
+    public void loginUser() {
         String user = usernameField.getText();
         String pass = String.valueOf(passwordField.getPassword());
         Matcher userMatcher = userPattern.matcher(user);
@@ -48,12 +52,12 @@ public class LoginUI implements ActionListener {
                     "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number.");
         } else {
             try {
-                if(checkPassword(user, pass) == true) {
+                if (checkPassword(user, pass) == true) {
                     f.dispose();
-                    JFrame frame = MainUI.getInstance(); 
+                    JFrame frame = MainUI.getInstance();
                     frame.setSize(900, 600);
-		            frame.pack();
-		            frame.setVisible(true);
+                    frame.pack();
+                    frame.setVisible(true);
                 }
             } catch (FileNotFoundException e1) {
                 e1.printStackTrace();
@@ -61,7 +65,7 @@ public class LoginUI implements ActionListener {
         }
     }
 
-    public void signupUser(){ 
+    public void signupUser() {
         String user = usernameField.getText();
         String pass = String.valueOf(passwordField.getPassword());
         Matcher userMatcher = userPattern.matcher(user);
@@ -81,36 +85,42 @@ public class LoginUI implements ActionListener {
             }
         }
     }
-    
+
     public void createUser(String user, String pass) throws IOException {
-        HashMap<String, String> users = readUsers(); // read users from csv file 
+        Map<String, String> users = readUsers(); // read users from csv file
         if (users.containsKey(user)) { // check if user already exists
             JOptionPane.showMessageDialog(f, "User already exists.");
         } else {
             users.put(user, pass); // add user to hashmap
-            BufferedWriter out = new BufferedWriter(new FileWriter(new File(System.getProperty("user.dir") + "/src/assets/userList.csv"), true));
-            out.append(","+user+";"+pass);
+            String jsonObj = gson.toJson(users); // convert hashmap to json
+            BufferedWriter out = new BufferedWriter(
+                    new FileWriter(new File(System.getProperty("user.dir") + "/src/assets/userList.json")));
+            out.append(jsonObj);
             out.close();
             JOptionPane.showMessageDialog(f, "User created successfully.");
         }
     }
-    public HashMap<String,String> readUsers() throws FileNotFoundException {
-        HashMap<String,String> users = new HashMap<String,String>();
-        Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/src/assets/userList.csv"));
-        sc.useDelimiter(","); // sets the delimiter pattern
+
+    public HashMap<String, String> readUsers() throws FileNotFoundException {
+        HashMap<String, String> users = new HashMap<String, String>();
+        Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/src/assets/userList.json"));
+        String jsonString = ""; 
         while (sc.hasNext()) // returns a boolean value
         {
-            String[] userData = sc.next().split(";");
-            String u = userData[0];
-            String p = userData[1];
-            users.put(u, p);
+         jsonString += sc.next();
         }
         sc.close(); // closes the scanner
-
+        Type type = new TypeToken<HashMap<String, String>>() {}.getType();
+        users = gson.fromJson(jsonString,type);
+        System.out.println(users.keySet()); 
+        System.out.println(users.containsKey("zuhair"));
+        System.out.println(users.get("zuhair"));
         return users;
     }
+
     public boolean checkPassword(String user, String pass) throws FileNotFoundException {
-        HashMap<String, String> users = readUsers(); // read users from csv file 
+        HashMap<String, String> users = readUsers(); // read users from csv file
+        System.out.println(users.get(user));
         if (users.containsKey(user)) {
             if (users.get(user).equals(pass)) {
                 return true;
@@ -125,18 +135,24 @@ public class LoginUI implements ActionListener {
     }
 
     public LoginUI() {
-        GridLayout layout = new GridLayout(3, 2);
-        p.setLayout(layout);
         login.setText("Login");
         signup.setText("Sign Up");
         login.addActionListener(this);
         signup.addActionListener(this);
+        p.setPreferredSize(new Dimension(800, 500));
+        p.setLayout(null);
         p.add(username);
+        username.setBounds(370, 120, 60, 20);
         p.add(usernameField);
+        usernameField.setBounds(125, 149, 550, 28);
         p.add(password);
+        password.setBounds(370, 196, 60, 20);
         p.add(passwordField);
+        passwordField.setBounds(125, 225, 550, 28);
         p.add(login);
-        p.add(signup); 
+        login.setBounds(300, 270, 90, 25);
+        p.add(signup);
+        signup.setBounds(410, 270, 90, 25);
         f.setTitle("Login Form");
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setResizable(false);

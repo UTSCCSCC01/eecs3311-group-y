@@ -22,6 +22,10 @@ public class LoginUI implements ActionListener {
     public static JFrame f = new JFrame();
     public static JPanel p = new JPanel();
     public static JButton login = new JButton();
+    public static String user;
+    public static String pass; 
+    Matcher userMatcher;
+    Matcher passMatcher;
     public static JButton signup = new JButton();
     public static JLabel username = new JLabel("Username");
     public static JLabel password = new JLabel("Password");
@@ -39,10 +43,10 @@ public class LoginUI implements ActionListener {
     }
 
     public void loginUser() {
-        String user = usernameField.getText();
-        String pass = String.valueOf(passwordField.getPassword());
-        Matcher userMatcher = userPattern.matcher(user);
-        Matcher passMatcher = passPattern.matcher(pass);
+         user = usernameField.getText();
+         pass = String.valueOf(passwordField.getPassword());
+         userMatcher = userPattern.matcher(user);
+         passMatcher = passPattern.matcher(pass);
         if (userMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
                     "Invalid username. Username must be at least 3 characters long and can only contain letters, numbers and underscores.");
@@ -66,10 +70,10 @@ public class LoginUI implements ActionListener {
     }
 
     public void signupUser() {
-        String user = usernameField.getText();
-        String pass = String.valueOf(passwordField.getPassword());
-        Matcher userMatcher = userPattern.matcher(user);
-        Matcher passMatcher = passPattern.matcher(pass);
+         user = usernameField.getText();
+         pass = String.valueOf(passwordField.getPassword());
+         userMatcher = userPattern.matcher(user);
+         passMatcher = passPattern.matcher(pass);
         if (userMatcher.find() == false) {
             JOptionPane.showMessageDialog(f,
                     "Invalid username. Username msut be at least 3 characters long and can only contain letters, numbers and underscores.");

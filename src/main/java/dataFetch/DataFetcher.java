@@ -78,16 +78,22 @@ public class DataFetcher {
 							}
 
 						}
+						
+						System.out.println("Data Parsed");
+						StoredData p = new StoredData(ind[j], yearvalues, years);
 
-					} else {
+						dataStorage.add(p);
+
+					} 
+					
+					
+					
+					else {
 
 						System.out.println("Country not there");
 					}
 
-					System.out.println("Data Parsed");
-					StoredData p = new StoredData(ind[j], yearvalues, years);
 
-					dataStorage.add(p);
 				} else {
 					System.out.println("Catch all");
 				}

@@ -12,7 +12,7 @@ public class testFetcher {
 
 		String country_code = "CA";
 
-		DataFetcher dp = new DataFetcher(indicatorList[1], country_code, "2015", "2020");
+		DataAcquisition dp = new DataAcquisition(indicatorList[1], country_code, "2015", "2020");
 		System.out.println(dp.dataStorage.toString());
 
 	}

@@ -1,12 +1,17 @@
 package dataFetch;
 
-import java.io.*;
-import java.net.*;
-import com.google.gson.*;
-import java.util.*;
-
-public class DataFetcher {
-
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import com.google.gson.JsonArray;
+/**
+ * Facade Design Pattern
+ * @author owner
+ *
+ */
+public class DataAcquisition {
+	
 	public ArrayList<Float> dataFromURL = new ArrayList<>();
 	public ArrayList<StoredData> dataStorage = new ArrayList<>();
 	public String[] ind;
@@ -14,7 +19,7 @@ public class DataFetcher {
 	public String endingYear;
 	public String countrycode;
 
-	public DataFetcher(String[] ind, String countrycode, String startingYear, String endingYear) {
+	public DataAcquisition(String[] ind, String countrycode, String startingYear, String endingYear) {
 
 		this.ind = ind;
 		this.countrycode = countrycode;
@@ -24,23 +29,16 @@ public class DataFetcher {
 
 			ArrayList<Float> yearvalues = new ArrayList<>();
 			ArrayList<Integer> years = new ArrayList<>();
-			float valueForYear = 0;
 
 			String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
 					+ ind[j] + "?date=" + startingYear + ":" + endingYear + "&format=json", "can");
 
 			try {
 
-				if (urlToGet.isEmpty()) {
-					System.out.println("Empty URL");
-				}
-
 				URL urlConstruct = new URL(urlToGet);
-				String s = null;
 				String parsedText = "";
 				HttpURLConnection connection = (HttpURLConnection) urlConstruct.openConnection();
 				connection.setRequestMethod("GET");
-				BufferedReader textIn;
 				connection.connect();
 
 				int responsecode = connection.getResponseCode();
@@ -48,51 +46,27 @@ public class DataFetcher {
 				if (responsecode != 200) {
 					System.out.println("Error");
 				} else if (responsecode == 200) {
-					textIn = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-					while ((s = textIn.readLine()) != null) {
-
-						parsedText = parsedText + s;
-					}
-
-					JsonArray jsonStore = new JsonParser().parse(parsedText).getAsJsonArray();
+					parsedText = WorldBankAPI.getData(urlToGet);
+					JsonArray jsonStore = JsonParse.parseToJson(parsedText);
 
 					if (jsonStore.isJsonNull()) {
-						System.out.println();
+						System.out.println("Null");
 					} else if (jsonStore.size() > 1) {
-						int sizeOfResults = jsonStore.get(1).getAsJsonArray().size();
 
-						int year = 0;
-						JsonElement temp;
-						for (int i = 0; i < sizeOfResults; i++) {
-							year = 0;
-							temp = jsonStore.get(1).getAsJsonArray().get(i).getAsJsonObject().get("date");
-							year = temp.getAsInt();
-
-							if (!jsonStore.get(1).getAsJsonArray().get(i).getAsJsonObject().get("value").isJsonNull()) {
-								years.add(year);
-								valueForYear = jsonStore.get(1).getAsJsonArray().get(i).getAsJsonObject().get("value")
-										.getAsFloat();
-
-								yearvalues.add(valueForYear);
-							}
-
-						}
-						
+						JsonProcess.ProcessJsonArray(jsonStore);
+						yearvalues = JsonProcess.getYearValues();
+						years = JsonProcess.getYears();
 						System.out.println("Data Parsed");
 						StoredData p = new StoredData(ind[j], yearvalues, years);
 
 						dataStorage.add(p);
 
-					} 
-					
-					
-					
+					}
+
 					else {
 
 						System.out.println("Country not there");
 					}
-
 
 				} else {
 					System.out.println("Catch all");

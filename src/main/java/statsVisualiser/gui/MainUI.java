@@ -13,6 +13,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -109,8 +111,16 @@ public class MainUI extends JFrame {
 		JButton addView = new JButton("+");
 		JButton removeView = new JButton("-");
 
+		// Responsible for calling the contextAnalysis
 		JLabel methodLabel = new JLabel("        Choose analysis method: ");
 
+		/**
+		 * TODO
+		 * 	define the newly planned analysis types here
+		 * 	1. one call made to the analysis context - should include chosen analysis type and other data
+		 * 	2. analysis context will then be called to set the strategy and execute it
+		 *
+		 */
 		Vector<String> methodsNames = new Vector<String>();
 		methodsNames.add("Mortality");
 		methodsNames.add("Mortality vs Expenses");
@@ -120,6 +130,12 @@ public class MainUI extends JFrame {
 		methodsNames.add("Unemployment");
 
 		JComboBox<String> methodsList = new JComboBox<String>(methodsNames);
+		// Takes the Selected item
+		methodsList.addItemListener(e -> {
+			if (e.getStateChange() == 1){
+
+			}
+		});
 
 		JPanel south = new JPanel();
 		south.add(viewsLabel);

@@ -1,5 +1,8 @@
 package dataFetch;
 
+import java.util.ArrayList;
+import dataFetch.DataAcquisition;
+
 public class testFetcher {
     public static void main(String[] args) {
 		String[][] indicatorList = new String[][] { { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
@@ -13,7 +16,8 @@ public class testFetcher {
 		String country_code = "CA";
 
 		DataAcquisition dp = new DataAcquisition(indicatorList[1], country_code, "2015", "2020");
-		System.out.println(dp.dataStorage.toString());
+		ArrayList<StoredData> data = DataAcquisition.getDataStorage();
+		System.out.println(data.toString());
 
 	}
 }

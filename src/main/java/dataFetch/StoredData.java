@@ -15,6 +15,7 @@ public class StoredData {
 		this.years = years;
 	}
 
+
 	public String toString() {
 		String toReturn = "";
 		for (int i = 0; i < years.size(); i++) {

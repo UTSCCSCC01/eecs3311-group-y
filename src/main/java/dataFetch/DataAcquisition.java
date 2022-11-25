@@ -1,6 +1,7 @@
 package dataFetch;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import com.google.gson.JsonArray;
 public class DataAcquisition {
 	
 	public ArrayList<Float> dataFromURL = new ArrayList<>();
-	public ArrayList<StoredData> dataStorage = new ArrayList<>();
+	public static ArrayList<StoredData> dataStorage = new ArrayList<>();
 	public String[] ind;
 	public String startingYear;
 	public String endingYear;
@@ -25,10 +26,12 @@ public class DataAcquisition {
 		this.countrycode = countrycode;
 		this.startingYear = startingYear;
 		this.endingYear = endingYear;
+
+		ArrayList<StoredData> retrievedData = new ArrayList<>();
 		for (int j = 0; j < ind.length; j++) {
 
-			ArrayList<Float> yearvalues = new ArrayList<>();
-			ArrayList<Integer> years = new ArrayList<>();
+			ArrayList<Float> yearvalues = new ArrayList();
+			ArrayList<Integer> years = new ArrayList();
 
 			String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
 					+ ind[j] + "?date=" + startingYear + ":" + endingYear + "&format=json", "can");
@@ -59,10 +62,8 @@ public class DataAcquisition {
 						System.out.println("Data Parsed");
 						StoredData p = new StoredData(ind[j], yearvalues, years);
 
-						dataStorage.add(p);
-
+						retrievedData.add(p);
 					}
-
 					else {
 
 						System.out.println("Country not there");
@@ -76,6 +77,20 @@ public class DataAcquisition {
 				e.printStackTrace();
 
 			}
+		}
+		setDataStorage(retrievedData);
+	}
+
+	// Stores the data retrieved from the API call
+	public void setDataStorage(ArrayList<StoredData> fullData){
+		dataStorage = fullData;
+	}
+
+	public static ArrayList<StoredData> getDataStorage(){
+		if (dataStorage.isEmpty()){
+			throw new IllegalArgumentException("Data Storage is empty.");
+		}else{
+			return dataStorage;
 		}
 	}
 

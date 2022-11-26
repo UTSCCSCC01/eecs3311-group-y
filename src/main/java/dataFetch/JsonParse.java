@@ -9,9 +9,9 @@ public class JsonParse {
 		JsonArray jsonStore = null;
 		try {
 			// for GSON 2.8.6
-			//jsonStore = JsonParser.parseString(parsedText).getAsJsonArray();
+			jsonStore = JsonParser.parseString(parsedText).getAsJsonArray();
 			// for GSON Versions below 2.8.6.
-			jsonStore = new JsonParser().parse(parsedText).getAsJsonArray();
+			
 
 		}
 

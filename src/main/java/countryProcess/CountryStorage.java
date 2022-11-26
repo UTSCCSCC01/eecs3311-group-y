@@ -42,4 +42,12 @@ public class CountryStorage {
     public static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(file)));
     }
+
+    public ArrayList<Country> getCountryStorageList() {
+        return this.countryStorageList;
+    }
+
+    public void setCountryStorageList(ArrayList<Country> countryStorageList) {
+        this.countryStorageList = countryStorageList;
+    }
 }

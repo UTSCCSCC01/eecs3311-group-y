@@ -18,4 +18,23 @@ public class Country {
 
     }
 
+    public String getCountryName() {
+        return this.countryName;
+    }
+    public String getCountryCode(){
+        return this.countryCode;
+    }
+    public int getStartYear(){
+        return this.startYear;
+    }
+    public int getEndYear(){
+        return this.endYear;
+    }
+    public ArrayList<ArrayList<Float>> getValue(){
+        return value;
+    }
+    public ArrayList<String> getIndicators(){
+        return indicators;
+    }
+
 }

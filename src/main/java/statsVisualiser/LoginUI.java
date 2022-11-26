@@ -61,7 +61,11 @@ public class LoginUI implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
-            loginUser();
+            try {
+                loginUser();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         } else if (e.getSource() == signup) {
             signupUser();
         }
@@ -75,8 +79,9 @@ public class LoginUI implements ActionListener {
      * If the username and password do not match, an error message is displayed
      * @return none 
      * @param none 
+     * @throws Exception
      */
-    public void loginUser() {
+    public void loginUser() throws Exception {
          user = usernameField.getText(); //gets the username from the username field
          pass = String.valueOf(passwordField.getPassword()); //gets the password from the password field
          userMatcher = userPattern.matcher(user); //checks if the username matches the regex pattern

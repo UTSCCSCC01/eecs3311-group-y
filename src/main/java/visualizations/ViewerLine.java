@@ -24,15 +24,8 @@ import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-/**
- * Line viewer class which creates the line chart
- * 
- * @author group21
- *
- */
-public class Viewers_Line extends JFrame {
 
-public class Viewers_Line extends JFrame implements Viewer {
+public class ViewerLine extends JFrame implements Viewer {
 
     private StoredData data, data2, data3;
     private String title;
@@ -45,7 +38,7 @@ public class Viewers_Line extends JFrame implements Viewer {
     private ChartPanel chartPanel;
     private int vers;
 
-    public Viewers_Line(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
+    public ViewerLine(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -212,7 +205,7 @@ public class Viewers_Line extends JFrame implements Viewer {
         String[][] ab = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
         DataAcquisition test = new DataAcquisition(ab[0], c, "2010", "2017");
         // title will later be changed to whatever the analysis is
-        Viewers_Line tt = new Viewers_Line(test.dataStorage, "Years", "Values", "Title");
+        ViewerLine tt = new ViewerLine(test.dataStorage, "Years", "Values", "Title");
         tt.setVisible(true);
 
     }

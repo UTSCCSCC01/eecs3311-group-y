@@ -14,7 +14,7 @@ import org.jfree.data.general.PieDataset;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewers_Pie extends JFrame implements Viewer {
+public class ViewerPie extends JFrame implements Viewer {
     private String data;
     DefaultPieDataset dataset;
     DefaultPieDataset temp2;
@@ -24,7 +24,7 @@ public class Viewers_Pie extends JFrame implements Viewer {
     private ArrayList<StoredData> dataStorage;
     private ChartPanel chartPanel;
 
-    public Viewers_Pie(ArrayList<StoredData> dataStorage, String title) {
+    public ViewerPie(ArrayList<StoredData> dataStorage, String title) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -84,7 +84,7 @@ public class Viewers_Pie extends JFrame implements Viewer {
         String[][] a = { { "AG.LND.FRST.ZS" } };
         String c = "USA";
         DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2010");
-        Viewers_Pie s = new Viewers_Pie(test.dataStorage, "balls");
+        ViewerPie s = new ViewerPie(test.dataStorage, "balls");
         s.setVisible(true);
     }
 

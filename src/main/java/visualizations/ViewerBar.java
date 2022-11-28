@@ -18,7 +18,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewers_Bar extends JFrame implements Viewer {
+public class ViewerBar extends JFrame implements Viewer {
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -31,7 +31,7 @@ public class Viewers_Bar extends JFrame implements Viewer {
     private JFreeChart barChart;
     private CategoryPlot plot;
 
-    public Viewers_Bar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
+    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -45,7 +45,7 @@ public class Viewers_Bar extends JFrame implements Viewer {
 
     }
 
-    public Viewers_Bar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
+    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
             String title) {
         if (dataStorage.equals(null)) {
             return;
@@ -217,7 +217,7 @@ public class Viewers_Bar extends JFrame implements Viewer {
         String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
         DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
         // title will later be changed to whatever the analysis is
-        Viewers_Bar tt = new Viewers_Bar(test.dataStorage, "Years", "Values", "Title");
+        ViewerBar tt = new ViewerBar(test.dataStorage, "Years", "Values", "Title");
         tt.setVisible(true);
 
     }

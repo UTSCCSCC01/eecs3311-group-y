@@ -16,7 +16,7 @@ public class CountryStorage {
     public CountryStorage(String fileName) throws Exception {
         System.out.println(fileName);
         String json = readFileAsString("src/assets/Countries.json");
-        
+
         JsonArray jsonStore = JsonParser.parseString(json).getAsJsonArray();
         for (JsonElement jsonElement : jsonStore) {
             for (Map.Entry<String, JsonElement> entry1 : jsonElement.getAsJsonObject().entrySet()) {
@@ -42,7 +42,7 @@ public class CountryStorage {
     }
 
     public static String readFileAsString(String file) throws Exception {
-        return new String(Files.readAllBytes(Paths.get(file)));
+        return new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir")+"/"+file)));
     }
 
     public ArrayList<Country> getCountryStorageList() {

@@ -17,6 +17,7 @@ import visualizations.Viewer_Report;
 import visualizations.Viewer_Scatter;
 
 import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -58,19 +59,21 @@ public class MainUI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     public static void main(String[] args) throws Exception {
-//        String c = "USA";
-//        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-//        DataAcquisition test = new DataAcquisition(a[0], c, "2014", "2018");
-//
-//        Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
-//        JScrollPane temp = tt.getPanel();
-//
-//        Viewer_Scatter tt2 = new Viewer_Scatter(test.dataStorage, "Years", "Values", "Title");
-//        ChartPanel temp2 = tt2.getChart();
-//        MainUI s = MainUI.getInstance();
-//
-//        s.panelForGraph.add(temp);
-//        s.panelForGraph.add(temp2);
+        // String c = "USA";
+        // String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" }
+        // };
+        // DataAcquisition test = new DataAcquisition(a[0], c, "2014", "2018");
+        //
+        // Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
+        // JScrollPane temp = tt.getPanel();
+        //
+        // Viewer_Scatter tt2 = new Viewer_Scatter(test.dataStorage, "Years", "Values",
+        // "Title");
+        // ChartPanel temp2 = tt2.getChart();
+        // MainUI s = MainUI.getInstance();
+        //
+        // s.panelForGraph.add(temp);
+        // s.panelForGraph.add(temp2);
 
     }
 
@@ -211,6 +214,7 @@ public class MainUI extends JFrame implements ActionListener {
 
         years_tmpCopy = new ArrayList<String>(years_tmp);
         countryData = new JComboBox<String>(countriesNames.toArray(new String[countriesNames.size()]));
+        countryData.addActionListener(this); // add action listener to the combo box
         startYearData = new JComboBox<String>(years_tmp.toArray(new String[years_tmp.size()]));
         endYearData = new JComboBox<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()]));
         analysisData = new JComboBox<String>(analysisTypes);
@@ -219,7 +223,23 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
+        int countryIndex = 0; // index of the country in the countryDB
+        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
+            if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
+                countryIndex = i;
+                break; // breaks the loop
+            }
+        }
+        // get start and end year of country index
+        int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
+        int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
+        years_tmp.clear();
+        for (int year = startYear; year <= endYear; year++) {
+            years_tmp.add(year + "");
+        }
+        years_tmpCopy = new ArrayList<String>(years_tmp);
+        startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()])));
+        endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
 
     }
 

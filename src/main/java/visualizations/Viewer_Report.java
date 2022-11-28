@@ -83,7 +83,7 @@ public class Viewer_Report extends JFrame {
         outputScrollPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 // Bottom is to see it in main
-        // seeExample();
+         seeExample();
 
     }
 

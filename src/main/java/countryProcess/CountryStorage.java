@@ -14,7 +14,9 @@ public class CountryStorage {
     String[] country = new String[4];
 
     public CountryStorage(String fileName) throws Exception {
-        String json = readFileAsString(fileName + ".json");
+        System.out.println(fileName);
+        String json = readFileAsString("src/assets/Countries.json");
+        
         JsonArray jsonStore = JsonParser.parseString(json).getAsJsonArray();
         for (JsonElement jsonElement : jsonStore) {
             for (Map.Entry<String, JsonElement> entry1 : jsonElement.getAsJsonObject().entrySet()) {

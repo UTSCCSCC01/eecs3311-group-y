@@ -6,17 +6,25 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 import countryProcess.CountryStorage;
+import dataFetch.DataAcquisition;
+import visualizations.Viewer_Report;
+import visualizations.Viewer_Scatter;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import org.jfree.chart.ChartPanel;
 
 public class MainUI extends JFrame implements ActionListener {
 
@@ -48,6 +56,23 @@ public class MainUI extends JFrame implements ActionListener {
     private HashMap<String, String> analysisIndicators = new HashMap<String, String>();
 
     private static final long serialVersionUID = 1L;
+
+    public static void main(String[] args) throws Exception {
+//        String c = "USA";
+//        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
+//        DataAcquisition test = new DataAcquisition(a[0], c, "2014", "2018");
+//
+//        Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
+//        JScrollPane temp = tt.getPanel();
+//
+//        Viewer_Scatter tt2 = new Viewer_Scatter(test.dataStorage, "Years", "Values", "Title");
+//        ChartPanel temp2 = tt2.getChart();
+//        MainUI s = MainUI.getInstance();
+//
+//        s.panelForGraph.add(temp);
+//        s.panelForGraph.add(temp2);
+
+    }
 
     private static MainUI instance;
 
@@ -117,14 +142,6 @@ public class MainUI extends JFrame implements ActionListener {
         mainFrame.setVisible(true);
 
         panelForGraph = new JPanel(new GridLayout(4, 4));
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 4; j++) {
-                secPanel[i][j] = new JPanel();
-                secPanel[i][j].setVisible(true);
-                secPanel[i][j].setBackground(Color.WHITE);
-                panelForGraph.add(secPanel[i][j]);
-            }
-        }
         panelForGraph.setVisible(true);
         panelForGraph.revalidate();
         mainFrame.add(panelForGraph, BorderLayout.CENTER);
@@ -201,7 +218,6 @@ public class MainUI extends JFrame implements ActionListener {
 
     }
 
-    
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
 

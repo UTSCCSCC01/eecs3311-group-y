@@ -30,7 +30,7 @@ public class DataAcquisition {
 		ArrayList<StoredData> retrievedData = new ArrayList<>();
 		for (int j = 0; j < ind.length; j++) {
 
-			ArrayList<Float> yearvalues = new ArrayList();
+			ArrayList<Float> yearValues = new ArrayList();
 			ArrayList<Integer> years = new ArrayList();
 
 			String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
@@ -51,20 +51,33 @@ public class DataAcquisition {
 				} else if (responsecode == 200) {
 					parsedText = WorldBankAPI.getData(urlToGet);
 					JsonArray jsonStore = JsonParse.parseToJson(parsedText);
+					System.out.println("jsonStore:" + jsonStore);
 
 					if (jsonStore.isJsonNull()) {
 						System.out.println("Null");
 					} else if (jsonStore.size() > 1) {
 
 						JsonProcess.ProcessJsonArray(jsonStore);
-						yearvalues = JsonProcess.getYearValues();
-						years = JsonProcess.getYears();
-						System.out.println("Data Parsed");
-						StoredData p = new StoredData(ind[j], yearvalues, years);
 
-						retrievedData.add(p);
-					}
-					else {
+						/**
+						 * we're passing the values of the arraylists tothe stored data object, where
+						 */
+						yearValues = JsonProcess.getYearValues(); // array list
+						years = JsonProcess.getYears(); // arralist
+						String currentIndicator = ind[j];
+						System.out.println("Data Parsed");
+						// Adds the individual storedData objects into the retrieved Data list
+
+						for (int i = 0; i < yearValues.size(); i++){
+							StoredData yearData = new StoredData(currentIndicator, yearValues.get(i), years.get(i));
+							retrievedData.add(yearData);
+						}
+						/**
+						 * TODO - Old Code that needs to be removed
+						 */
+//						StoredData p = new StoredData(ind[j], yearValues, years); // currently exists as separate array lists
+//						retrievedData.add(p);
+					} else {
 
 						System.out.println("Country not there");
 					}

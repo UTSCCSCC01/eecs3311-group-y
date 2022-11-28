@@ -11,14 +11,14 @@ import java.util.ArrayList;
  */
 public class analysisContext {
     private analysisStrategy strategy;
-    private StoredData data;
+//    private StoredData data;
 
     public analysisContext(analysisStrategy strategy){
         this.strategy = strategy;
     }
 
     // Retrieves the data from the specified metadata
-    public ArrayList<StoredData> getData(){
+    public ArrayList<ArrayList<StoredData>> getData(){
         System.out.println(DataAcquisition.getDataStorage() + " This is from the analysis context class");
         return DataAcquisition.getDataStorage();
     }

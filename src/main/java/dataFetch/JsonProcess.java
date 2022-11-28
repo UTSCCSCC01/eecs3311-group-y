@@ -32,6 +32,7 @@ public class JsonProcess {
 	}
 
 	public static ArrayList<Float> getYearValues() {
+		System.out.println(yearvalues);
 		return yearvalues;
 	}
 

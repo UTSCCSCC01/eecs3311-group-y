@@ -32,6 +32,8 @@ import java.util.ArrayList;
  */
 public class Viewers_Line extends JFrame {
 
+public class Viewers_Line extends JFrame implements Viewer {
+
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -56,18 +58,6 @@ public class Viewers_Line extends JFrame {
 
     }
 
-    public Viewers_Line(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
-            String title) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
-        this.xLabel = xLabel;
-        this.yLabel = yLabel;
-        this.title = title;
-        this.dataStorage = dataStorage;
-        draw();
-
-    }
 
     private void draw() {
         switch (dataStorage.size()) {
@@ -100,7 +90,7 @@ public class Viewers_Line extends JFrame {
 
     }
 
-    private void pop() {
+    public void pop() {
         XYSeries seriesLine, seriesLine2, seriesLine3;
         dataset = null;
         switch (vers) {

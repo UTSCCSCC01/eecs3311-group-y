@@ -18,7 +18,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewers_Bar extends JFrame {
+public class Viewers_Bar extends JFrame implements Viewer {
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -89,7 +89,7 @@ public class Viewers_Bar extends JFrame {
         pop();
     }
 
-    private void pop() {
+    public void pop() {
         plot = new CategoryPlot();
         DefaultCategoryDataset dataset, dataset2;
         BarRenderer barrenderer1, barrenderer2;

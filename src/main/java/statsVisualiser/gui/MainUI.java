@@ -8,8 +8,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import countryProcess.CountryStorage;
 import dataFetch.DataAcquisition;
@@ -58,8 +61,10 @@ public class MainUI extends JFrame implements ActionListener {
     private static final long serialVersionUID = 1L;
 
     public static void main(String[] args) throws Exception {
-//        String c = "USA";
-//        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
+        String c = "USA";
+        String[][] a = { { "SH.MED.BEDS.ZS", "SH.XPD.CHEX.PC.CD","SP.DYN.IMRT.IN"} };
+        
+
 //        DataAcquisition test = new DataAcquisition(a[0], c, "2014", "2018");
 //
 //        Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
@@ -71,7 +76,39 @@ public class MainUI extends JFrame implements ActionListener {
 //
 //        s.panelForGraph.add(temp);
 //        s.panelForGraph.add(temp2);
+        String[] analysisTypes = {
+                "Average Energy Use",
+                "Annual Percentage Change of Total Population and CO2 Emissions",
+                "Annual Percentage Change of GDP per Capit and Total Population",
+                "Ratio of Problems in Accessing Health care : Mortality rate : Infant",
+                "Ratio of Hospital Beds to problems in Accessing Health Care",
+                "Ratio of Total Population to Energy Use",
+                "Ratio of CO2 Emissions and GDP Per Captia",
+                "Ratio of Current Health Expenditure and Hospital Beds",
 
+        };
+        
+                
+                
+        
+        List al = Arrays.asList(analysisTypes);
+        
+        TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
+        mapToPopulate.put("Annual Percentage Change of Total Population and CO2 Emissions", new String[]{"SP.POP.TOTL", "EN.ATM.CO2E.PC"});
+        mapToPopulate.put("Ratio of Problems in Accessing Health care : Mortality rate : Infant", new String[]{"DOESNT WORK"});
+        mapToPopulate.put("Average Energy Use", new String[]{"EG.USE.PCAP.KG.OE"});
+        mapToPopulate.put("Ratio of Hospital Beds to problems in Accessing Health Care", new String[]{"DOESNT WORK"});
+        mapToPopulate.put("Ratio of Total Population to Energy Use", new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"});
+        mapToPopulate.put("Average Government Expenditure on Education", new String[]{"SE.XPD.TOTL.GD.ZS"});
+        mapToPopulate.put("Average Forested Area", new String[]{"AG.LND.FRST.ZS"});
+        mapToPopulate.put("Annual Percentage Change of GDP per Capita and Total Population", new String[]{"SP.POP.TOTL", "NY.GDP.PCAP.CD"});
+
+        DataAcquisition temp = new DataAcquisition( new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"},c,"2014","2019");
+        //System.out.println(temp.dataStorage.toString());
+        //System.out.println();
+       // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio of Total Population to Energy Use"),c,"2014","2019"));
+       
+        
     }
 
     private static MainUI instance;
@@ -150,7 +187,7 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     String[][] indicatorListForDataFetch = new String[][] {
-            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, 
             { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
             { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
             { "AG.LND.FRST.ZS" },
@@ -174,6 +211,11 @@ public class MainUI extends JFrame implements ActionListener {
             "Ratio of Current Health Expenditure and Hospital Beds",
 
     };
+    
+    
+    
+    
+    
 
     private void populateData() throws Exception {
         years_tmp = new ArrayList<String>();
@@ -184,8 +226,7 @@ public class MainUI extends JFrame implements ActionListener {
         // ENVIRONMENT
         analysisIndicators.put("Total Population", "SP.POP.TOTL");
         analysisIndicators.put("CO2 emissions (metric tons per capita)", "EN.ATM.CO2E.PC");
-        analysisIndicators.put("PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)",
-                "EN.ATM.PM25.MC.M3");
+        analysisIndicators.put("PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)","EN.ATM.PM25.MC.M3");
         analysisIndicators.put("Energy use (kg of oil equivalent per capita)", "EG.USE.PCAP.KG.OE");
         analysisIndicators.put("Forest area (% of land area)", "AG.LND.FRST.ZS");
         analysisIndicators.put("GDP per capita (current US$)", "NY.GDP.PCAP.CD");

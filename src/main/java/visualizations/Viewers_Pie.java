@@ -14,7 +14,7 @@ import org.jfree.data.general.PieDataset;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewers_Pie extends JFrame {
+public class Viewers_Pie extends JFrame implements Viewer {
     private String data;
     DefaultPieDataset dataset;
     DefaultPieDataset temp2;
@@ -31,7 +31,7 @@ public class Viewers_Pie extends JFrame {
 
         this.title = title;
         this.dataStorage = dataStorage;
-
+        pop();
     }
 
     private PieDataset createDataset() {
@@ -56,8 +56,8 @@ public class Viewers_Pie extends JFrame {
         plot.setForegroundAlpha(0.3f);
         return jfreechart;
     }
-
-    private void createChart() {
+    
+    public void pop() {
         JFreeChart chart = helperChart();
         chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -85,7 +85,6 @@ public class Viewers_Pie extends JFrame {
         String c = "USA";
         DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2010");
         Viewers_Pie s = new Viewers_Pie(test.dataStorage, "balls");
-        s.createChart();
         s.setVisible(true);
     }
 

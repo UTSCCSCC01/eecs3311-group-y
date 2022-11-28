@@ -19,7 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
-public class Viewer_Scatter extends JFrame {
+public class Viewer_Scatter extends JFrame implements Viewer{
 
     private static final long serialVersionUID = 6043180864004509049L;
     private ArrayList<StoredData> dataStorage;

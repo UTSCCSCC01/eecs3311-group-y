@@ -12,11 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import analysis.*;
-
 import dataFetch.DataAcquisition;
 
 import dataFetch.StoredData;
+import strategyAnalysis.*;
 
 public class ViewerReport extends JFrame implements Viewer{
 
@@ -28,17 +27,18 @@ public class ViewerReport extends JFrame implements Viewer{
     public ViewerReport(ArrayList<StoredData> dataStorage2, String title) throws IOException {
         this.dataStorage = dataStorage2;
         this.title = title;
-        pop();
+        populate();
 
     }
 
-    public void pop() {
+    public void populate() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i = 0; i < dataStorage.size(); i++) {
             names.add(dataStorage.get(i).getSeriesName());
 
         }
-
+        
+        
         TreeMap<Integer, HashMap<String, Float>> mapToPopulate = new TreeMap<Integer, HashMap<String, Float>>();
 
         StringBuilder finalMessage = new StringBuilder();
@@ -94,7 +94,7 @@ public class ViewerReport extends JFrame implements Viewer{
         outputScrollPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 // Bottom is to see it in main
-         seeExample();
+         
     }
     
     public void seeExample() {

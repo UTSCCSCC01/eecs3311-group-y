@@ -31,23 +31,34 @@ public class StoredData {
     
     
     public StoredData(String ind, String seriesName) {
+        populate();
         this.years = new ArrayList<Integer>();
         this.yearvalues = new ArrayList<Float>();
         this.seriesName = seriesName;
         this.seriesIndicator = ind;
+        
+        if (analysisIndicators.containsKey(ind))
+            this.seriesName = analysisIndicators.get(ind);
+        else
+            this.seriesName = seriesName;
+        
 
 	}
 
     public StoredData(String ind) {
+        populate();
         this.years = new ArrayList<Integer>();
         this.yearvalues = new ArrayList<Float>();
         this.seriesIndicator = ind;
+        System.out.println(ind);
         if (analysisIndicators.containsKey(ind))
             this.seriesName = analysisIndicators.get(ind);
         else
-            this.seriesName = "Cannot Find Indicator";
+            this.seriesName = "Cannot Findo";
+        
+        
 	}
-
+    
 	private void populate() {
         analysisIndicators.put("SP.POP.TOTL", "Total Population");
         analysisIndicators.put("EN.ATM.CO2E.PC", "CO2 emissions (metric tons per capita)");
@@ -56,13 +67,15 @@ public class StoredData {
         analysisIndicators.put("EG.USE.PCAP.KG.OE", "Energy use (kg of oil equivalent per capita)");
         analysisIndicators.put("AG.LND.FRST.ZS", "Forest area (% of land area)");
         analysisIndicators.put("NY.GDP.PCAP.CD", "GDP per capita (current US$)");
+        analysisIndicators.put("IT.NET.USER.ZS", "Individuals using the Internet (% of population");
         analysisIndicators.put("SH.MED.BEDS.ZS", "Hospital beds (per 1,000 people)");
         analysisIndicators.put("SE.XPD.TOTL.GD.ZS", "Government expenditure on education, total (% of GDP)");
         analysisIndicators.put("SH.STA.MMRT", "Maternal mortality ratio (modeled estimate, per 100,000 live births)");
         analysisIndicators.put("SH.XPD.CHEX.PC.CD", "Current health expenditure per capita (current US$)");
         analysisIndicators.put("SH.XPD.CHEX.GD.ZS", "Current health expenditure (% of GDP)");
         analysisIndicators.put("SP.DYN.IMRT.IN", "Mortality rate, infant (per 1,000 live births)");
-        analysisIndicators.put("SH.ACS.MONY.Q1.ZS", "Problems in accessing health care (% of women): Q1 (lowest)");
+        analysisIndicators.put("AG.LND.FRST.ZS", "Forested Area");
+        analysisIndicators.put("EG.ELC.ACCS.UR.ZS", "Access to electricity");
 
     }
 
@@ -92,6 +105,10 @@ public class StoredData {
     
     public String getSeriesName() {
         return this.seriesName;
+    }
+    
+    public void setSeriesName(String name) {
+        this.seriesName = name;
     }
 
     public String getInd() {

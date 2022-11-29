@@ -18,10 +18,20 @@ import java.util.Map.Entry;
 import countryProcess.CountryStorage;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
+import strategyAnalysis.*;
+import templateAnalysis.AnalysisEight;
+import templateAnalysis.AnalysisFive;
+import templateAnalysis.AnalysisFour;
+import templateAnalysis.AnalysisOne;
+import templateAnalysis.AnalysisSeven;
+import templateAnalysis.AnalysisSix;
+import templateAnalysis.AnalysisThree;
+import visualizations.ViewerBar;
 import visualizations.ViewerPie;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -32,8 +42,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jfree.chart.ChartPanel;
-
-import analysis.*;
+import org.jfree.chart.renderer.category.BarRenderer;
 
 public class MainUI extends JFrame implements ActionListener {
 
@@ -95,20 +104,6 @@ public class MainUI extends JFrame implements ActionListener {
 
         List al = Arrays.asList(analysisTypes);
 
-        TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
-        mapToPopulate.put("Annual Percentage Change of Total Population and CO2 Emissions",
-                new String[] { "SP.POP.TOTL", "EN.ATM.CO2E.PC" });
-        mapToPopulate.put("Indivuidals using the Internet", new String[] { "IT.NET.USER.ZS" });
-        mapToPopulate.put("Average Energy Use", new String[] { "EG.USE.PCAP.KG.OE" });
-        mapToPopulate.put("Literacy rate and Government Expenditure on Education",
-                new String[] { "SE.ADT.LITR.ZS", "SE.XPD.TOTL.GB.ZS" });
-        mapToPopulate.put("Ratio of Total Population to Energy Use",
-                new String[] { "SP.POP.TOTL", "EG.USE.PCAP.KG.OE" });
-        mapToPopulate.put("Average Government Expenditure on Education", new String[] { "SE.XPD.TOTL.GD.ZS" });
-        mapToPopulate.put("Average Forested Area", new String[] { "AG.LND.FRST.ZS" });
-        mapToPopulate.put("Annual Percentage Change of GDP per Capita and Total Population",
-                new String[] { "SP.POP.TOTL", "NY.GDP.PCAP.CD" });
-
         // System.out.println(temp.dataStorage.toString());
         // System.out.println();
         // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio
@@ -122,7 +117,27 @@ public class MainUI extends JFrame implements ActionListener {
         DataAcquisition dp1 = new DataAcquisition(new String[] { "AG.LND.FRST.ZS", "EN.ATM.CO2E.PC" }, "CA", "2017",
                 "2020"); // "EN.ATM.CO2E.PC"
 
-        ArrayList<StoredData> data = DataAcquisition.getDataStorage();
+        TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
+        mapToPopulate.put("Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
+                new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" });
+        mapToPopulate.put("Annual Change in GDP per Capita and Total Population",
+                new String[] { "NY.GDP.PCAP.CD", "SP.POP.TOTL" });
+        mapToPopulate.put("Average Energy Use", new String[] { "EG.USE.PCAP.KG.OE" });
+        mapToPopulate.put("Average Forested Area",
+                new String[] { "AG.LND.FRST.ZS" });
+        mapToPopulate.put("Ratio of CO2 Emissions and GDP per capita",
+                new String[] { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" });
+        mapToPopulate.put("Ratio of Population to Energy Use",
+                new String[] { "SP.POP.TOTL", "EG.USE.PCAP.KG.OE" });
+        mapToPopulate.put("Annual Change of Health Costs vs Air Pollution",
+                new String[] { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" });
+        mapToPopulate.put("Ratio of GDP and Renewable Energy Output",
+                new String[] { "NY.GDP.PCAP.CD", "EG.ELC.RNEW.ZS" });
+
+        // System.out.println(temp.dataStorage.toString());
+        // System.out.println();
+        // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio
+        // of Total Population to Energy Use"),c,"2014","2019"));
 
         ArrayList<StoredData> temp = annualPercentageCalculator(DataAcquisition.dataStorage);
         System.out.println("Expected annual is " + temp.toString());

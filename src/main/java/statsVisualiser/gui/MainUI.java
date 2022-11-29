@@ -1,4 +1,4 @@
-    package statsVisualiser.gui;
+package statsVisualiser.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -291,16 +292,36 @@ public class MainUI extends JFrame implements ActionListener {
         // get start and end year of country index
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
         int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
-
+        ArrayList<String> newAnalysisList = new ArrayList<>();
         for (Entry<String, String[]> entry : mapToPopulate.entrySet()) {
-            System.out.println(entry.getKey()); 
-            System.out.println(entry.getValue()[0]); 
-            boolean valid = DataAcquisition.checkifValidYear(entry.getValue(), countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), (startYear+""), (endYear+""));
+            System.out.println(entry.getKey());
+            // System.out.println(entry.getValue()[0]);
+            boolean valid = checkifValidYear();
             if (valid) {
                 System.out.println("valid");
+                newAnalysisList.add(entry.getKey());
             } else {
                 System.out.println("invalid");
+
             }
+        }
+        analysisData.removeAllItems();
+        for (int i = 0; i < newAnalysisList.size(); i++) {
+            analysisData.addItem(newAnalysisList.get(i));
+        }
+
+    }
+
+    private boolean checkifValidYear() {
+        // pick a number between 0 and 1
+        // if the number is 0, return true
+        // if the number is 1, return false
+        Random rand = new Random();
+        int n = rand.nextInt(2);
+        if (n == 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 

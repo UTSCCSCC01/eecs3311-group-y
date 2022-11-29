@@ -1,5 +1,6 @@
 package analysis;
 
+import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 import java.util.ArrayList;
@@ -9,50 +10,37 @@ import java.util.HashMap;
  * Analyzes the rate of change from year to year
  */
 public class AnnualPercentageChange implements analysisStrategy{
-
-    class YearPChange{
-        int Year;
-        float pChange;
-
-        public YearPChange(int year, float pChange){
-            this.Year = year;
-            this.pChange = pChange;
-        }
-
-        public int getYear(){
-            return this.Year;
-        }
-
-        public float getpChange(){
-            return this.pChange;
-        }
-    }
+    ArrayList<StoredData> res = new ArrayList<>();
 
     /**
-     * Iterates over all indicator data and years
+     * Iterates over all indicator data and years and returns a map of
+     * indicators with its associated year PERCENTAGE CHANGES
      * @param context
      */
     @Override
-    public HashMap<String, ArrayList<YearPChange>> performAnalysis(analysisContext context){
-        HashMap<String, ArrayList<YearPChange>> indicatorAndResult = new HashMap();
-        for (ArrayList<StoredData> sdList: context.getData()){      // Iterates over all the provided indicators
-            ArrayList<YearPChange> result = new ArrayList();
+    public void performAnalysis(analysisContext context){
+        ArrayList<StoredData> sd = new ArrayList<>();
+
+        for (ArrayList<ParsedData> sdList: context.getData()){      // Iterates over all the provided indicators
             if (sdList.size() > 1){
+                ArrayList<Integer> years = new ArrayList<>();
+                ArrayList<Float> calculatedValues = new ArrayList<>();
                 for (int i = 0; i < sdList.size() - 1  ; i++){            // Iterates over all the years of the current indicator
                     float curYearVal = sdList.get(i).getYearValues();
                     float lastYearVal = sdList.get(i + 1).getYearValues();
                     float pChange = percentageChange(curYearVal, lastYearVal);
                     int curYear = sdList.get(i).getYears();
-                    YearPChange resultPair = new YearPChange(curYear, pChange);
-                    result.add(resultPair);
+                    years.add(curYear);
+                    calculatedValues.add(pChange);
                 }
                 String curYearInd = sdList.get(0).getSeriesIndicator();
-                indicatorAndResult.put(curYearInd, result);         // stores result mapped to its current indicator
+                StoredData p = new StoredData(curYearInd, calculatedValues, years);
+                sd.add(p);
             }
         }
-        return indicatorAndResult;
+        setAnalysis(sd);
     }
-
+    //HashMap<String, ArrayList<YearPChange>>
     /**
      * Calculates percentage change
      * Increase from Previous Year = ((New Value - Old Value) / Old Value) * 100
@@ -72,4 +60,14 @@ public class AnnualPercentageChange implements analysisStrategy{
         }
         return result;
     }
+
+    public void setAnalysis(ArrayList<StoredData> sd){
+        this.res = sd;
+    }
+
+    public ArrayList<StoredData> getAnalysis(){
+        System.out.println("This is the analysis" + this.res);
+        return this.res;
+    }
+
 }

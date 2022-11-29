@@ -14,7 +14,7 @@ import com.google.gson.JsonArray;
 public class DataAcquisition {
 	
 	public ArrayList<Float> dataFromURL = new ArrayList<>();
-	public static ArrayList<ArrayList<StoredData>> dataStorage = new ArrayList<>();
+	public static ArrayList<ArrayList<ParsedData>> dataStorage = new ArrayList<>();
 	public String[] ind;
 	public String startingYear;
 	public String endingYear;
@@ -27,12 +27,12 @@ public class DataAcquisition {
 		this.startingYear = startingYear;
 		this.endingYear = endingYear;
 
-		ArrayList<ArrayList<StoredData>> retrievedData = new ArrayList<>();
+		ArrayList<ArrayList<ParsedData>> retrievedData = new ArrayList<>();
 		for (int j = 0; j < ind.length; j++) {	// iterates over the each countries data of the code
 
 			ArrayList<Float> yearValues = new ArrayList();
 			ArrayList<Integer> years = new ArrayList();
-			ArrayList<StoredData> countryTemp = new ArrayList();
+			ArrayList<ParsedData> countryTemp = new ArrayList();
 
 
 			String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
@@ -61,17 +61,14 @@ public class DataAcquisition {
 
 						JsonProcess.ProcessJsonArray(jsonStore);
 
-						/**
-						 * we're passing the values of the arraylists tothe stored data object, where
-						 */
 						yearValues = JsonProcess.getYearValues(); // array list
 						years = JsonProcess.getYears(); // arraylist
 						String currentIndicator = ind[j];
 						System.out.println("Data Parsed");
-						// Adds the individual storedData objects into the retrieved Data list
+						// Adds the individual ParsedData objects into the retrieved Data list
 
 						for (int i = 0; i < yearValues.size(); i++){
-							StoredData yearData = new StoredData(currentIndicator, yearValues.get(i), years.get(i));
+							ParsedData yearData = new ParsedData(currentIndicator, yearValues.get(i), years.get(i));
 							countryTemp.add(yearData);
 						}
 						retrievedData.add(countryTemp);
@@ -93,11 +90,11 @@ public class DataAcquisition {
 	}
 
 	// Stores the data retrieved from the API call
-	public void setDataStorage(ArrayList<ArrayList<StoredData>> fullData){
+	public void setDataStorage(ArrayList<ArrayList<ParsedData>> fullData){
 		dataStorage = fullData;
 	}
 
-	public static ArrayList<ArrayList<StoredData>> getDataStorage(){
+	public static ArrayList<ArrayList<ParsedData>> getDataStorage(){
 		if (dataStorage.isEmpty()){
 			throw new IllegalArgumentException("Data Storage is empty.");
 		}else{

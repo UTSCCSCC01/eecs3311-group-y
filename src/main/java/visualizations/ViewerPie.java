@@ -2,6 +2,7 @@ package visualizations;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -13,7 +14,12 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
+import analysis.AnnualPercentageChange;
+import analysis.Average;
+import analysis.Ratio;
+import analysis.analysisContext;
 import dataFetch.DataAcquisition;
+import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 public class ViewerPie extends JFrame implements Viewer {
@@ -28,13 +34,13 @@ public class ViewerPie extends JFrame implements Viewer {
     private String title2, title3;
     private String seriesOne, seriesTwo;
 
-    public ViewerPie(ArrayList<StoredData> dataStorage, String title) {
-        if (dataStorage.equals(null)) {
+    public ViewerPie(ArrayList<StoredData> dataStorage2, String title) {
+        if (dataStorage2.equals(null)) {
             return;
         }
 
         this.title = title;
-        this.dataStorage = dataStorage;
+        this.dataStorage = dataStorage2;
         pop();
     }
 
@@ -101,7 +107,7 @@ public class ViewerPie extends JFrame implements Viewer {
         JFreeChart jfreechart = ChartFactory.createPieChart(title, dataset1, true, true, false);
         PiePlot plot = (PiePlot) jfreechart.getPlot();
         plot.setForegroundAlpha(0.3f);
-        seeExample();
+        //seeExample();
         return jfreechart;
     }
 
@@ -125,7 +131,7 @@ public class ViewerPie extends JFrame implements Viewer {
         chartPanel.setPreferredSize(new Dimension(400, 300));
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // uncomment to see example
+//        // uncomment to see example
         seeExample();
     }
 
@@ -140,13 +146,39 @@ public class ViewerPie extends JFrame implements Viewer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        String[][] a = { { "AG.LND.FRST.ZS", "AG.LND.TOTL.K2" } };
-        String c = "USA";
-        DataAcquisition test = new DataAcquisition(a[0], "CA", "2010", "2010");
-        ViewerPie s = new ViewerPie(test.dataStorage, "Title", "Name of first", "Name of Second", "Data First",
-                "Data Second");
-        s.setVisible(true);
+    public static void main(String[] args) throws IOException {
+        String[][] indicatorList = new String[][] {
+            {"AG.LND.FRST.ZS"},
+            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+            { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+            { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+            { "AG.LND.FRST.ZS" },
+            { "SE.XPD.TOTL.GD.ZS" },
+            { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+            { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+            { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+    };
+    String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+    String cc = "USA";
+//  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+
+    String country_code = "CA";
+
+    DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2019", "2020");
+//  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+    ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
+    //analysisContext context = new analysisContext(new AnnualPercentageChange());
+    //analysisContext context = new analysisContext(new AnnualPercentageChange());
+    analysisContext context = new analysisContext(new AnnualPercentageChange());
+    context.setStrategy(new AnnualPercentageChange());
+//  context.setStrategy(new Ratio());
+    context.execute();
+
+//        ViewerFactory s = new ViewerFactory();
+//        ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
+//                country_code);
+    ViewerPie d = new ViewerPie(context.getAnalysis(), country_code);
+       d.setVisible(true);
     }
 
 }

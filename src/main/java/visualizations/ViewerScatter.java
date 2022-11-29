@@ -10,13 +10,18 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.Year;
+
+import analysis.AnnualPercentageChange;
+import analysis.analysisContext;
 import dataFetch.DataAcquisition;
+import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ViewerScatter extends JFrame implements Viewer{
@@ -33,6 +38,8 @@ public class ViewerScatter extends JFrame implements Viewer{
     private ChartPanel chartPanel;
     private int vers;
     private XYPlot plot;
+    
+   
 
     public ViewerScatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
         if (dataStorage.equals(null)) {
@@ -47,8 +54,8 @@ public class ViewerScatter extends JFrame implements Viewer{
 
     }
 
-    public ViewerScatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
-            String title) {
+    public ViewerScatter(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
+            String seriesName, String seriesName2, String seriesName3) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -57,33 +64,38 @@ public class ViewerScatter extends JFrame implements Viewer{
         this.yLabel2 = yLabel2;
         this.title = title;
         this.dataStorage = dataStorage;
+        this.series1 = seriesName;
+        this.series2 = seriesName2;
+        this.series3 = seriesName3;
         draw();
 
     }
 
+
+//
     private void draw() {
         switch (dataStorage.size()) {
             case 0:
                 break;
             case 1:
                 this.data = dataStorage.get(0);
-                this.series1 = data.getSeriesName();
+               // this.series1 = data.getSeriesName();
                 this.vers = 1;
                 break;
             case 2:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
+               // this.series1 = data.getSeriesName();
+               // this.series2 = data2.getSeriesName();
                 this.vers = 2;
                 break;
             case 3:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
                 this.data3 = dataStorage.get(2);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
-                this.series3 = data3.getSeriesName();
+              //  this.series1 = data.getSeriesName();
+               // this.series2 = data2.getSeriesName();
+               // this.series3 = data3.getSeriesName();
                 this.vers = 3;
                 break;
 
@@ -215,8 +227,13 @@ public class ViewerScatter extends JFrame implements Viewer{
 
         }
 
+        
+        
+        
     }
 
+    
+    
     public void createChart() {
         scatterChart = new JFreeChart(title, new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
         chartPanel = new ChartPanel(scatterChart);
@@ -238,16 +255,41 @@ public class ViewerScatter extends JFrame implements Viewer{
         return this.chartPanel;
     }
 
-    public static void main(String[] args) {
-        String c = "USA";
-        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-        DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
-        // Viewer_Scatter testgrap = new Viewer_Scatter(test.dataStorage, "Years",
-        // "Values", "Chart");
-        // title will later be changed to whatever the analysis is
-        ViewerScatter tt = new ViewerScatter(test.dataStorage, "Years", "Values", "Title");
-        tt.setVisible(true);
+    public static void main(String[] args) throws IOException {
+        String[][] indicatorList = new String[][] {
+                { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+                { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+                { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+                { "AG.LND.FRST.ZS" },
+                { "SE.XPD.TOTL.GD.ZS" },
+                { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+                { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+                { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+        };
+        String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+        String cc = "USA";
+//      DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+
+        String country_code = "CA";
+
+        DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+//      DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+        ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
+        analysisContext context = new analysisContext(new AnnualPercentageChange());
+        context.setStrategy(new AnnualPercentageChange());
+//      context.setStrategy(new Ratio());
+        context.execute();
+
+//        ViewerFactory s = new ViewerFactory();
+//        ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar2", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
+//                country_code);
+        ViewerScatter d = new ViewerScatter(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
+        d.setVisible(true);
 
     }
+
+
+
+
 
 }

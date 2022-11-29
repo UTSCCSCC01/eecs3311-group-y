@@ -12,7 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import analysis.AnnualPercentageChange;
+import analysis.Average;
+import analysis.Ratio;
+import analysis.analysisContext;
 import dataFetch.DataAcquisition;
+import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 public class ViewerReport extends JFrame implements Viewer{
@@ -22,8 +27,8 @@ public class ViewerReport extends JFrame implements Viewer{
     String title;
     
 
-    public ViewerReport(ArrayList<StoredData> dataStorage, String title) throws IOException {
-        this.dataStorage = dataStorage;
+    public ViewerReport(ArrayList<StoredData> dataStorage2, String title) throws IOException {
+        this.dataStorage = dataStorage2;
         this.title = title;
         pop();
 
@@ -107,13 +112,35 @@ public class ViewerReport extends JFrame implements Viewer{
     }
 
     public static void main(String[] args) throws IOException {
-        // title will later be changed to whatever the analysis is
-        String c = "USA";
-        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-        DataAcquisition test = new DataAcquisition(a[0], c, "2016", "2018");
+        String[][] indicatorList = new String[][] {
+            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+            { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+            { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+            { "AG.LND.FRST.ZS" },
+            { "SE.XPD.TOTL.GD.ZS" },
+            { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+            { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+            { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+    };
+    String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+    String cc = "USA";
+//  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
 
-        ViewerReport tt = new ViewerReport(test.dataStorage, "Title");
-        tt.setVisible(true);
+    String country_code = "CA";
+
+    DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+//  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+    ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
+    analysisContext context = new analysisContext(new AnnualPercentageChange());
+    context.setStrategy(new AnnualPercentageChange());
+//  context.setStrategy(new Ratio());
+    context.execute();
+
+    ViewerFactory s = new ViewerFactory();
+    ViewerReport d = (ViewerReport) s.CreateViewerFactory("Report", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
+            country_code);
+   // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
+    d.setVisible(true);
 
     }
 

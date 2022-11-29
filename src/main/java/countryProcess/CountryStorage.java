@@ -13,8 +13,7 @@ public class CountryStorage {
     ArrayList<Country> countryStorageList = new ArrayList<>();
     String[] country = new String[4];
 
-    public CountryStorage(String fileName) throws Exception {
-        System.out.println(fileName);
+    public CountryStorage() throws Exception {
         String json = readFileAsString("src/assets/Countries.json");
 
         JsonArray jsonStore = JsonParser.parseString(json).getAsJsonArray();

@@ -1,4 +1,4 @@
-package statsVisualiser.gui;
+    package statsVisualiser.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -107,10 +107,12 @@ public class MainUI extends JFrame implements ActionListener {
        DataAcquisition temp = new DataAcquisition( new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"},c,"2014","2019");
         //System.out.println(temp.dataStorage.toString());
         //System.out.println();
-       // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio of Total Population to Energy Use"),c,"2014","2019"));
-       
+     //  System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio of Total Population to Energy Use"),c,"2014","2019"));
+       DataAcquisition newData = new DataAcquisition(new String[]{"SP.POP.TOTL"},"BA","2000","2006");
+       System.out.println(newData.dataStorage.toString());
 //        MainUI s = MainUI.getInstance();
 //        MainUI.getInstance();
+
         
 
     }
@@ -223,7 +225,7 @@ public class MainUI extends JFrame implements ActionListener {
 
     private void populateData() throws Exception {
         years_tmp = new ArrayList<String>();
-        countryDB = new CountryStorage("Countries");
+        countryDB = new CountryStorage();
         countriesNames = new ArrayList<String>();
         countriesNames.add("");
 

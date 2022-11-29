@@ -11,11 +11,9 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.Year;
 
-import analysis.AnalysisAnnual;
-import analysis.AnalysisContext;
-import analysis.*;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
+import strategyAnalysis.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -97,10 +95,10 @@ public class ViewerScatter extends JFrame implements Viewer {
 			break;
 
 		}
-		pop();
+		populate();
 	}
 
-	public void pop() {
+	public void populate() {
 		TimeSeries scatterSeries1, scatterSeries2, scatterSeries3;
 		TimeSeriesCollection dataset, dataset2;
 		XYItemRenderer itemrenderer1, itemrenderer2;
@@ -131,7 +129,7 @@ public class ViewerScatter extends JFrame implements Viewer {
 
 			createChart();
 			// to see uncomment this and the code in main
-			seeExample();
+		//	seeExample();
 
 			break;
 		case 2:
@@ -171,7 +169,7 @@ public class ViewerScatter extends JFrame implements Viewer {
 			scatterChart = new JFreeChart(title, new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
 			createChart();
 			// to see uncomment this and the code in main
-			seeExample();
+		//	seeExample();
 
 			break;
 		case 3:
@@ -215,7 +213,7 @@ public class ViewerScatter extends JFrame implements Viewer {
 
 			createChart();
 			// to see uncomment this and the code in main
-			seeExample();
+		//	seeExample();
 
 			break;
 

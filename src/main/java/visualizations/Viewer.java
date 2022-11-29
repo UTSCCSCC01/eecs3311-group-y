@@ -2,6 +2,6 @@ package visualizations;
 
 public interface Viewer {
 
-    void pop();
+    void populate();
     void seeExample();
 }

@@ -12,9 +12,9 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import analysis.*;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
+import strategyAnalysis.*;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -82,11 +82,11 @@ public class ViewerLine extends JFrame implements Viewer {
                 break;
 
         }
-        pop();
+        populate();
 
     }
 
-    public void pop() {
+    public void populate() {
         XYSeries seriesLine, seriesLine2, seriesLine3;
         dataset = null;
         switch (vers) {
@@ -101,7 +101,7 @@ public class ViewerLine extends JFrame implements Viewer {
                 dataset.addSeries(seriesLine);
                 createChart();
                 // to see uncomment this and the code in main
-                seeExample();
+               // seeExample();
 
                 break;
             case 2:
@@ -118,7 +118,7 @@ public class ViewerLine extends JFrame implements Viewer {
                 dataset.addSeries(seriesLine2);
                 createChart();
                 // to see uncomment this and the code in main
-                seeExample();
+                //seeExample();
 
                 break;
             case 3:
@@ -141,7 +141,7 @@ public class ViewerLine extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-                seeExample();
+               // seeExample();
 
                 break;
 

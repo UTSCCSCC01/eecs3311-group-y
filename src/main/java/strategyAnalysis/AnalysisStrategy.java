@@ -1,4 +1,4 @@
-package analysis;
+package strategyAnalysis;
 
 import java.util.ArrayList;
 

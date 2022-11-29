@@ -16,8 +16,9 @@ import java.util.TreeMap;
 
 import countryProcess.CountryStorage;
 import dataFetch.DataAcquisition;
-import visualizations.Viewer_Report;
-import visualizations.Viewer_Scatter;
+import visualizations.ViewerPie;
+import visualizations.ViewerReport;
+import visualizations.ViewerScatter;
 
 import javax.swing.Box;
 import javax.swing.JButton;
@@ -95,20 +96,23 @@ public class MainUI extends JFrame implements ActionListener {
         
         TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
         mapToPopulate.put("Annual Percentage Change of Total Population and CO2 Emissions", new String[]{"SP.POP.TOTL", "EN.ATM.CO2E.PC"});
-        mapToPopulate.put("Ratio of Problems in Accessing Health care : Mortality rate : Infant", new String[]{"DOESNT WORK"});
+        mapToPopulate.put("Indivuidals using the Internet", new String[]{"IT.NET.USER.ZS"});
         mapToPopulate.put("Average Energy Use", new String[]{"EG.USE.PCAP.KG.OE"});
-        mapToPopulate.put("Ratio of Hospital Beds to problems in Accessing Health Care", new String[]{"DOESNT WORK"});
+        mapToPopulate.put("Literacy rate and Government Expenditure on Education", new String[]{"SE.ADT.LITR.ZS" , "SE.XPD.TOTL.GB.ZS"});
         mapToPopulate.put("Ratio of Total Population to Energy Use", new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"});
         mapToPopulate.put("Average Government Expenditure on Education", new String[]{"SE.XPD.TOTL.GD.ZS"});
         mapToPopulate.put("Average Forested Area", new String[]{"AG.LND.FRST.ZS"});
         mapToPopulate.put("Annual Percentage Change of GDP per Capita and Total Population", new String[]{"SP.POP.TOTL", "NY.GDP.PCAP.CD"});
 
-        DataAcquisition temp = new DataAcquisition( new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"},c,"2014","2019");
+       DataAcquisition temp = new DataAcquisition( new String[]{"SP.POP.TOTL","EG.USE.PCAP.KG.OE"},c,"2014","2019");
         //System.out.println(temp.dataStorage.toString());
         //System.out.println();
        // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio of Total Population to Energy Use"),c,"2014","2019"));
        
+//        MainUI s = MainUI.getInstance();
+//        MainUI.getInstance();
         
+
     }
 
     private static MainUI instance;

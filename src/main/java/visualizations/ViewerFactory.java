@@ -24,7 +24,7 @@ public class ViewerFactory {
             case "Scatter2":
                 return new ViewerScatter(dataStorage, xLabel, yLabel, yLabel2, title);
             case "Bar":
-                return new ViewerBar(dataStorage, xLabel, yLabel, title);
+                return new ViewerBar(dataStorage, xLabel, yLabel, title, title);
             case "Bar2":
                 return new ViewerBar(dataStorage, xLabel, yLabel, yLabel2, title);
             default:

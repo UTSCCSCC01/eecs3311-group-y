@@ -21,16 +21,18 @@ public class DataAcquisition {
     public String endingYear;
     public String countrycode;
     private ArrayList<Integer> years;
+    private ArrayList<Float> yearvalues;
 
     public DataAcquisition(String[] ind, String countrycode, String startingYear, String endingYear) {
 
         this.ind = ind;
         this.countrycode = countrycode;
         this.startingYear = startingYear;
+        dataStorage = new ArrayList<>();
         this.endingYear = endingYear;
         for (int j = 0; j < ind.length; j++) {
 
-            ArrayList<Float> yearvalues = new ArrayList<>();
+            yearvalues = new ArrayList<>();
             years = new ArrayList<>();
 
             String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
@@ -85,9 +87,9 @@ public class DataAcquisition {
     public static Boolean checkifValidYear(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
         int minIndex = 1000;
-        for (int i = 0; i < temp.dataStorage.size(); i++) {
-            if (temp.dataStorage.get(i).getValues().size() < minIndex) {
-                minIndex = temp.dataStorage.get(i).getValues().size();
+        for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
+            if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
+                minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
             }
         }
 
@@ -102,13 +104,35 @@ public class DataAcquisition {
 
     }
 
+    public static Boolean checkIfValidData(String[] ind, String countrycode, String startingYear, String endingYear) {
+        DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
+        int minIndex = 1000;
+        if (DataAcquisition.dataStorage.size() == 0) {
+            return false;
+        }
+
+        for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
+            if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
+                minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
+            }
+            if (DataAcquisition.dataStorage.get(i).getValues().size() == 0) {
+                return false;
+            }
+        }
+        if (minIndex == 0) {
+            return false;
+        }
+
+        return true;
+
+    }
+
     public ArrayList<Integer> getYearForTest() {
         return this.years;
     }
 
-	public static ArrayList<StoredData> getDataStorage() {
-		return DataAcquisition.dataStorage;
-	}
-
+    public static ArrayList<StoredData> getDataStorage() {
+        return DataAcquisition.dataStorage;
+    }
 
 }

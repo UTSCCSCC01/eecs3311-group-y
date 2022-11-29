@@ -5,19 +5,22 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import com.google.gson.JsonArray;
+
 /**
  * Facade Design Pattern
+ * 
  * @author owner
  *
  */
 public class DataAcquisition {
-	
+
 	public ArrayList<Float> dataFromURL = new ArrayList<>();
 	public ArrayList<StoredData> dataStorage = new ArrayList<>();
 	public String[] ind;
 	public String startingYear;
 	public String endingYear;
 	public String countrycode;
+	private ArrayList<Integer> years;
 
 	public DataAcquisition(String[] ind, String countrycode, String startingYear, String endingYear) {
 
@@ -77,6 +80,30 @@ public class DataAcquisition {
 
 			}
 		}
+	}
+
+	public static Boolean checkifValidYear(String[] ind, String countrycode, String startingYear, String endingYear) {
+		DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
+		int minIndex = 1000;
+		for (int i = 0; i < temp.dataStorage.size(); i++) {
+			if (temp.dataStorage.get(i).getValues().size() < minIndex) {
+				minIndex = temp.dataStorage.get(i).getValues().size();
+			}
+		}
+
+		String end = temp.years.get(0) + "";
+		String start = temp.getYearForTest().get(minIndex - 1) + "";
+		if (!(end.equals(endingYear)) || !(start.equals(startingYear))) {
+
+			return false;
+		}
+
+		return true;
+
+	}
+
+	public ArrayList<Integer> getYearForTest() {
+		return this.years;
 	}
 
 }

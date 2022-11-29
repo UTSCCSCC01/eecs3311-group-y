@@ -223,6 +223,29 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == countryData) {
+            observerUpdate();
+        }
+    }
+
+    }
+
+    public CountryStorage getCountryDatabase() {
+        return this.countryDB;
+    }
+
+    public void observerUpdate() {
+        // TODO Auto-generated method stub
+        updateDates();
+        updateAnalysis();
+    }
+
+    public void updateAnalysis() {
+         System.out.println()
+    }
+
+    public void updateDates() {
+        // TODO Auto-generated method stub
         int countryIndex = 0; // index of the country in the countryDB
         for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
             if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
@@ -240,11 +263,6 @@ public class MainUI extends JFrame implements ActionListener {
         years_tmpCopy = new ArrayList<String>(years_tmp);
         startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()])));
         endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
-
-    }
-
-    public CountryStorage getCountryDatabase() {
-        return this.countryDB;
     }
 
 }

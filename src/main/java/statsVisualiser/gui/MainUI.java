@@ -60,6 +60,7 @@ public class MainUI extends JFrame implements ActionListener {
     private JButton addButton;
     private JButton removeButton;
     private JButton recalculateButton;
+    private JLabel loading;
     TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
     private JComboBox<String> countryData;
     private JComboBox<String> startYearData;
@@ -282,6 +283,7 @@ public class MainUI extends JFrame implements ActionListener {
         countrySelectionLabel = new JLabel("Choose a country: ");
         toLabel = new JLabel("To");
         fromLabel = new JLabel("From");
+        loading = new JLabel("Loading...");
 
         // buttons
         addButton = new JButton("+");
@@ -302,6 +304,7 @@ public class MainUI extends JFrame implements ActionListener {
         bottomPanel.add(recalculateButton);
         topPanel.add(countrySelectionLabel);
         topPanel.add(countryData);
+        topPanel.add(loading);
         topPanel.add(Box.createHorizontalStrut(25));
         topPanel.add(fromLabel);
         topPanel.add(startYearData);
@@ -318,7 +321,7 @@ public class MainUI extends JFrame implements ActionListener {
         countryData.addActionListener(this);
 
         mainFrame.setVisible(true);
-
+        loading.setVisible(false);
         panelForGraph = new JPanel(new GridLayout(4, 4));
         panelForGraph.setVisible(true);
         panelForGraph.revalidate();
@@ -407,7 +410,7 @@ public class MainUI extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        if (e.getSource() == countryData) {
+        if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) {
             if (countryData.getSelectedIndex() != 0) {
                 observerUpdate();
             }
@@ -415,6 +418,11 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void observerUpdate() {
+        String selectedStartYear = startYearData.getSelectedItem().toString();
+        String selectedEndYear = endYearData.getSelectedItem().toString();
+        System.out.println(selectedStartYear + " start year");
+        System.out.println(selectedEndYear + " end year");
+
         updateDates();
         updateAnalysis();
     }
@@ -428,6 +436,9 @@ public class MainUI extends JFrame implements ActionListener {
             }
         }
         // get start and end year of country index
+        String selectedStartYear = startYearData.getSelectedItem().toString();
+        String selectedEndYear = endYearData.getSelectedItem().toString();
+
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
         int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
         ArrayList<String> validAnalysis = new ArrayList<String>();
@@ -436,8 +447,8 @@ public class MainUI extends JFrame implements ActionListener {
             System.out.println(entry.getKey());
             System.out.println(entry.getValue()[0]);
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
-                    countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), (startYear + ""),
-                    (endYear + ""));
+                    countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
+                    selectedEndYear);
             if (valid) {
                 System.out.println("valid");
                 validAnalysis.add(entry.getKey());
@@ -450,10 +461,16 @@ public class MainUI extends JFrame implements ActionListener {
         for (int i = 0; i < validAnalysis.size(); i++) {
             analysisData.addItem(validAnalysis.get(i));
         }
+        if (validAnalysis.size() == 0) {
+            analysisData.addItem("No valid analysis");
+            recalculateButton.setEnabled(false);
+        }
     }
 
     public void updateDates() {
         // TODO Auto-generated method stub
+        String selectedStartYear = startYearData.getSelectedItem().toString();
+        String selectedEndYear = endYearData.getSelectedItem().toString();
         int countryIndex = 0; // index of the country in the countryDB
         for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
             if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
@@ -471,6 +488,14 @@ public class MainUI extends JFrame implements ActionListener {
         years_tmpCopy = new ArrayList<String>(years_tmp);
         startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()])));
         endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
+        System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
+        if (selectedStartYear.equals(selectedEndYear)) {
+            startYearData.setSelectedIndex(0);
+            endYearData.setSelectedIndex(1);
+        } else {
+            startYearData.setSelectedItem(selectedStartYear);
+            endYearData.setSelectedItem(selectedEndYear);
+        }
     }
 
     public CountryStorage getCountryDatabase() {

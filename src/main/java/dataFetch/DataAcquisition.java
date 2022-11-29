@@ -126,7 +126,7 @@ public class DataAcquisition {
 
     }
 
-    static boolean ifSelectedIsAnnual(String[] ind, String countrycode, String startingYear, String endingYear) {
+    public static boolean ifSelectedIsAnnual(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
         int minIndex = 1000;
         if (DataAcquisition.dataStorage.size() == 0) {

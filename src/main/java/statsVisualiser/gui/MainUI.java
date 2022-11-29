@@ -1,4 +1,4 @@
-package statsVisualiser.gui;
+    package statsVisualiser.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -211,7 +211,7 @@ public class MainUI extends JFrame implements ActionListener {
 
     private void populateData() throws Exception {
         years_tmp = new ArrayList<String>();
-        countryDB = new CountryStorage("Countries");
+        countryDB = new CountryStorage();
         countriesNames = new ArrayList<String>();
         countriesNames.add("");
 

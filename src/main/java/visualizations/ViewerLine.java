@@ -12,7 +12,10 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
+import analysis.AnnualPercentageChange;
+import analysis.analysisContext;
 import dataFetch.DataAcquisition;
+import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 import javax.swing.BorderFactory;
@@ -23,7 +26,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-
 
 public class ViewerLine extends JFrame implements Viewer {
 
@@ -38,19 +40,26 @@ public class ViewerLine extends JFrame implements Viewer {
     private ChartPanel chartPanel;
     private int vers;
 
-    public ViewerLine(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
+    // ArrayList<StoredData> dataStorage, String title, String xLabel, String
+    // yLabel, String yLabel2, String seriesName,
+    // String seriesName2, String seriesName3
+    public ViewerLine(ArrayList<StoredData> dataStorage, String title,String xLabel, String yLabel, String yLabel2,
+            String seriesName, String seriesName2, String seriesName3) {
         if (dataStorage.equals(null)) {
             return;
         }
+
         this.xLabel = xLabel;
         this.yLabel = yLabel;
         this.title = title;
+        this.series1 = seriesName;
+        this.series2 = seriesName2;
+        this.series3 = seriesName3;
         this.dataStorage = dataStorage;
 
         draw();
 
     }
-
 
     private void draw() {
         switch (dataStorage.size()) {
@@ -58,23 +67,18 @@ public class ViewerLine extends JFrame implements Viewer {
                 break;
             case 1:
                 this.data = dataStorage.get(0);
-                this.series1 = data.getSeriesName();
                 this.vers = 1;
                 break;
             case 2:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
                 this.vers = 2;
                 break;
             case 3:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
                 this.data3 = dataStorage.get(2);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
-                this.series3 = data3.getSeriesName();
+
                 this.vers = 3;
                 break;
 
@@ -177,7 +181,7 @@ public class ViewerLine extends JFrame implements Viewer {
         domainAxis.setNumberFormatOverride(format);
 
     }
-    
+
     public ChartPanel getChart() {
         return this.chartPanel;
     }
@@ -189,24 +193,41 @@ public class ViewerLine extends JFrame implements Viewer {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    
-
 
     public static void main(String[] args) {
-//        String c = "CA";
-//        
-//        DataFetcher test = new DataFetcher(a[0], c, "2000", "2021");
-//        Viewers_Line testgrap = new Viewers_Line(test.dataStorage.get(0), "years", "values", "Chart", "Lol");
-//        testgrap.populateLine(1);
-//        testgrap.setVisible(true);
-
-//  String[][] a = { { "EG.USE.PCAP.KG.OE" } };
-        String c = "USA";
-        String[][] ab = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-        DataAcquisition test = new DataAcquisition(ab[0], c, "2010", "2017");
-        // title will later be changed to whatever the analysis is
-        ViewerLine tt = new ViewerLine(test.dataStorage, "Years", "Values", "Title");
-        tt.setVisible(true);
+//        String[][] indicatorList = new String[][] {
+//                { "AG.LND.FRST.ZS" },
+//                { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+//                { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+//                { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+//                { "AG.LND.FRST.ZS" },
+//                { "SE.XPD.TOTL.GD.ZS" },
+//                { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+//                { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+//                { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+//        };
+//        String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+//        String cc = "USA";
+////  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+//
+//        String country_code = "CA";
+//
+//        DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2009", "2020");
+////  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+//        ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
+//        // analysisContext context = new analysisContext(new AnnualPercentageChange());
+//        // analysisContext context = new analysisContext(new AnnualPercentageChange());
+//        analysisContext context = new analysisContext(new AnnualPercentageChange());
+//        context.setStrategy(new AnnualPercentageChange());
+////  context.setStrategy(new Ratio());
+//        context.execute();
+//
+////        ViewerFactory s = new ViewerFactory();
+////        ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
+////                country_code);
+//        System.out.println(2);
+//        ViewerLine d = new ViewerLine(context.getAnalysis(), "x", "y", "title", country_code, country_code, country_code, country_code);
+//        d.setVisible(true);
 
     }
 

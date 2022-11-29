@@ -3,6 +3,7 @@ package visualizations;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -15,8 +16,12 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
-import dataFetch.DataAcquisition;
-import dataFetch.StoredData;
+
+import analysis.AnnualPercentageChange;
+import analysis.Average;
+import analysis.Ratio;
+import analysis.analysisContext;
+import dataFetch.*;
 
 public class ViewerBar extends JFrame implements Viewer {
     private StoredData data, data2, data3;
@@ -29,11 +34,12 @@ public class ViewerBar extends JFrame implements Viewer {
     private int vers;
     private ChartPanel chartPanel;
     private JFreeChart barChart;
-    private CategoryPlot plot; 
-    private String seriesName,seriesName2,seriesName3;
+    private CategoryPlot plot;
+    private String seriesName, seriesName2, seriesName3;
 
-    
-    public ViewerBar(StoredData data,  StoredData data2, StoredData data3, String xLabel, String yLabel, String title,
+    //ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2, String seriesName,
+    //String seriesName2, String seriesName3
+    public ViewerBar(StoredData data, StoredData data2, StoredData data3, String title, String xLabel, String yLabel, 
             String seriesName) {
         if (dataStorage.equals(null)) {
             return;
@@ -45,33 +51,15 @@ public class ViewerBar extends JFrame implements Viewer {
         this.data = data;
         this.data2 = data2;
         this.data3 = data3;
-        
-        pop();
-     //  draw();
 
-    }
-    
-    
-    
-    
-    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title,
-            String seriesName) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
-        this.xLabel = xLabel;
-        this.yLabel = yLabel;
-        this.yLabel2 = yLabel;
-        this.title = title;
-        this.dataStorage = dataStorage;
-        
         pop();
-     //  draw();
+         draw();
 
     }
 
-    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
-            String title,String seriesName,String seriesName2,String seriesName3) {
+
+    public ViewerBar(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
+             String seriesName, String seriesName2, String seriesName3) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -80,39 +68,45 @@ public class ViewerBar extends JFrame implements Viewer {
         this.yLabel2 = yLabel2;
         this.title = title;
         this.dataStorage = dataStorage;
-      //  draw();
+        this.series1 = seriesName;
+        this.series2 = seriesName2;
+        this.series3 = seriesName3;
+        draw();
 
     }
 
-//    private void draw() {
-//        switch (dataStorage.size()) {
-//            case 0:
-//                break;
-//            case 1:
-//                this.data = dataStorage.get(0);
-//               // this.series1 = data.getSeriesName();
-//                this.vers = 1;
-//                break;
-//            case 2:
-//                this.data = dataStorage.get(0);
-//                this.data2 = dataStorage.get(1);
-//              //  this.series1 = data.getSeriesName();
-//              //  this.series2 = data2.getSeriesName();
-//                this.vers = 2;
-//                break;
-//            case 3:
-//                this.data = dataStorage.get(0);
-//                this.data2 = dataStorage.get(1);
-//                this.data3 = dataStorage.get(2);
-//            //   this.series1 = data.getSeriesName();
-//            //    this.series2 = data2.getSeriesName();
-//            //    this.series3 = data3.getSeriesName();
-//                this.vers = 3;
-//                break;
-//
-//        }
-//        pop();
-//    }
+
+
+    private void draw() {
+        switch (dataStorage.size()) {
+            case 0:
+                break;
+            case 1:
+                this.data = dataStorage.get(0);
+                // this.series1 = data.getSeriesName();
+                this.vers = 1;
+                break;
+            case 2:
+                this.data = dataStorage.get(0);
+                this.data2 = dataStorage.get(1);
+                // this.series1 = data.getSeriesName();
+                // this.series2 = data2.getSeriesName();
+                this.vers = 2;
+                break;
+            case 3:
+                this.data = dataStorage.get(0);
+                this.data2 = dataStorage.get(1);
+                this.data3 = dataStorage.get(2);
+                // this.series1 = data.getSeriesName();
+                // this.series2 = data2.getSeriesName();
+                // this.series3 = data3.getSeriesName();
+                this.vers = 3;
+                break;
+
+        }
+        // System.out.println(data.getValues().size());
+        pop();
+    }
 
     public void pop() {
         plot = new CategoryPlot();
@@ -141,7 +135,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-                // seeExample();
+                seeExample();
                 break;
             case 2:
                 dataset = new DefaultCategoryDataset();
@@ -168,7 +162,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-                // seeExample();
+                 seeExample();
 
                 break;
             case 3:
@@ -202,7 +196,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-                // seeExample();
+                seeExample();
 
                 break;
 
@@ -217,7 +211,7 @@ public class ViewerBar extends JFrame implements Viewer {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
     }
-    
+
     public ChartPanel getChart() {
         return this.chartPanel;
     }
@@ -236,15 +230,48 @@ public class ViewerBar extends JFrame implements Viewer {
 
     }
 
-    public static void main(String[] args) {
-        //String[][] ab = { { "EG.USE.PCAP.KG.OE" } };
-        String c = "USA";
-        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-        DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
-        // title will later be changed to whatever the analysis is
-        ViewerBar tt = new ViewerBar(test.dataStorage, "Years", "Values", "Title", c);
-        tt.setVisible(true);
+//    public static void main(String[] args) {
+//        //String[][] ab = { { "EG.USE.PCAP.KG.OE" } };
+//        String c = "USA";
+//        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
+//        DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
+//        // title will later be changed to whatever the analysis is
+//       // ViewerBar tt = new ViewerBar(test.dataStorage.get(0), "Years", "Values", "Title", c);
+//        //System.out.println(test.getDataStorage().get(0).getSeriesIndicator());
+//        System.out.println(test.getDataStorage().get(0).get(0).getSeriesIndicator());
+//
+//    }
+
+    public static void main(String[] args) throws IOException {
+        String[][] indicatorList = new String[][] {
+                { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+                { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+                { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+                { "AG.LND.FRST.ZS" },
+                { "SE.XPD.TOTL.GD.ZS" },
+                { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+                { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+                { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+        };
+        String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+        String cc = "USA";
+//      DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+
+        String country_code = "CA";
+
+        DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+//      DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+        ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
+        analysisContext context = new analysisContext(new AnnualPercentageChange());
+        context.setStrategy(new AnnualPercentageChange());
+//      context.setStrategy(new Ratio());
+        context.execute();
+
+        ViewerFactory s = new ViewerFactory();
+        ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar2", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
+                country_code);
+       // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
+        d.setVisible(true);
 
     }
-
 }

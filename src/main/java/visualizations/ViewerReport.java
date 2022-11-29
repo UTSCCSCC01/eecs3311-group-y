@@ -15,13 +15,21 @@ import javax.swing.JTextArea;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewer_Report extends JFrame {
+public class ViewerReport extends JFrame implements Viewer{
 
     JScrollPane outputScrollPane;
+    ArrayList<StoredData> dataStorage;
+    String title;
+    
 
+    public ViewerReport(ArrayList<StoredData> dataStorage, String title) throws IOException {
+        this.dataStorage = dataStorage;
+        this.title = title;
+        pop();
 
-    public Viewer_Report(ArrayList<StoredData> dataStorage, String title) throws IOException {
+    }
 
+    public void pop() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i = 0; i < dataStorage.size(); i++) {
             names.add(dataStorage.get(i).getSeriesName());
@@ -84,9 +92,8 @@ public class Viewer_Report extends JFrame {
 
 // Bottom is to see it in main
          seeExample();
-
     }
-
+    
     public void seeExample() {
         add(outputScrollPane);
 
@@ -105,7 +112,7 @@ public class Viewer_Report extends JFrame {
         String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
         DataAcquisition test = new DataAcquisition(a[0], c, "2016", "2018");
 
-        Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
+        ViewerReport tt = new ViewerReport(test.dataStorage, "Title");
         tt.setVisible(true);
 
     }

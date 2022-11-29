@@ -18,7 +18,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 
-public class Viewers_Bar extends JFrame {
+public class ViewerBar extends JFrame implements Viewer {
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -29,9 +29,33 @@ public class Viewers_Bar extends JFrame {
     private int vers;
     private ChartPanel chartPanel;
     private JFreeChart barChart;
-    private CategoryPlot plot;
+    private CategoryPlot plot; 
+    private String seriesName,seriesName2,seriesName3;
 
-    public Viewers_Bar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
+    
+    public ViewerBar(StoredData data,  StoredData data2, StoredData data3, String xLabel, String yLabel, String title,
+            String seriesName) {
+        if (dataStorage.equals(null)) {
+            return;
+        }
+        this.xLabel = xLabel;
+        this.yLabel = yLabel;
+        this.yLabel2 = yLabel;
+        this.title = title;
+        this.data = data;
+        this.data2 = data2;
+        this.data3 = data3;
+        
+        pop();
+     //  draw();
+
+    }
+    
+    
+    
+    
+    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title,
+            String seriesName) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -40,13 +64,14 @@ public class Viewers_Bar extends JFrame {
         this.yLabel2 = yLabel;
         this.title = title;
         this.dataStorage = dataStorage;
-
-        draw();
+        
+        pop();
+     //  draw();
 
     }
 
-    public Viewers_Bar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
-            String title) {
+    public ViewerBar(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
+            String title,String seriesName,String seriesName2,String seriesName3) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -55,41 +80,41 @@ public class Viewers_Bar extends JFrame {
         this.yLabel2 = yLabel2;
         this.title = title;
         this.dataStorage = dataStorage;
-        draw();
+      //  draw();
 
     }
 
-    private void draw() {
-        switch (dataStorage.size()) {
-            case 0:
-                break;
-            case 1:
-                this.data = dataStorage.get(0);
-                this.series1 = data.getSeriesName();
-                this.vers = 1;
-                break;
-            case 2:
-                this.data = dataStorage.get(0);
-                this.data2 = dataStorage.get(1);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
-                this.vers = 2;
-                break;
-            case 3:
-                this.data = dataStorage.get(0);
-                this.data2 = dataStorage.get(1);
-                this.data3 = dataStorage.get(2);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
-                this.series3 = data3.getSeriesName();
-                this.vers = 3;
-                break;
+//    private void draw() {
+//        switch (dataStorage.size()) {
+//            case 0:
+//                break;
+//            case 1:
+//                this.data = dataStorage.get(0);
+//               // this.series1 = data.getSeriesName();
+//                this.vers = 1;
+//                break;
+//            case 2:
+//                this.data = dataStorage.get(0);
+//                this.data2 = dataStorage.get(1);
+//              //  this.series1 = data.getSeriesName();
+//              //  this.series2 = data2.getSeriesName();
+//                this.vers = 2;
+//                break;
+//            case 3:
+//                this.data = dataStorage.get(0);
+//                this.data2 = dataStorage.get(1);
+//                this.data3 = dataStorage.get(2);
+//            //   this.series1 = data.getSeriesName();
+//            //    this.series2 = data2.getSeriesName();
+//            //    this.series3 = data3.getSeriesName();
+//                this.vers = 3;
+//                break;
+//
+//        }
+//        pop();
+//    }
 
-        }
-        pop();
-    }
-
-    private void pop() {
+    public void pop() {
         plot = new CategoryPlot();
         DefaultCategoryDataset dataset, dataset2;
         BarRenderer barrenderer1, barrenderer2;
@@ -217,7 +242,7 @@ public class Viewers_Bar extends JFrame {
         String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
         DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
         // title will later be changed to whatever the analysis is
-        Viewers_Bar tt = new Viewers_Bar(test.dataStorage, "Years", "Values", "Title");
+        ViewerBar tt = new ViewerBar(test.dataStorage, "Years", "Values", "Title", c);
         tt.setVisible(true);
 
     }

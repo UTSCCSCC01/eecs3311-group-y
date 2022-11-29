@@ -19,7 +19,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
 
-public class Viewer_Scatter extends JFrame {
+public class ViewerScatter extends JFrame implements Viewer{
 
     private static final long serialVersionUID = 6043180864004509049L;
     private ArrayList<StoredData> dataStorage;
@@ -34,7 +34,7 @@ public class Viewer_Scatter extends JFrame {
     private int vers;
     private XYPlot plot;
 
-    public Viewer_Scatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
+    public ViewerScatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
         if (dataStorage.equals(null)) {
             return;
         }
@@ -47,7 +47,7 @@ public class Viewer_Scatter extends JFrame {
 
     }
 
-    public Viewer_Scatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
+    public ViewerScatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String yLabel2,
             String title) {
         if (dataStorage.equals(null)) {
             return;
@@ -245,7 +245,7 @@ public class Viewer_Scatter extends JFrame {
         // Viewer_Scatter testgrap = new Viewer_Scatter(test.dataStorage, "Years",
         // "Values", "Chart");
         // title will later be changed to whatever the analysis is
-        Viewer_Scatter tt = new Viewer_Scatter(test.dataStorage, "Years", "Values", "Title");
+        ViewerScatter tt = new ViewerScatter(test.dataStorage, "Years", "Values", "Title");
         tt.setVisible(true);
 
     }

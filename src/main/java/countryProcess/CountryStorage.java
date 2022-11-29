@@ -42,7 +42,7 @@ public class CountryStorage {
     }
 
     public static String readFileAsString(String file) throws Exception {
-        return new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir")+"/"+file)));
+        return new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/" + file)));
     }
 
     public ArrayList<Country> getCountryStorageList() {

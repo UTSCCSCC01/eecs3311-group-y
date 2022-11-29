@@ -21,22 +21,38 @@ public class StoredData {
         if (analysisIndicators.containsKey(ind))
             this.seriesName = analysisIndicators.get(ind);
         else
-            this.seriesName = "Cannot Find Indicator";
+            this.seriesName = "Null";
 
     }
 
     public StoredData() {
-
+        
     }
+    
+    
+    public StoredData(String ind, String seriesName) {
+        this.years = new ArrayList<Integer>();
+        this.yearvalues = new ArrayList<Float>();
+        this.seriesName = seriesName;
+        this.seriesIndicator = ind;
 
-    private void populate() {
+	}
+
+    public StoredData(String ind) {
+        this.years = new ArrayList<Integer>();
+        this.yearvalues = new ArrayList<Float>();
+        this.seriesIndicator = ind;
+        if (analysisIndicators.containsKey(ind))
+            this.seriesName = analysisIndicators.get(ind);
+        else
+            this.seriesName = "Cannot Find Indicator";
+	}
+
+	private void populate() {
         analysisIndicators.put("SP.POP.TOTL", "Total Population");
         analysisIndicators.put("EN.ATM.CO2E.PC", "CO2 emissions (metric tons per capita)");
         analysisIndicators.put("EN.ATM.PM25.MC.M3",
                 "PM2.5 air pollution, mean annual exposure (micrograms per cubic meter)");
-        analysisIndicators.put("IT.NET.USER.ZS",
-                "Internet Use");
-        analysisIndicators.put("SE.ADT.LITR.ZS", "Literacy Rate");
         analysisIndicators.put("EG.USE.PCAP.KG.OE", "Energy use (kg of oil equivalent per capita)");
         analysisIndicators.put("AG.LND.FRST.ZS", "Forest area (% of land area)");
         analysisIndicators.put("NY.GDP.PCAP.CD", "GDP per capita (current US$)");
@@ -52,7 +68,6 @@ public class StoredData {
 
     public String toString() {
         String toReturn = "";
-
         for (int i = 0; i < years.size(); i++) {
             toReturn = toReturn + seriesIndicator + " " + years.get(i) + " " + yearvalues.get(i) + "\n";
         }
@@ -74,7 +89,7 @@ public class StoredData {
     public int getEndYear() {
         return Integer.valueOf(this.years.get(0));
     }
-
+    
     public String getSeriesName() {
         return this.seriesName;
     }
@@ -82,5 +97,5 @@ public class StoredData {
     public String getInd() {
         return this.seriesIndicator;
     }
-
+    
 }

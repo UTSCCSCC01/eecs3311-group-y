@@ -3,7 +3,6 @@ package visualizations;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 public class ViewerFactory {

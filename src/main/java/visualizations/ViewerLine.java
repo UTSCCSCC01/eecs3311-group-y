@@ -12,10 +12,8 @@ import org.jfree.chart.title.TextTitle;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import analysis.AnnualPercentageChange;
-import analysis.analysisContext;
+import analysis.*;
 import dataFetch.DataAcquisition;
-import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 import javax.swing.BorderFactory;
@@ -24,6 +22,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -194,144 +193,38 @@ public class ViewerLine extends JFrame implements Viewer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-//        String[][] indicatorList = new String[][] {
-//                { "AG.LND.FRST.ZS" },
-//                { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-//                { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
-//                { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
-//                { "AG.LND.FRST.ZS" },
-//                { "SE.XPD.TOTL.GD.ZS" },
-//                { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-//                { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-//                { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
-//        };
-//        String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-//        String cc = "USA";
-////  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
-//
-//        String country_code = "CA";
-//
-//        DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2009", "2020");
-////  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-//        ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
-//        // analysisContext context = new analysisContext(new AnnualPercentageChange());
-//        // analysisContext context = new analysisContext(new AnnualPercentageChange());
-//        analysisContext context = new analysisContext(new AnnualPercentageChange());
-//        context.setStrategy(new AnnualPercentageChange());
-////  context.setStrategy(new Ratio());
-//        context.execute();
-//
-////        ViewerFactory s = new ViewerFactory();
-////        ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
-////                country_code);
-//        System.out.println(2);
-//        ViewerLine d = new ViewerLine(context.getAnalysis(), "x", "y", "title", country_code, country_code, country_code, country_code);
-//        d.setVisible(true);
+    public static void main(String[] args) throws IOException {
+        String[][] indicatorList = new String[][] {
+            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+            { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
+            { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
+            { "AG.LND.FRST.ZS" },
+            { "SE.XPD.TOTL.GD.ZS" },
+            { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+            { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+            { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+    };
+    String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+    String cc = "USA";
+//  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+
+    String country_code = "CA";
+
+    DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC","AG.LND.FRST.ZS"}, country_code, "2015", "2020");
+//  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+    ArrayList<StoredData> data = DataAcquisition.getDataStorage();
+    AnalysisContext context = new AnalysisContext(new AnalysisRatio());
+    context.setStrategy(new AnalysisRatio());
+//  context.setStrategy(new Ratio());
+    context.execute();
+    System.out.println(context.getData().toString());
+    System.out.println(context.getAnalysis().toString());
+    ViewerFactory s = new ViewerFactory();
+    ViewerLine d = (ViewerLine) s.CreateViewerFactory("Line", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc", country_code);
+   // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
+    //d.setVisible(true);
 
     }
 
-    public StoredData getData() {
-        return data;
-    }
 
-    public void setData(StoredData data) {
-        this.data = data;
-    }
-
-    public StoredData getData2() {
-        return data2;
-    }
-
-    public void setData2(StoredData data2) {
-        this.data2 = data2;
-    }
-
-    public StoredData getData3() {
-        return data3;
-    }
-
-    public void setData3(StoredData data3) {
-        this.data3 = data3;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSeries1() {
-        return series1;
-    }
-
-    public void setSeries1(String series1) {
-        this.series1 = series1;
-    }
-
-    public String getSeries2() {
-        return series2;
-    }
-
-    public void setSeries2(String series2) {
-        this.series2 = series2;
-    }
-
-    public String getSeries3() {
-        return series3;
-    }
-
-    public void setSeries3(String series3) {
-        this.series3 = series3;
-    }
-
-    public ArrayList<StoredData> getDataStorage() {
-        return dataStorage;
-    }
-
-    public void setDataStorage(ArrayList<StoredData> dataStorage) {
-        this.dataStorage = dataStorage;
-    }
-
-    public String getxLabel() {
-        return xLabel;
-    }
-
-    public void setxLabel(String xLabel) {
-        this.xLabel = xLabel;
-    }
-
-    public String getyLabel() {
-        return yLabel;
-    }
-
-    public void setyLabel(String yLabel) {
-        this.yLabel = yLabel;
-    }
-
-    public XYSeriesCollection getDataset() {
-        return dataset;
-    }
-
-    public void setDataset(XYSeriesCollection dataset) {
-        this.dataset = dataset;
-    }
-
-    public ChartPanel getChartPanel() {
-        return chartPanel;
-    }
-
-    public void setChartPanel(ChartPanel chartPanel) {
-        this.chartPanel = chartPanel;
-    }
-
-    public int getVers() {
-        return vers;
-    }
-
-    public void setVers(int vers) {
-        this.vers = vers;
-    }
 }

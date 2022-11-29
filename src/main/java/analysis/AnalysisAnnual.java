@@ -15,6 +15,7 @@ public class AnalysisAnnual implements AnalysisStrategy {
 			StoredData resultData = new StoredData(analysisContext.getData().get(i).getInd());
 			int endYear = analysisContext.getData().get(i).getEndYear();
 			int sizeOfResults = analysisContext.getData().get(i).getValues().size() - 1;
+			resultData.setSeriesName(analysisContext.getData().get(i).getSeriesName());
 			for (int j = 0; j < sizeOfResults; j++) {
 				Float tempForMath = analysisContext.getData().get(i).getValues().get(j)
 						- analysisContext.getData().get(i).getValues().get(j + 1);
@@ -23,6 +24,8 @@ public class AnalysisAnnual implements AnalysisStrategy {
 				resultData.getYears().add(endYear - j);
 
 				resultData.getValues().add(tempFloat);
+				
+				
 			}
 			temp.add(resultData);
 
@@ -36,6 +39,7 @@ public class AnalysisAnnual implements AnalysisStrategy {
 	}
 
 	public ArrayList<StoredData> getAnalysis() {
+	    
 		return this.res;
 	}
 

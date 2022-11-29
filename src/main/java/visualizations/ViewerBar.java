@@ -99,14 +99,14 @@ public class ViewerBar extends JFrame implements Viewer {
 			break;
 
 		}
-		// System.out.println(data.getValues().size());
+
 		pop();
 	}
 
 	public void pop() {
 		plot = new CategoryPlot();
-		DefaultCategoryDataset dataset, dataset2;
-		BarRenderer barrenderer1, barrenderer2;
+		DefaultCategoryDataset dataset, dataset2,dataset3;
+		BarRenderer barrenderer1, barrenderer2,barrenderer3;
 		CategoryAxis domainAxis;
 
 		switch (vers) {
@@ -162,8 +162,10 @@ public class ViewerBar extends JFrame implements Viewer {
 
 			break;
 		case 3:
+		    
 			dataset = new DefaultCategoryDataset();
 			dataset2 = new DefaultCategoryDataset();
+			dataset3 = new DefaultCategoryDataset();
 			for (int i = data.getValues().size() - 1; i >= 0; i--) {
 				dataset.setValue(data.getValues().get(i), series1, data.getYears().get(i));
 			}
@@ -173,7 +175,7 @@ public class ViewerBar extends JFrame implements Viewer {
 			}
 
 			for (int i = data3.getValues().size() - 1; i >= 0; i--) {
-				dataset.setValue(data3.getValues().get(i), series3, data3.getYears().get(i));
+				dataset3    .setValue(data3.getValues().get(i), series3, data3.getYears().get(i));
 			}
 
 			plot.mapDatasetToRangeAxis(0, 0);// 1st dataset to 1st y-axis
@@ -181,15 +183,19 @@ public class ViewerBar extends JFrame implements Viewer {
 
 			barrenderer1 = new BarRenderer();
 			barrenderer2 = new BarRenderer();
+			barrenderer3 = new BarRenderer();
 			plot.setDataset(0, dataset);
 			plot.setRenderer(0, barrenderer1);
 			domainAxis = new CategoryAxis(xLabel);
 			plot.setDomainAxis(domainAxis);
 			plot.setRangeAxis(new NumberAxis(yLabel));
 			plot.setDataset(1, dataset2);
-			plot.setRenderer(1, barrenderer2);
-			plot.setRangeAxis(1, new NumberAxis(yLabel2));
+	        plot.setDataset(2, dataset3);
 
+			plot.setRenderer(1, barrenderer2);
+			plot.setRenderer(2, barrenderer3);
+			plot.setRangeAxis(1, new NumberAxis(yLabel2));
+			
 			createChart();
 			// to see uncomment this and the code in main
 			seeExample();
@@ -248,9 +254,9 @@ public class ViewerBar extends JFrame implements Viewer {
 		String cc = "USA";
 //      DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
 
-		String country_code = "CA";
+		String country_code = "USA";
 
-		DataAcquisition dp1 = new DataAcquisition(new String[] { "NY.GDP.PCAP.CD" }, country_code, "2010", "2020");
+		DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, "USA", "2010", "2020");
 //      DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
 		ArrayList<StoredData> data = DataAcquisition.getDataStorage();
 		AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
@@ -259,7 +265,7 @@ public class ViewerBar extends JFrame implements Viewer {
 		context.execute();
 
 		ViewerFactory s = new ViewerFactory();
-		ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc",
+		ViewerReport d = (ViewerReport) s.CreateViewerFactory("Report", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc",
 				country_code);
 
 		d.setVisible(true);

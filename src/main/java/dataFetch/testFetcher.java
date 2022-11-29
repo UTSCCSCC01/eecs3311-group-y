@@ -10,14 +10,14 @@ public class testFetcher {
 				{ "SE.XPD.TOTL.GD.ZS" }, 
 				{ "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
 				{ "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-				{ "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
+				{ "SE.XPD.TOTL.GD.ZS", "NY.GDP.PCAP.CD" },
 
 		};
 
-		String country_code = "CA";
+		String country_code = "US";
 
-		Boolean dp = DataAcquisition.checkIfValidData(indicatorList[0], country_code, "2015", "2020");
-		System.out.println();
+		Boolean dp = DataAcquisition.ifSelectedIsAnnual(indicatorList[0], country_code, "2010", "2020");
+		System.out.println(dp);
 
 	}
 }

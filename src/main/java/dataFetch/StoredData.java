@@ -35,6 +35,12 @@ public class StoredData {
         this.yearvalues = new ArrayList<Float>();
         this.seriesName = seriesName;
         this.seriesIndicator = ind;
+        
+        if (analysisIndicators.containsKey(ind))
+            this.seriesName = analysisIndicators.get(ind);
+        else
+            this.seriesName = seriesName;
+        
 
 	}
 
@@ -45,7 +51,9 @@ public class StoredData {
         if (analysisIndicators.containsKey(ind))
             this.seriesName = analysisIndicators.get(ind);
         else
-            this.seriesName = "Cannot Find Indicator";
+            this.seriesName = "Cannot Findo";
+        
+        
 	}
 
 	private void populate() {
@@ -92,6 +100,10 @@ public class StoredData {
     
     public String getSeriesName() {
         return this.seriesName;
+    }
+    
+    public void setSeriesName(String name) {
+        this.seriesName = name;
     }
 
     public String getInd() {

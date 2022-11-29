@@ -38,7 +38,8 @@ public class ViewerReport extends JFrame implements Viewer{
             names.add(dataStorage.get(i).getSeriesName());
 
         }
-
+        
+        
         TreeMap<Integer, HashMap<String, Float>> mapToPopulate = new TreeMap<Integer, HashMap<String, Float>>();
 
         StringBuilder finalMessage = new StringBuilder();

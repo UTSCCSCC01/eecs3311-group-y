@@ -106,11 +106,10 @@ public class DataAcquisition {
 
     public static Boolean checkIfValidData(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
-        int minIndex = 1000;
         if (DataAcquisition.dataStorage.size() == 0) {
             return false;
         }
-
+        int minIndex = 1000;
         for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
             if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
                 minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
@@ -121,6 +120,24 @@ public class DataAcquisition {
         }
         if (minIndex == 0) {
             return false;
+        }
+
+        return true;
+
+    }
+
+    static boolean ifSelectedIsAnnual(String[] ind, String countrycode, String startingYear, String endingYear) {
+        DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
+        int minIndex = 1000;
+        if (DataAcquisition.dataStorage.size() == 0) {
+            return false;
+        }
+
+        for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
+            if (DataAcquisition.dataStorage.get(i).getValues().size() < 3) {
+                return false;
+            }
+
         }
 
         return true;

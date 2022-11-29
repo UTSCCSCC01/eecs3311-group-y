@@ -116,38 +116,41 @@ public class MainUI extends JFrame implements ActionListener {
 
 //		System.out.println(dp1.dataStorage.toString());
 //
-		DataAcquisition dp1 = new DataAcquisition(new String[] { "AG.LND.FRST.ZS","EN.ATM.CO2E.PC" }, "CA", "2017", "2020"); // "EN.ATM.CO2E.PC"
+		DataAcquisition dp1 = new DataAcquisition(
+		        new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, "USA", "2010", "2020"
+		        ); // "EN.ATM.CO2E.PC"
 
 	    ArrayList<StoredData> data = DataAcquisition.getDataStorage();
 		
 		ArrayList<StoredData> temp = annualPercentageCalculator(DataAcquisition.dataStorage);
 		System.out.println("Expected annual is " + temp.toString());
 		System.out.println();
+		System.out.println(dp1.dataStorage.toString());
 
 		
-		StoredData sop = calculateRatio(DataAcquisition.getDataStorage().get(0),DataAcquisition.getDataStorage().get(1));
-		System.out.println("Expected Ratio is " + sop.toString());
-		System.out.println();
+//		StoredData sop = calculateRatio(DataAcquisition.getDataStorage().get(0),DataAcquisition.getDataStorage().get(1));
+//		System.out.println("Expected Ratio is " + sop.toString());
+//		System.out.println();
+
+//		
+//		StoredData d = average(DataAcquisition.getDataStorage().get(0));
+//		System.out.println("Expected Average is " + d.toString());
+//		System.out.println();
 
 		
-		StoredData d = average(DataAcquisition.getDataStorage().get(0));
-		System.out.println("Expected Average is " + d.toString());
-		System.out.println();
-
-		
-        AnalysisContext context = new AnalysisContext(new AnalysisAverage());
-        context.setStrategy(new AnalysisAverage());
-        context.execute();
-        System.out.println("Actual Average is " + context.getAnalysis().toString());
-        context = new AnalysisContext(new AnalysisRatio());
-        context.setStrategy(new AnalysisRatio());
-        context.execute();
-        System.out.println("Actual Ratio is " + context.getAnalysis().toString());
-        context = new AnalysisContext(new AnalysisAnnual());
-        context.setStrategy(new AnalysisAnnual());
-        context.execute();
-        System.out.println("Actual Ratio is " + context.getAnalysis().toString());
-        
+//        AnalysisContext context = new AnalysisContext(new AnalysisAverage());
+//        context.setStrategy(new AnalysisAverage());
+//        context.execute();
+//        System.out.println("Actual Average is " + context.getAnalysis().toString());
+//        context = new AnalysisContext(new AnalysisRatio());
+//        context.setStrategy(new AnalysisRatio());
+//        context.execute();
+//        System.out.println("Actual Ratio is " + context.getAnalysis().toString());
+//        context = new AnalysisContext(new AnalysisAnnual());
+//        context.setStrategy(new AnalysisAnnual());
+//        context.execute();
+//        System.out.println("Actual Annual is " + context.getAnalysis().toString());
+//        
         
 	}
 

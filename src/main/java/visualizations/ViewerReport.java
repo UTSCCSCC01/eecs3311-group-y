@@ -12,12 +12,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import analysis.AnnualPercentageChange;
-import analysis.Average;
-import analysis.Ratio;
-import analysis.analysisContext;
+import analysis.*;
+
 import dataFetch.DataAcquisition;
-import dataFetch.ParsedData;
+
 import dataFetch.StoredData;
 
 public class ViewerReport extends JFrame implements Viewer{
@@ -128,17 +126,16 @@ public class ViewerReport extends JFrame implements Viewer{
 
     String country_code = "CA";
 
-    DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
+    DataAcquisition dp1 = new DataAcquisition(indicatorList[2], country_code, "2015", "2020");
 //  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-    ArrayList<ArrayList<ParsedData>> data = DataAcquisition.getDataStorage();
-    analysisContext context = new analysisContext(new AnnualPercentageChange());
-    context.setStrategy(new AnnualPercentageChange());
+    ArrayList<StoredData> data = DataAcquisition.getDataStorage();
+    AnalysisContext context = new AnalysisContext(new AnalysisAverage());
+    context.setStrategy(new AnalysisAverage());
 //  context.setStrategy(new Ratio());
     context.execute();
 
     ViewerFactory s = new ViewerFactory();
-    ViewerReport d = (ViewerReport) s.CreateViewerFactory("Report", context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code,
-            country_code);
+    ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc", country_code);
    // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
     d.setVisible(true);
 

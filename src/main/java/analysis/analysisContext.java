@@ -1,43 +1,41 @@
 package analysis;
 
 import dataFetch.DataAcquisition;
-import dataFetch.ParsedData;
 import dataFetch.StoredData;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 /**
- * Implements the Strategy Design Pattern's Context Class
- * Class that is called by the Client/UI to set and execute the strategy
+ * Implements the Strategy Design Pattern's Context Class Class that is called
+ * by the Client/UI to set and execute the strategy
  */
-public class analysisContext {
-    public analysisStrategy strategy;
+public class AnalysisContext {
+	private AnalysisStrategy strategy;
 //    private ParsedData data;
 
-    public analysisContext(analysisStrategy strategy){
-        this.strategy = strategy;
-    }
+	public AnalysisContext(AnalysisStrategy strategy) {
+		this.strategy = strategy;
+	}
 
-    // Retrieves the data from the specified metadata
-    public ArrayList<ArrayList<ParsedData>> getData(){
-        System.out.println(DataAcquisition.getDataStorage() + " This is from the analysis context class");
-        return DataAcquisition.getDataStorage();
-    }
+	// Retrieves the data from the specified metadata
+	public ArrayList<StoredData> getData() {
+		return DataAcquisition.getDataStorage();
+	}
 
-    // Sets the strategy
-    public void setStrategy(analysisStrategy strategy){
-        this.strategy = strategy;
-    }
+	// Sets the strategy
+	public void setStrategy(AnalysisStrategy strategy) {
+		this.strategy = strategy;
+	}
 
-    // Executes the strategy
-    public void execute(){
-        strategy.performAnalysis(this);
-    }
+	// Executes the strategy
+	public void execute() {
+		strategy.performAnalysis(this);
+	}
 
-    public ArrayList<StoredData> getAnalysis(){
-        return strategy.getAnalysis();
-    }
-    
-    
+	public ArrayList<StoredData> getAnalysis() {
+		return strategy.getAnalysis();
+	}
+
+
 }

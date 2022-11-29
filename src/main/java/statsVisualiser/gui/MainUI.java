@@ -38,6 +38,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -490,6 +491,12 @@ public class MainUI extends JFrame implements ActionListener {
         endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
         System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
         if (selectedStartYear.equals(selectedEndYear)) {
+            startYearData.setSelectedIndex(0);
+            endYearData.setSelectedIndex(1);
+        } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Starting year must be lower than end year. Years have been reset to their default values."); // error
+                                                                                                                  // message
             startYearData.setSelectedIndex(0);
             endYearData.setSelectedIndex(1);
         } else {

@@ -82,7 +82,7 @@ public class MainUI extends JFrame implements ActionListener {
     private ArrayList<String> years_tmp;
     private ArrayList<String> years_tmpCopy;
 
-    private HashMap<String, String> analysisIndicators = new HashMap<String, String>(); //analysis indicators
+    private HashMap<String, String> analysisIndicators = new HashMap<String, String>(); // analysis indicators
 
     private static MainUI instance;
 
@@ -209,98 +209,161 @@ public class MainUI extends JFrame implements ActionListener {
 
         years_tmp.add("");
 
-        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) { //loop that adds countries to the countriesNames arraylist
+        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) { // loop that adds
+                                                                                                     // countries to the
+                                                                                                     // countriesNames
+                                                                                                     // arraylist
             countriesNames.add(countryDB.getCountryStorageList().get(i).getCountryName());
         }
 
-        for (int years = 1960; years <= 2021; years++) { //loop that adds years to the years arraylsit
+        for (int years = 1960; years <= 2021; years++) { // loop that adds years to the years arraylsit
             years_tmp.add(years + "");
         }
 
-        years_tmpCopy = new ArrayList<String>(years_tmp); //copying start year data for end year data to use 
-        countryData = new JComboBox<String>(countriesNames.toArray(new String[countriesNames.size()])); //adding countries to the country data combobox
-        startYearData = new JComboBox<String>(years_tmp.toArray(new String[years_tmp.size()])); //adding years to the start year data combobox
-        endYearData = new JComboBox<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])); //adding years to the end year data combobox
-        analysisData = new JComboBox<String>(); //setting an empty analysis data combobox for the user to select from after they have picked a country and years
-        viewerData = new JComboBox<String>(); //setting an empty viewer data combobox for the user to select from after they have picked a country and years
+        years_tmpCopy = new ArrayList<String>(years_tmp); // copying start year data for end year data to use
+        countryData = new JComboBox<String>(countriesNames.toArray(new String[countriesNames.size()])); // adding
+                                                                                                        // countries to
+                                                                                                        // the country
+                                                                                                        // data combobox
+        startYearData = new JComboBox<String>(years_tmp.toArray(new String[years_tmp.size()])); // adding years to the
+                                                                                                // start year data
+                                                                                                // combobox
+        endYearData = new JComboBox<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])); // adding years to
+                                                                                                      // the end year
+                                                                                                      // data combobox
+        analysisData = new JComboBox<String>(); // setting an empty analysis data combobox for the user to select from
+                                                // after they have picked a country and years
+        viewerData = new JComboBox<String>(); // setting an empty viewer data combobox for the user to select from after
+                                              // they have picked a country and years
 
     }
 
-    public void actionPerformed(ActionEvent e) { //action listener for the UI buttons
-        if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) { //if the user selects a country or a year
-            if (countryData.getSelectedIndex() != 0) { //if the user has selected a country 
-                if (manualUpdate == false) { //prevents loops from occuring due to manually settings the start and end year 
-                    observerUpdate(); //call observerUpdate which will update all observer components
+    public void actionPerformed(ActionEvent e) { // action listener for the UI buttons
+        if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) { // if the
+                                                                                                              // user
+                                                                                                              // selects
+                                                                                                              // a
+                                                                                                              // country
+                                                                                                              // or a
+                                                                                                              // year
+            if (countryData.getSelectedIndex() != 0) { // if the user has selected a country
+                if (manualUpdate == false) { // prevents loops from occuring due to manually settings the start and end
+                                             // year
+                    observerUpdate(); // call observerUpdate which will update all observer components
                 }
             }
-        } else if (e.getSource() == analysisData) { //if the user selects an analysis data 
-            if (analysisData.getSelectedIndex() >= 0) { //if the user has selected an analysis data 
-                updateRecalculate(); //call updateRecalculate which will unlock the recalculate button if all UI elements are selected
+        } else if (e.getSource() == analysisData) { // if the user selects an analysis data
+            if (analysisData.getSelectedIndex() >= 0) { // if the user has selected an analysis data
+                updateRecalculate(); // call updateRecalculate which will unlock the recalculate button if all UI
+                                     // elements are selected
             }
-        } else if (e.getSource() == recalculateButton) { //if the user clicks the recalculate button
-            recalculateButton(); //call recalculateButton which will recalculate the data and update the UI
+        } else if (e.getSource() == recalculateButton) { // if the user clicks the recalculate button
+            recalculateButton(); // call recalculateButton which will recalculate the data and update the UI
         }
-        if (e.getSource() == addButton) { //if the user clicks the add button
-            addGraph(); //call addGraph which will add a graph to the UI
+        if (e.getSource() == addButton) { // if the user clicks the add button
+            addGraph(); // call addGraph which will add a graph to the UI
         }
-        if (e.getSource() == removeButton) {    //if the user clicks the remove button
-            removeGraph(); //call removeGraph which will remove a graph from the UI
+        if (e.getSource() == removeButton) { // if the user clicks the remove button
+            removeGraph(); // call removeGraph which will remove a graph from the UI
         }
     }
+
     /**
-     * This method will update the UI components that are dependent on the country, start year and end year
+     * This method will update the UI components that are dependent on the country,
+     * start year and end year
      * Uses observer design pattern to update the UI components
      */
-    public void observerUpdate() { //updates all observer components
+    public void observerUpdate() { // updates all observer components
         int countryIndex = 0; // index of the country in the countryDB
-        String selectedStartYear = ""; //start year selected by the user
-        String selectedEndYear = ""; //end year selected by the user
-        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) { //loop that finds the index of the country in the countryDB
-            if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) { //if the country selected by the user is the same as the country in the countryDB
-                countryIndex = i; //set the country index to the index of the country in the countryDB
-                break; // breaks the loop 
+        String selectedStartYear = ""; // start year selected by the user
+        String selectedEndYear = ""; // end year selected by the user
+        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) { // loop that finds
+                                                                                                     // the index of the
+                                                                                                     // country in the
+                                                                                                     // countryDB
+            if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) { // if
+                                                                                                                   // the
+                                                                                                                   // country
+                                                                                                                   // selected
+                                                                                                                   // by
+                                                                                                                   // the
+                                                                                                                   // user
+                                                                                                                   // is
+                                                                                                                   // the
+                                                                                                                   // same
+                                                                                                                   // as
+                                                                                                                   // the
+                                                                                                                   // country
+                                                                                                                   // in
+                                                                                                                   // the
+                                                                                                                   // countryDB
+                countryIndex = i; // set the country index to the index of the country in the countryDB
+                break; // breaks the loop
             }
         }
-        if (startYearData.getSelectedItem().equals("") || endYearData.getSelectedItem().equals("")) { //if the user has not selected a start year or end year
-            selectedStartYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear() + ""; //set the start year to the start year of the country in the countryDB
-            selectedEndYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear() + ""; //set the end year to the end year of the country in the countryDB
+        if (startYearData.getSelectedItem().equals("") || endYearData.getSelectedItem().equals("")) { // if the user has
+                                                                                                      // not selected a
+                                                                                                      // start year or
+                                                                                                      // end year
+            selectedStartYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear() + ""; // set the
+                                                                                                         // start year
+                                                                                                         // to the start
+                                                                                                         // year of the
+                                                                                                         // country in
+                                                                                                         // the
+                                                                                                         // countryDB
+            selectedEndYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear() + ""; // set the end year
+                                                                                                     // to the end year
+                                                                                                     // of the country
+                                                                                                     // in the countryDB
 
-        } else { //if the user has selected a start year and end year
-            selectedStartYear = startYearData.getSelectedItem().toString(); //set the start year to the start year selected by the user
-            selectedEndYear = endYearData.getSelectedItem().toString(); //set the end year to the end year selected by the user
-        } 
+        } else { // if the user has selected a start year and end year
+            selectedStartYear = startYearData.getSelectedItem().toString(); // set the start year to the start year
+                                                                            // selected by the user
+            selectedEndYear = endYearData.getSelectedItem().toString(); // set the end year to the end year selected by
+                                                                        // the user
+        }
 
-        boolean countryNull = checkNullCountry(countryIndex); //check if the country in the countryDB has any data
-        if (countryNull == false) { //if the country in the countryDB has data
-            updateDates(selectedStartYear, selectedEndYear, countryIndex); //call updateDates which will update the start and end year data comboboxes
-            updateAnalysis(selectedStartYear, selectedEndYear, countryIndex); //call updateAnalysis which will update the analysis data combobox
-            updateRecalculate(); //call updateRecalculate which will unlock the recalculate button if all UI elements are selected
-        } else { //if the country in the countryDB does not have data
-            JOptionPane.showMessageDialog(null, "No data for this country"); //display a message to the user
-            countryData.setSelectedIndex(0); //reset the country data combobox
+        boolean countryNull = checkNullCountry(countryIndex); // check if the country in the countryDB has any data
+        if (countryNull == false) { // if the country in the countryDB has data
+            updateDates(selectedStartYear, selectedEndYear, countryIndex); // call updateDates which will update the
+                                                                           // start and end year data comboboxes
+            updateAnalysis(selectedStartYear, selectedEndYear, countryIndex); // call updateAnalysis which will update
+                                                                              // the analysis data combobox
+            updateRecalculate(); // call updateRecalculate which will unlock the recalculate button if all UI
+                                 // elements are selected
+        } else { // if the country in the countryDB does not have data
+            JOptionPane.showMessageDialog(null, "No data for this country"); // display a message to the user
+            countryData.setSelectedIndex(0); // reset the country data combobox
         }
     }
 
-    public boolean checkNullCountry(int countryIndex) { //checks if the country in the countryDB has any data
-        if (countryDB.getCountryStorageList().get(countryIndex).getCountryCode().equals("NA")) { //if the country in the countryDB does not have data
-            return true; //return true
+    public boolean checkNullCountry(int countryIndex) { // checks if the country in the countryDB has any data
+        if (countryDB.getCountryStorageList().get(countryIndex).getCountryCode().equals("NA")) { // if the country in
+                                                                                                 // the countryDB does
+                                                                                                 // not have data
+            return true; // return true
         }
-        return false; //return false
+        return false; // return false
     }
+
     /**
-     * Method that removes the selected graph 
+     * Method that removes the selected graph
      */
-    public void removeGraph() { //removes a graph from the UI
+    public void removeGraph() { // removes a graph from the UI
 
-        //If statements to check if which graph is selected and remove it from the UI
-        if (viewerData.getSelectedItem().toString().equals("Line")) { 
-            if (Arrays.asList(middlePanel.getComponents()).contains(d)) { //if the line graph is in the middle panel
-                middlePanel.remove(d); //remove the line graph from the middle panel
+        // If statements to check if which graph is selected and remove it from the UI
+        if (viewerData.getSelectedItem().toString().equals("Line")) {
+            if (Arrays.asList(middlePanel.getComponents()).contains(d)) { // if the line graph is in the middle panel
+                middlePanel.remove(d); // remove the line graph from the middle panel
             } else {
-                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer"); //otherwise, display a message to the user
+                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer"); // otherwise,
+                                                                                                      // display a
+                                                                                                      // message to the
+                                                                                                      // user
             }
         } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d2)) { 
+            if (Arrays.asList(middlePanel.getComponents()).contains(d2)) {
                 middlePanel.remove(d2);
             } else {
                 JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
@@ -323,41 +386,43 @@ public class MainUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
         }
 
-        middlePanel.revalidate(); //revalidate the middle panel
-        middlePanel.repaint(); //repaint the middle panel
+        middlePanel.revalidate(); // revalidate the middle panel
+        middlePanel.repaint(); // repaint the middle panel
         this.validate();
-        if (middlePanel.getComponentCount() == 0) { //if there are no graphs in the middle panel
-            removeButton.setEnabled(false); //disable the remove button
+        if (middlePanel.getComponentCount() == 0) { // if there are no graphs in the middle panel
+            removeButton.setEnabled(false); // disable the remove button
         }
 
     }
 
     /**
-     * Method checks whether or not the user has selected all the required UI elements to recalculate the data
+     * Method checks whether or not the user has selected all the required UI
+     * elements to recalculate the data
      */
-    public void updateRecalculate() { //unlocks the recalculate button if all UI elements are selected
-        if (!analysisData.getSelectedItem().toString().equals(" ") 
+    public void updateRecalculate() { // unlocks the recalculate button if all UI elements are selected
+        if (!analysisData.getSelectedItem().toString().equals(" ")
                 && !analysisData.getSelectedItem().toString().equals("No valid analysis")
                 && !countryData.getSelectedItem().toString().equals(" ")
                 && !startYearData.getSelectedItem().toString().equals(" ")
                 && !endYearData.getSelectedItem().toString().equals(" ")) {
-            recalculateButton.setEnabled(true); //enable the recalculate button
+            recalculateButton.setEnabled(true); // enable the recalculate button
         } else {
-            return; //otherwise, return
+            return; // otherwise, return
         }
     }
+
     /**
      * Calculates which views are available for selected analysis type
      */
-    public void recalculateButton() { //recalculates the analysis data
-        if (middlePanel.getComponentCount() > 0) { //if there is a graph in the middle panel
-            middlePanel.removeAll(); //remove all graphs from the middle panel
-            middlePanel.revalidate(); //revalidate the middle panel
-            middlePanel.repaint(); //repaint the middle panel
-        } 
-        viewerData.removeAllItems(); //remove all items from the viewer data combobox
-        //Create analysis objects
-        AnalysisOne s = null; 
+    public void recalculateButton() { // recalculates the analysis data
+        if (middlePanel.getComponentCount() > 0) { // if there is a graph in the middle panel
+            middlePanel.removeAll(); // remove all graphs from the middle panel
+            middlePanel.revalidate(); // revalidate the middle panel
+            middlePanel.repaint(); // repaint the middle panel
+        }
+        viewerData.removeAllItems(); // remove all items from the viewer data combobox
+        // Create analysis objects
+        AnalysisOne s = null;
         AnalysisTwo s2 = null;
         AnalysisThree s3 = null;
         AnalysisFour s4 = null;
@@ -365,8 +430,9 @@ public class MainUI extends JFrame implements ActionListener {
         AnalysisSix s6 = null;
         AnalysisSeven s7 = null;
         AnalysisEight s8 = null;
-        //Switch case to check which analysis is selected and create the appropriate analysis object
-        switch (analysisData.getSelectedItem().toString()) { 
+        // Switch case to check which analysis is selected and create the appropriate
+        // analysis object
+        switch (analysisData.getSelectedItem().toString()) {
             case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
                 // code block
                 s = new AnalysisOne();
@@ -442,19 +508,23 @@ public class MainUI extends JFrame implements ActionListener {
             default:
         }
 
-        addButton.setEnabled(true); //enable the add button
+        addButton.setEnabled(true); // enable the add button
 
     }
+
     /**
      * Method will add a graph to the middle panel based on the user's selection
      */
     public void addGraph() {
+        // Create analysis objects
         d = viewer.getLine();
         d2 = viewer.getBar();
         d3 = viewer.getScat();
         d4 = viewer.getPie();
         d5 = viewer.getReport();
 
+        // Switch case to check which graph is selected and add the appropriate graph to
+        // the middle panel
         if (viewerData.getSelectedItem().toString().equals("Line")) {
             if (Arrays.asList(middlePanel.getComponents()).contains(d)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
@@ -520,90 +590,116 @@ public class MainUI extends JFrame implements ActionListener {
             d5.setPreferredSize(new Dimension(260, 150));
             middlePanel.add(d5);
         }
+        // Add the graph to the middle panel
         this.add(middlePanel, BorderLayout.CENTER);
-        middlePanel.repaint();
+        middlePanel.repaint(); // repaint the middle panel
         this.validate();
-        removeButton.setEnabled(true);
-
-        //
-
-        // Average: Report and Pie
-        // Annual: Report, Line, Scatter
-        // Ratio: Report, Line, Bar, Scatter
-
+        removeButton.setEnabled(true); // enable the remove button
     }
+
     /**
      * 
-     * @param selectedStartYear the selected start year for the analysis 
-     * @param selectedEndYear the selected end year for the analysis
-     * @param countryIndex the index of the country selected
+     * @param selectedStartYear the selected start year for the analysis
+     * @param selectedEndYear   the selected end year for the analysis
+     * @param countryIndex      the index of the country selected
      */
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
-        analysisData.removeAllItems(); //remove all items from the analysis data combo box
-        for (Entry<String, String[]> entry : mapToPopulate.entrySet()) { //loop through the map
+        analysisData.removeAllItems(); // remove all items from the analysis data combo box
+        for (Entry<String, String[]> entry : mapToPopulate.entrySet()) { // loop through the map
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
-                    selectedEndYear); //check if the data is valid
+                    selectedEndYear); // check if the data is valid
             boolean annualValid = DataAcquisition.ifSelectedIsAnnual(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
-                    selectedEndYear); //check if the data allows for annual analysis
-            if (valid) { //if the data is valid
-                if (annualValid == true) { //if the data allows for annual analysis
-                    analysisData.addItem(entry.getKey()); //add the data to the combo box
-                } else if (annualValid == false && !entry.getKey().contains("Annual Change")) { //if the data does not allow for annual analysis, add the data to the combo box that is not annual change
-                    analysisData.addItem(entry.getKey()); //add the data to the combo box 
+                    selectedEndYear); // check if the data allows for annual analysis
+            if (valid) { // if the data is valid
+                if (annualValid == true) { // if the data allows for annual analysis
+                    analysisData.addItem(entry.getKey()); // add the data to the combo box
+                } else if (annualValid == false && !entry.getKey().contains("Annual Change")) { // if the data does not
+                                                                                                // allow for annual
+                                                                                                // analysis, add the
+                                                                                                // data to the combo box
+                                                                                                // that is not annual
+                                                                                                // change
+                    analysisData.addItem(entry.getKey()); // add the data to the combo box
                 }
             }
         }
-        if (analysisData.getItemCount() == 0) { //if there are no items in the combo box
-            analysisData.addItem("No valid analysis"); //add the no valid analysis item
-            recalculateButton.setEnabled(false); //disable the recalculate button
-        } 
-        analysisData.setSelectedIndex(0); //set the selected index to 0
+        if (analysisData.getItemCount() == 0) { // if there are no items in the combo box
+            analysisData.addItem("No valid analysis"); // add the no valid analysis item
+            recalculateButton.setEnabled(false); // disable the recalculate button
+        }
+        analysisData.setSelectedIndex(0); // set the selected index to 0
     }
 
     /**
      * 
-     * @param selectedStartYear the selected start year for the analysis 
-     * @param selectedEndYear the selected end year for the analysis
-     * @param countryIndex the index of the country selected
+     * @param selectedStartYear the selected start year for the analysis
+     * @param selectedEndYear   the selected end year for the analysis
+     * @param countryIndex      the index of the country selected
      */
     public void updateDates(String selectedStartYear, String selectedEndYear, int countryIndex) {
         // TODO Auto-generated method stub
 
         // get start and end year of country index
-        int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear(); 
+        int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
         int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
         years_tmp.clear();
         for (int year = startYear; year <= endYear; year++) {
             years_tmp.add(year + "");
         }
         years_tmpCopy = new ArrayList<String>(years_tmp);
-        startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()]))); //set the start year combo box to the years_tmp array
-        endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()]))); //set the end year combo box to the years_tmpCopy array
-        if (selectedStartYear.equals(selectedEndYear)) { //if the start year is equal to the end year
-            manualUpdate = true; //set manual update to true
-            startYearData.setSelectedIndex(0); //set the selected index of the start year combo box to 0
-            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1); //set the selected index of the end year combo box to the selected index of the start year combo box + 1
-            manualUpdate = false; //set manual update to false
-        } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) { //if the start year is greater than the end year
+        startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()]))); // set
+                                                                                                                   // the
+                                                                                                                   // start
+                                                                                                                   // year
+                                                                                                                   // combo
+                                                                                                                   // box
+                                                                                                                   // to
+                                                                                                                   // the
+                                                                                                                   // years_tmp
+                                                                                                                   // array
+        endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()]))); // set
+                                                                                                                         // the
+                                                                                                                         // end
+                                                                                                                         // year
+                                                                                                                         // combo
+                                                                                                                         // box
+                                                                                                                         // to
+                                                                                                                         // the
+                                                                                                                         // years_tmpCopy
+                                                                                                                         // array
+        if (selectedStartYear.equals(selectedEndYear)) { // if the start year is equal to the end year
+            manualUpdate = true; // set manual update to true
+            startYearData.setSelectedIndex(0); // set the selected index of the start year combo box to 0
+            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1); // set the selected index of the end
+                                                                                // year combo box to the selected index
+                                                                                // of the start year combo box + 1
+            manualUpdate = false; // set manual update to false
+        } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) { // if the start year is
+                                                                                              // greater than the end
+                                                                                              // year
             JOptionPane.showMessageDialog(this,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error
                                                                                                                   // message
-            manualUpdate = true; //set manual update to true
-            startYearData.setSelectedIndex(0); //set the selected index of the start year combo box to 0
-            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1); //set the selected index of the end year combo box to the selected index of the start year combo box + 1
-            manualUpdate = false; //set manual update to false
-        } else { //if the start year is less than the end year
-            manualUpdate = true; //set manual update to true
-            startYearData.setSelectedItem(selectedStartYear); //set the selected item of the start year combo box to the selected start year
-            endYearData.setSelectedItem(selectedEndYear); //set the selected item of the end year combo box to the selected end year
+            manualUpdate = true; // set manual update to true
+            startYearData.setSelectedIndex(0); // set the selected index of the start year combo box to 0
+            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1); // set the selected index of the end
+                                                                                // year combo box to the selected index
+                                                                                // of the start year combo box + 1
+            manualUpdate = false; // set manual update to false
+        } else { // if the start year is less than the end year
+            manualUpdate = true; // set manual update to true
+            startYearData.setSelectedItem(selectedStartYear); // set the selected item of the start year combo box to
+                                                              // the selected start year
+            endYearData.setSelectedItem(selectedEndYear); // set the selected item of the end year combo box to the
+                                                          // selected end year
             manualUpdate = false;
         }
     }
 
-    public CountryStorage getCountryDatabase() { //get the country database
+    public CountryStorage getCountryDatabase() { // get the country database
         return this.countryDB;
     }
 

@@ -48,7 +48,11 @@ public class ViewerMain {
     public ViewerMain() {
         // TODO Auto-generated constructor stub
     }
-
+    public void getArray() {
+        for (int i = 0; i < allowedGraphs.length; i++) {
+            System.out.println(allowedGraphs[i]);
+        }
+    }
     public void makeLineChart() {
 
         ViewerFactory s = new ViewerFactory();

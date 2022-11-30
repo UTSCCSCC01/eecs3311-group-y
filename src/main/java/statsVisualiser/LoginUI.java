@@ -19,7 +19,7 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * Login component for the StatsVisualiser application.
- * @author Zuhair, Jason, Abdul, Natalie
+ * @author Zuhair, Abdul
  * @version 1.0 
  * @since 2022-10-23
  * 

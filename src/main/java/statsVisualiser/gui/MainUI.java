@@ -65,6 +65,7 @@ public class MainUI extends JFrame implements ActionListener {
     private JButton recalculateButton;
     private JLabel loading;
     TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
+    boolean manualUpdate = false;
     private JComboBox<String> countryData;
     private JComboBox<String> startYearData;
     private JComboBox<String> endYearData;
@@ -95,22 +96,15 @@ public class MainUI extends JFrame implements ActionListener {
         //
         // s.panelForGraph.add(temp);
         // s.panelForGraph.add(temp2);
-        String[] analysisTypes = {
-                "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
-                "Annual Change in GDP per Capita and Total Population",
-                "Average Energy Use",
-                "Average Forested Area",
-                "Ratio of CO2 Emissions and GDP per capita",
-                "Ratio of Population to Energy Use",
-                "Ratio of GDP and Renewable Energy Output",
-                "Annual Change of Health Costs vs Air Pollution" };
+        // s.panelForGraph.revalidate();
+        boolean userClick = false;
 
         TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
         mapToPopulate.put("Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
                 new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" });
         mapToPopulate.put("Annual Change in GDP per Capita and Total Population",
                 new String[] { "NY.GDP.PCAP.CD", "SP.POP.TOTL" });
-        mapToPopulate.put("Average Energy Use", new String[] { "EG.USE.PCAP.KG.OE" });
+        mapToPopulate.put("Average Government Expenditure Education", new String[] { "SE.XPD.TOTL.GD.ZS" });
         mapToPopulate.put("Average Forested Area",
                 new String[] { "AG.LND.FRST.ZS" });
         mapToPopulate.put("Ratio of CO2 Emissions and GDP per capita",
@@ -404,7 +398,7 @@ public class MainUI extends JFrame implements ActionListener {
     String[] analysisTypes = {
             "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
             "Annual Change in GDP per Capita and Total Population",
-            "Average Energy Use",
+            "Average Government Expenditure Education",
             "Average Forested Area",
             "Ratio of CO2 Emissions and GDP per capita",
             "Ratio of Population to Energy Use",
@@ -439,7 +433,7 @@ public class MainUI extends JFrame implements ActionListener {
                 new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" });
         mapToPopulate.put("Annual Change in GDP per Capita and Total Population",
                 new String[] { "NY.GDP.PCAP.CD", "SP.POP.TOTL" });
-        mapToPopulate.put("Average Energy Use", new String[] { "EG.USE.PCAP.KG.OE" });
+        mapToPopulate.put("Average Government Expenditure Education", new String[] { "SE.XPD.TOTL.GD.ZS" });
         mapToPopulate.put("Average Forested Area",
                 new String[] { "AG.LND.FRST.ZS" });
         mapToPopulate.put("Ratio of CO2 Emissions and GDP per capita",
@@ -465,34 +459,54 @@ public class MainUI extends JFrame implements ActionListener {
         countryData = new JComboBox<String>(countriesNames.toArray(new String[countriesNames.size()]));
         startYearData = new JComboBox<String>(years_tmp.toArray(new String[years_tmp.size()]));
         endYearData = new JComboBox<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()]));
-        analysisData = new JComboBox<String>(analysisTypes);
-        viewerData = new JComboBox<String>(viewsAvaliable);
+        analysisData = new JComboBox<String>();
+        viewerData = new JComboBox<String>();
 
     }
 
     public void actionPerformed(ActionEvent e) {
+        System.out.println("IT WAS ACTIONED AGAIN AHHHHHHHHHH");
+        viewerData.removeAllItems();
         if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) {
             if (countryData.getSelectedIndex() != 0) {
-                observerUpdate();
+                if (manualUpdate == false) {
+                    observerUpdate();
+                }
             }
         } else if (e.getSource() == analysisData) {
             if (analysisData.getSelectedIndex() >= 0) {
                 System.out.println(analysisData.getSelectedIndex() + "here");
                 updateRecalculate();
             }
+        } else if (e.getSource() == recalculateButton) {
+            recalculateButton();
         }
     }
 
     public void observerUpdate() {
-        String selectedStartYear = startYearData.getSelectedItem().toString();
-        String selectedEndYear = endYearData.getSelectedItem().toString();
+        System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH IT WAS CALLED AGAIN FOR SOME REASON");
         int countryIndex = 0; // index of the country in the countryDB
+        String selectedStartYear = "";
+        String selectedEndYear = "";
         for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
             if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
                 countryIndex = i;
                 break; // breaks the loop
             }
         }
+        if (startYearData.getSelectedItem().equals("") || endYearData.getSelectedItem().equals("")) {
+            System.out.println(countryDB.getCountryStorageList().get(countryIndex).getStartYear());
+            System.out.println(countryDB.getCountryStorageList().get(countryIndex).getEndYear());
+            selectedStartYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear() + "";
+            selectedEndYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear() + "";
+            System.out.println(selectedStartYear);
+            System.out.println(selectedEndYear);
+
+        } else {
+            selectedStartYear = startYearData.getSelectedItem().toString();
+            selectedEndYear = endYearData.getSelectedItem().toString();
+        }
+
         boolean countryNull = checkNullCountry(countryIndex);
         if (countryNull == false) {
             updateDates(selectedStartYear, selectedEndYear, countryIndex);
@@ -525,6 +539,120 @@ public class MainUI extends JFrame implements ActionListener {
         }
     }
 
+    public void recalculateButton() {
+        ViewerBar sd = new ViewerBar();
+
+        DataAcquisition dp4 = new DataAcquisition(mapToPopulate.get(analysisData.getSelectedItem().toString()),
+                countryData.getSelectedItem().toString(), startYearData.getSelectedItem().toString(),
+                endYearData.getSelectedItem().toString());
+        AnalysisOne s = null;
+        AnalysisTwo s2 = null;
+        AnalysisThree s3 = null;
+        AnalysisFour s4 = null;
+        AnalysisFive s5 = null;
+        AnalysisSix s6 = null;
+        AnalysisSeven s7 = null;
+        AnalysisEight s8 = null;
+        ViewerMain viewer = new ViewerMain();
+        switch (analysisData.getSelectedItem().toString()) {
+            case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
+                // code block
+                s = new AnalysisOne();
+                s.calculate();
+                viewer = s.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Annual Change in GDP per Capita and Total Population":
+                // code block
+                s2 = new AnalysisTwo();
+                s2.calculate();
+                viewer = s2.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Average Forested Area":
+                // code block
+                s3 = new AnalysisThree();
+                s3.calculate();
+                viewer = s3.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Ratio of CO2 Emissions and GDP per capita":
+                // code block
+                s4 = new AnalysisFour();
+                s4.calculate();
+                viewer = s4.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Average Government Expenditure Education":
+                // code block
+                s5 = new AnalysisFive();
+                s5.calculate();
+                viewer = s5.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Ratio of Population to Energy Use":
+                // code block
+                s6 = new AnalysisSix();
+                s6.calculate();
+                viewer = s6.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Annual Change of Health Costs vs Air Pollution":
+                // code block
+                s7 = new AnalysisSeven();
+                s7.calculate();
+                viewer = s7.getViewer();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            case "Ratio of GDP and Renewable Energy Output":
+                // code block
+                s8 = new AnalysisEight();
+                s8.calculate();
+                viewer = s8.getViewer();
+                viewer.getArray();
+                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
+                    viewerData.addItem(viewer.allowedGraphs[i]);
+                }
+                break;
+            default:
+                System.out.println("Nothing");
+        }
+
+        viewer.makeLineChart();
+        ChartPanel d = viewer.getLine();
+        // sd.viewPanel(d);
+        ChartPanel d3 = viewer.getBar();
+        // sd.viewPanel(d3);
+        ChartPanel d4 = viewer.getScat();
+        // sd.viewPanel(d4);
+        ChartPanel d5 = viewer.getPie();
+        // sd.viewPanel(d5);
+        JScrollPane d2 = viewer.getReport();
+        // sd.viewPanelScroll(d2);
+        sd.setVisible(true);
+
+        //
+
+        // Average: Report and Pie
+        // Annual: Report, Line, Scatter
+        // Ratio: Report, Line, Bar, Scatter
+
+    }
+
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
         analysisData.removeAllItems();
@@ -534,6 +662,7 @@ public class MainUI extends JFrame implements ActionListener {
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
+            System.out.println(valid);
             boolean annualValid = DataAcquisition.ifSelectedIsAnnual(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
@@ -567,18 +696,23 @@ public class MainUI extends JFrame implements ActionListener {
         endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
         System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
         if (selectedStartYear.equals(selectedEndYear)) {
+            manualUpdate = true;
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(endYearData.getItemCount() - 1);
-            observerUpdate();
+            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1);
+            manualUpdate = false;
         } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
             JOptionPane.showMessageDialog(mainFrame,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error
                                                                                                                   // message
+            manualUpdate = true;
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(endYearData.getItemCount() - 1);
+            endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1);
+            manualUpdate = false;
         } else {
+            manualUpdate = true;
             startYearData.setSelectedItem(selectedStartYear);
             endYearData.setSelectedItem(selectedEndYear);
+            manualUpdate = false;
         }
     }
 

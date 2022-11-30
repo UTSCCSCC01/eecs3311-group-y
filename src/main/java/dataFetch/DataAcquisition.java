@@ -83,27 +83,6 @@ public class DataAcquisition {
             }
         }
     }
-
-    public static Boolean checkifValidYear(String[] ind, String countrycode, String startingYear, String endingYear) {
-        DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
-        int minIndex = 1000;
-        for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
-            if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
-                minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
-            }
-        }
-
-        String end = temp.years.get(0) + "";
-        String start = temp.getYearForTest().get(minIndex - 1) + "";
-        if (!(end.equals(endingYear)) || !(start.equals(startingYear))) {
-            System.out.println("Not valid");
-            return false;
-        }
-
-        return true;
-
-    }
-
     public static Boolean checkIfValidData(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
         if (DataAcquisition.dataStorage.size() == 0) {
@@ -125,7 +104,7 @@ public class DataAcquisition {
         return true;
 
     }
-
+    
     public static Boolean ifSelectedIsAnnual(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
         int minIndex = 1000;

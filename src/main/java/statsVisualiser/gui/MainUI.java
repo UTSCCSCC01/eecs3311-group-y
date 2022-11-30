@@ -255,6 +255,9 @@ public class MainUI extends JFrame implements ActionListener {
         if (e.getSource() == addButton) {
             addGraph();
         }
+        if (e.getSource() == removeButton) {
+            removeGraph();
+        }
     }
 
     public void observerUpdate() {
@@ -294,7 +297,17 @@ public class MainUI extends JFrame implements ActionListener {
         return false;
     }
     public void removeGraph() { 
-        middlePanel.remove(bottomPanel);
+        for(int i = 0; i < middlePanel.getComponentCount(); i++) { 
+            System.out.println(middlePanel.getComponents()[i]); 
+        }
+        middlePanel.remove(middlePanel.getComponents()[middlePanel.getComponentCount()-1]);
+        middlePanel.revalidate();
+        middlePanel.repaint();
+        this.validate();
+        if(middlePanel.getComponentCount() == 0) {
+            removeButton.setEnabled(false);
+        }
+
     }
     public void updateRecalculate() {
         if (!analysisData.getSelectedItem().toString().equals(" ")
@@ -425,7 +438,7 @@ public class MainUI extends JFrame implements ActionListener {
         }
         this.add(middlePanel, BorderLayout.CENTER);
         this.validate();
-        System.out.println(middlePanel.getComponents());
+        removeButton.setEnabled(true);
 
         //
 

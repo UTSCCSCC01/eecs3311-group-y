@@ -19,13 +19,14 @@ import com.google.gson.reflect.TypeToken;
 
 /**
  * Login component for the StatsVisualiser application.
+ * 
  * @author Zuhair, Abdul
- * @version 1.0 
+ * @version 1.0
  * @since 2022-10-23
  * 
  */
 public class LoginUI implements ActionListener {
-    Gson gson = new Gson();  //gson object for interfacing with json files
+    Gson gson = new Gson(); // gson object for interfacing with json files
     /*
      * All java swing components used in the login UI
      */
@@ -34,10 +35,10 @@ public class LoginUI implements ActionListener {
     public static JButton login = new JButton();
 
     /**
-     * The user name and password fields 
+     * The user name and password fields
      */
     public static String user;
-    public static String pass; 
+    public static String pass;
     /**
      * matchers that will check the pattern below when given a username and password
      */
@@ -48,17 +49,28 @@ public class LoginUI implements ActionListener {
     public static JLabel password = new JLabel("Password");
     public static JTextField usernameField = new JTextField("", 20);
     public static JPasswordField passwordField = new JPasswordField(20);
-   
-   /**
-    * Regex patterns for the username and password fields
-    */
+
+    /**
+     * Regex patterns for the username and password fields
+     */
     Pattern userPattern = Pattern.compile("^[a-zA-Z0-9_]{3,20}$", Pattern.CASE_INSENSITIVE);
     Pattern passPattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,100}$");
 
+    private static LoginUI instance; // singleton instance of the loginUI
+
+    public static LoginUI getInstance() throws Exception { // singleton pattern
+        if (instance == null)
+            instance = new LoginUI();
+
+        return instance;
+    }
+
     /**
-     * Action performed method for the login UI 
-     * Checks if user clicked login or signup button and performs the appropriate action
+     * Action performed method for the login UI
+     * Checks if user clicked login or signup button and performs the appropriate
+     * action
      */
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == login) {
             try {
@@ -72,38 +84,43 @@ public class LoginUI implements ActionListener {
     }
 
     /**
-     * Method to login a user 
+     * Method to login a user
      * Checks if the username and password match the regex patterns
-     * Checks if the username and password match the username and password in the json file
+     * Checks if the username and password match the username and password in the
+     * json file
      * If the username and password match, the main UI is opened
      * If the username and password do not match, an error message is displayed
-     * @return none 
-     * @param none 
+     * 
+     * @return none
+     * @param none
      * @throws Exception
      */
     public void loginUser() throws Exception {
-         user = usernameField.getText(); //gets the username from the username field
-         pass = String.valueOf(passwordField.getPassword()); //gets the password from the password field
-         userMatcher = userPattern.matcher(user); //checks if the username matches the regex pattern
-         passMatcher = passPattern.matcher(pass); //checks if the password matches the regex pattern
-        if (userMatcher.find() == false) { //if the username does not match the regex pattern
+        user = usernameField.getText(); // gets the username from the username field
+        pass = String.valueOf(passwordField.getPassword()); // gets the password from the password field
+        userMatcher = userPattern.matcher(user); // checks if the username matches the regex pattern
+        passMatcher = passPattern.matcher(pass); // checks if the password matches the regex pattern
+        if (userMatcher.find() == false) { // if the username does not match the regex pattern
             JOptionPane.showMessageDialog(f,
-                    "Invalid username. Username must be at least 3 characters long and can only contain letters, numbers and underscores."); //error message
+                    "Invalid username. Username must be at least 3 characters long and can only contain letters, numbers and underscores."); // error
+                                                                                                                                             // message
 
-        } else if (passMatcher.find() == false) { //if the password does not match the regex pattern
+        } else if (passMatcher.find() == false) { // if the password does not match the regex pattern
             JOptionPane.showMessageDialog(f,
-                    "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number."); //error message
-        } else { //if the username and password match the regex patterns
-            try { 
-                if (checkPassword(user, pass) == true) { //if the username and password match the username and password in the json file
-                    f.dispose(); //closes the login UI
-                    JFrame frame = MainUI.getInstance(); //opens the main UI
-                    frame.setSize(900, 600); //sets the size of the main UI
-                    frame.pack(); //packs the main UI
-                    frame.setVisible(true); //makes the main UI visible
+                    "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number."); // error
+                                                                                                                                                                            // message
+        } else { // if the username and password match the regex patterns
+            try {
+                if (checkPassword(user, pass) == true) { // if the username and password match the username and password
+                                                         // in the json file
+                    f.dispose(); // closes the login UI
+                    JFrame frame = MainUI.getInstance(); // opens the main UI
+                    frame.setSize(900, 600); // sets the size of the main UI
+                    frame.pack(); // packs the main UI
+                    frame.setVisible(true); // makes the main UI visible
                 }
-            } catch (FileNotFoundException e1) { //if the json file is not found
-                e1.printStackTrace(); //prints the stack trace
+            } catch (FileNotFoundException e1) { // if the json file is not found
+                e1.printStackTrace(); // prints the stack trace
             }
         }
     }
@@ -111,38 +128,45 @@ public class LoginUI implements ActionListener {
     /**
      * Method to signup a user
      * Checks if the username and password match the regex patterns
-     * Checks if the username and password match the username and password in the json file using createUser() 
+     * Checks if the username and password match the username and password in the
+     * json file using createUser()
      * If the username and password match, an error message is displayed
-     * If the username and password do not match, the user is added to the json file and the main UI is opened
+     * If the username and password do not match, the user is added to the json file
+     * and the main UI is opened
+     * 
      * @return none
      * @param none
      */
     public void signupUser() {
-         user = usernameField.getText(); //gets the username from the username field
-         pass = String.valueOf(passwordField.getPassword()); //gets the password from the password field
-         userMatcher = userPattern.matcher(user); //checks if the username matches the regex pattern
-         passMatcher = passPattern.matcher(pass); //checks if the password matches the regex pattern
-        if (userMatcher.find() == false) { //if the username does not match the regex pattern
+        user = usernameField.getText(); // gets the username from the username field
+        pass = String.valueOf(passwordField.getPassword()); // gets the password from the password field
+        userMatcher = userPattern.matcher(user); // checks if the username matches the regex pattern
+        passMatcher = passPattern.matcher(pass); // checks if the password matches the regex pattern
+        if (userMatcher.find() == false) { // if the username does not match the regex pattern
             JOptionPane.showMessageDialog(f,
-                    "Invalid username. Username msut be at least 3 characters long and can only contain letters, numbers and underscores."); //error message
+                    "Invalid username. Username msut be at least 3 characters long and can only contain letters, numbers and underscores."); // error
+                                                                                                                                             // message
 
-        } else if (passMatcher.find() == false) { //if the password does not match the regex pattern
+        } else if (passMatcher.find() == false) { // if the password does not match the regex pattern
             JOptionPane.showMessageDialog(f,
-                    "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number."); //error message
-        } else { //if the username and password match the regex patterns
+                    "Invalid password. Password must be between 8 and 20 characters long and contain at least one uppercase letter, one lowercase letter and one number."); // error
+                                                                                                                                                                            // message
+        } else { // if the username and password match the regex patterns
             try {
-                createUser(user, pass); //checks if the username and password match the username and password in the json file, if they do, creates user
-            } catch (IOException e) { //if the json file is not found
-                e.printStackTrace(); //prints the stack trace
+                createUser(user, pass); // checks if the username and password match the username and password in the
+                                        // json file, if they do, creates user
+            } catch (IOException e) { // if the json file is not found
+                e.printStackTrace(); // prints the stack trace
             }
-        } 
+        }
     }
 
     /**
      * Method to create a user
-     * Checks if the username given is in the json file already, 
+     * Checks if the username given is in the json file already,
      * if it is, an error message is displayed
      * if it is not, the user is added to the json file
+     * 
      * @return none
      * @param String user
      * @param String pass
@@ -166,19 +190,22 @@ public class LoginUI implements ActionListener {
     public HashMap<String, String> readUsers() throws FileNotFoundException {
         HashMap<String, String> users = new HashMap<String, String>();
         Scanner sc = new Scanner(new File(System.getProperty("user.dir") + "/src/assets/userList.json"));
-        String jsonString = ""; 
+        String jsonString = "";
         while (sc.hasNext()) // returns a boolean value
         {
-         jsonString += sc.next();
+            jsonString += sc.next();
         }
         sc.close(); // closes the scanner
-        Type type = new TypeToken<HashMap<String, String>>() {}.getType();
-        users = gson.fromJson(jsonString,type);
+        Type type = new TypeToken<HashMap<String, String>>() {
+        }.getType();
+        users = gson.fromJson(jsonString, type);
         return users;
     }
 
     /**
-     * Method to check if the username and password match the username and password in the json file
+     * Method to check if the username and password match the username and password
+     * in the json file
+     * 
      * @return boolean
      * @param String user
      * @param String pass
@@ -200,18 +227,18 @@ public class LoginUI implements ActionListener {
     }
 
     /**
-     * Constructor for the login UI 
+     * Constructor for the login UI
      */
     public LoginUI() {
         login.setText("Login"); // set the text of the login button
         signup.setText("Sign Up"); // set the text of the signup button
         login.addActionListener(this); // add action listener to login button
-        signup.addActionListener(this); // add action listener to signup button 
+        signup.addActionListener(this); // add action listener to signup button
         p.setPreferredSize(new Dimension(800, 500)); // set the size of the panel
         p.setLayout(null); // set the layout of the panel to null
-        p.add(username); // add the username label to the panel 
+        p.add(username); // add the username label to the panel
         username.setBounds(370, 120, 60, 20); // set the bounds of the username label
-        p.add(usernameField); // add the username field to the panel 
+        p.add(usernameField); // add the username field to the panel
         usernameField.setBounds(125, 149, 550, 28); // set the bounds of the username field
         p.add(password); // add the password label to the panel
         password.setBounds(370, 196, 60, 20); // set the bounds of the password label
@@ -231,10 +258,9 @@ public class LoginUI implements ActionListener {
 
     }
 
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException,
-            InstantiationException, IllegalAccessException {
+    public static void main(String[] args) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // setLookandFeel for modern Windows 10
                                                                              // look on buttons and other JComponents
-        new LoginUI();
+        LoginUI.getInstance(); // create a new instance of the login UI 
     }
 }

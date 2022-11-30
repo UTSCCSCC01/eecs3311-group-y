@@ -49,7 +49,7 @@ import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 public class MainUI extends JFrame implements ActionListener {
-
+    //Panel creation 
     private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel middlePanel; // middle panel
@@ -61,20 +61,29 @@ public class MainUI extends JFrame implements ActionListener {
     private ChartPanel d4;
     private JScrollPane d5;
 
+    //CountryStorage object
     private CountryStorage countryDB;
+    
+    //JLabels for UI compoennts 
     private JLabel countrySelectionLabel;
     private JLabel fromLabel;
     private JLabel toLabel;
     private JLabel viewerLabels;
     private JLabel analysisLabels;
 
+    //JButtons for UI components
     private JButton addButton;
     private JButton removeButton;
     private JButton recalculateButton;
-    private JLabel loading;
+
+    //TreeMap for storing country names and their respective data
     TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
-    boolean manualUpdate = false;
+
+   
+    boolean manualUpdate = false;  //Boolean that ensures that when the dates are changed manually, the observer is not called again 
     ViewerMain viewer = new ViewerMain();
+
+    //Combo boxes for UI components
     private JComboBox<String> countryData;
     private JComboBox<String> startYearData;
     private JComboBox<String> endYearData;
@@ -84,7 +93,7 @@ public class MainUI extends JFrame implements ActionListener {
     private ArrayList<String> years_tmp;
     private ArrayList<String> years_tmpCopy;
 
-    private String[] viewsAvaliable = { "Pie", "Line", "Bar", "Scatter", "Report" };
+    
     private HashMap<String, String> analysisIndicators = new HashMap<String, String>();
 
     private static MainUI instance;

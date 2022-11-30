@@ -354,4 +354,9 @@ public class ViewerMain {
         return barChart;
     }
 
+    public void getArray() {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

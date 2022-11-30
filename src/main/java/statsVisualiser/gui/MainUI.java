@@ -480,14 +480,6 @@ public class MainUI extends JFrame implements ActionListener {
     public void observerUpdate() {
         String selectedStartYear = startYearData.getSelectedItem().toString();
         String selectedEndYear = endYearData.getSelectedItem().toString();
-        System.out.println(selectedStartYear + " start year");
-        System.out.println(selectedEndYear + " end year");
-
-        updateDates();
-        updateAnalysis();
-    }
-
-    public void updateAnalysis() {
         int countryIndex = 0; // index of the country in the countryDB
         for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
             if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
@@ -495,9 +487,25 @@ public class MainUI extends JFrame implements ActionListener {
                 break; // breaks the loop
             }
         }
-        // get start and end year of country index
-        String selectedStartYear = startYearData.getSelectedItem().toString();
-        String selectedEndYear = endYearData.getSelectedItem().toString();
+        boolean countryNull = checkNullCountry(countryIndex);
+        if (countryNull == false) {
+            // updateDates(selectedStartYear, selectedEndYear, countryIndex);
+            // updateAnalysis(selectedStartYear, selectedEndYear, countryIndex);
+        } else {
+            JOptionPane.showMessageDialog(null, "No data for this country");
+            countryData.setSelectedIndex(0); 
+        }
+    }
+
+    public boolean checkNullCountry(int countryIndex) {
+        System.out.println(countryDB.getCountryStorageList().get(countryIndex).getCountryCode());
+        if (countryDB.getCountryStorageList().get(countryIndex).getCountryCode().equals("NA")) {
+            return true;
+        }
+        return false;
+    }
+
+    public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
         int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
@@ -527,17 +535,9 @@ public class MainUI extends JFrame implements ActionListener {
         }
     }
 
-    public void updateDates() {
+    public void updateDates(String selectedStartYear, String selectedEndYear, int countryIndex) {
         // TODO Auto-generated method stub
-        String selectedStartYear = startYearData.getSelectedItem().toString();
-        String selectedEndYear = endYearData.getSelectedItem().toString();
-        int countryIndex = 0; // index of the country in the countryDB
-        for (int i = 0; i < Objects.requireNonNull(countryDB).getCountryStorageList().size(); i++) {
-            if (countryData.getSelectedItem().equals(countryDB.getCountryStorageList().get(i).getCountryName())) {
-                countryIndex = i;
-                break; // breaks the loop
-            }
-        }
+
         // get start and end year of country index
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
         int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();

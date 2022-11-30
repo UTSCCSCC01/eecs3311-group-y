@@ -20,6 +20,13 @@ import visualizations.ViewerMain;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
 
+/**
+ * Template for Analysis, has specifications for creating different
+ * viewers and does the specific math for the analysis as well
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisTwo extends AnalysisTemplate {
     public String[] graphs = { "Line", "Scatter", "Report" };
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
@@ -27,8 +34,10 @@ public class AnalysisTwo extends AnalysisTemplate {
     public AnalysisContext context;
     ViewerMain viewer;
     String title = "Annual Change in GDP per Capita and Total Population";
-    // "NY.GDP.PCAP.CD", "SP.POP.TOTL"
 
+    /**
+     * Perform Annual calculations
+     */
     @Override
     public void calculate() {
         context = new AnalysisContext(new AnalysisAnnual());
@@ -38,6 +47,11 @@ public class AnalysisTwo extends AnalysisTemplate {
 
     }
 
+    /**
+     * 
+     * @return ViewerMain object that stores Graphs
+     */
+    @Override
     public ViewerMain getViewer() {
         return this.viewer;
     }

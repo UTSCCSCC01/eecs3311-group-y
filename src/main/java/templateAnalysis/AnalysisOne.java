@@ -18,7 +18,13 @@ import visualizations.ViewerLine;
 import visualizations.ViewerMain;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
-
+/**
+ * Template for Analysis, has specifications for creating different 
+ * viewers and does the specific math for the analysis as well
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisOne extends AnalysisTemplate {
     public String[] graphs = { "Line", "Scatter", "Report" };
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
@@ -26,8 +32,12 @@ public class AnalysisOne extends AnalysisTemplate {
     public AnalysisContext context;
     ViewerMain viewer;
     String title = "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution";
-    // "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3"
+    
+    
 
+    /**
+     * Perform Annual calculations
+     */
     @Override
     public void calculate() {
         context = new AnalysisContext(new AnalysisAnnual());
@@ -36,7 +46,11 @@ public class AnalysisOne extends AnalysisTemplate {
         this.viewer = new ViewerMain(context.getAnalysis(), title, graphs);
 
     }
-
+    /**
+     * 
+     * @return ViewerMain object that stores Graphs
+     */
+    @Override
     public ViewerMain getViewer() {
         return this.viewer;
     }

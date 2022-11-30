@@ -26,6 +26,13 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+/**
+ * Creates line graph and implements Viewer for
+ * factory pattern
+ * 
+ * @author Abdul, Zuhair
+ *
+ */
 public class ViewerLine extends JFrame implements Viewer {
 
     private StoredData data, data2, data3;
@@ -39,10 +46,18 @@ public class ViewerLine extends JFrame implements Viewer {
     private ChartPanel chartPanel;
     private int vers;
 
-    // ArrayList<StoredData> dataStorage, String title, String xLabel, String
-    // yLabel, String yLabel2, String seriesName,
-    // String seriesName2, String seriesName3
-    public ViewerLine(ArrayList<StoredData> dataStorage, String title,String xLabel, String yLabel, String yLabel2,
+    /**
+     * 
+     * @param dataStorage data to make graph from
+     * @param title       name of graph
+     * @param xLabel      axes label for x
+     * @param yLabel      axes label for y
+     * @param yLabel2     axes label two for y
+     * @param seriesName  name of first indicator
+     * @param seriesName2 name of second indicator
+     * @param seriesName3 name of third indicator
+     */
+    public ViewerLine(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
             String seriesName, String seriesName2, String seriesName3) {
         if (dataStorage.equals(null)) {
             return;
@@ -60,6 +75,9 @@ public class ViewerLine extends JFrame implements Viewer {
 
     }
 
+    /**
+     * draw object and call helper to populate
+     */
     private void draw() {
         switch (dataStorage.size()) {
             case 0:
@@ -86,6 +104,9 @@ public class ViewerLine extends JFrame implements Viewer {
 
     }
 
+    /**
+     * populate object
+     */
     public void populate() {
         XYSeries seriesLine, seriesLine2, seriesLine3;
         dataset = null;
@@ -101,7 +122,7 @@ public class ViewerLine extends JFrame implements Viewer {
                 dataset.addSeries(seriesLine);
                 createChart();
                 // to see uncomment this and the code in main
-               // seeExample();
+                // seeExample();
 
                 break;
             case 2:
@@ -118,7 +139,7 @@ public class ViewerLine extends JFrame implements Viewer {
                 dataset.addSeries(seriesLine2);
                 createChart();
                 // to see uncomment this and the code in main
-                //seeExample();
+                // seeExample();
 
                 break;
             case 3:
@@ -141,7 +162,7 @@ public class ViewerLine extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-               // seeExample();
+                // seeExample();
 
                 break;
 
@@ -149,6 +170,9 @@ public class ViewerLine extends JFrame implements Viewer {
 
     }
 
+    /**
+     * Creates chart object
+     */
     public void createChart() {
         JFreeChart chart = ChartFactory.createXYLineChart(this.title, this.xLabel, this.yLabel, dataset,
                 PlotOrientation.VERTICAL, true, true, false);
@@ -181,10 +205,17 @@ public class ViewerLine extends JFrame implements Viewer {
 
     }
 
+    /**
+     * 
+     * @return graph
+     */
     public ChartPanel getChart() {
         return this.chartPanel;
     }
 
+    /**
+     * To see chart
+     */
     public void seeExample() {
         add(chartPanel);
         pack();
@@ -192,39 +223,5 @@ public class ViewerLine extends JFrame implements Viewer {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    public static void main(String[] args) throws IOException {
-        String[][] indicatorList = new String[][] {
-            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-            { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
-            { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
-            { "AG.LND.FRST.ZS" },
-            { "SE.XPD.TOTL.GD.ZS" },
-            { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-            { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-            { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
-    };
-    String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-    String cc = "USA";
-//  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
-
-    String country_code = "CA";
-
-    DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3"}, country_code, "2000", "2020");
-//  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-    ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-    AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
-    context.setStrategy(new AnalysisAnnual());
-//  context.setStrategy(new Ratio());
-    context.execute();
-    System.out.println(context.getData().toString());
-    System.out.println(context.getAnalysis().toString());
-    ViewerFactory s = new ViewerFactory();
-    ViewerLine d = (ViewerLine) s.CreateViewerFactory("Line", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc", country_code);
-   // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
-    d.setVisible(true);
-
-    }
-
 
 }

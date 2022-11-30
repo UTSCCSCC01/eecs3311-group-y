@@ -21,6 +21,13 @@ import visualizations.ViewerPie;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
 
+/**
+ * Template for Analysis, has specifications for creating different
+ * viewers and does the specific math for the analysis as well
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisEight extends AnalysisTemplate {
     public String[] graphs = { "Line", "Scatter", "Report", "Bar" };
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
@@ -29,11 +36,9 @@ public class AnalysisEight extends AnalysisTemplate {
     ViewerMain viewer;
     String title = "Ratio of GDP and Renewable Energy Output";
 
-    // "NY.GDP.PCAP.CD" , "EG.ELC.RNEW.ZS"
-    public AnalysisEight() {
-
-    }
-
+    /**
+     * Perform Ratio calculations
+     */
     @Override
     public void calculate() {
         context = new AnalysisContext(new AnalysisRatio());
@@ -43,6 +48,11 @@ public class AnalysisEight extends AnalysisTemplate {
 
     }
 
+    /**
+     * 
+     * @return ViewerMain object that stores Graphs
+     */
+    @Override
     public ViewerMain getViewer() {
         return this.viewer;
     }

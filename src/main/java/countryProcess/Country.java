@@ -2,14 +2,26 @@ package countryProcess;
 
 import java.util.ArrayList;
 
+/**
+ * Country object that stores data for single country
+ * 
+ * @author Abdul
+ *
+ */
 public class Country {
-    ArrayList<ArrayList<Float>> value = new ArrayList<>();
-    ArrayList<String> indicators = new ArrayList<>();
-    int startYear;
-    int endYear;
-    String countryName;
-    String countryCode;
+    private int startYear;
+    private int endYear;
+    private String countryName;
+    private String countryCode;
 
+    /**
+     * country object constructor
+     * 
+     * @param countryName string of country name 
+     * @param countryCode string of the country code for api
+     * @param startYear int of the valid start year
+     * @param endYear int of the valid end year
+     */
     public Country(String countryName, String countryCode, int startYear, int endYear) {
         this.startYear = startYear;
         this.endYear = endYear;
@@ -17,24 +29,29 @@ public class Country {
         this.countryCode = countryCode;
 
     }
-
+    /**
+     * @return countryName
+     */
     public String getCountryName() {
         return this.countryName;
     }
-    public String getCountryCode(){
+    /**
+     * @return countryCode
+     */
+    public String getCountryCode() {
         return this.countryCode;
     }
-    public int getStartYear(){
+    /**
+     * @return startYear
+     */
+    public int getStartYear() {
         return this.startYear;
     }
-    public int getEndYear(){
+    /**
+     * @return endYear
+     */
+    public int getEndYear() {
         return this.endYear;
-    }
-    public ArrayList<ArrayList<Float>> getValue(){
-        return value;
-    }
-    public ArrayList<String> getIndicators(){
-        return indicators;
     }
 
 }

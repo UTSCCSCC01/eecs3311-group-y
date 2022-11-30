@@ -21,6 +21,13 @@ import visualizations.ViewerPie;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
 
+/**
+ * Template for Analysis, has specifications for creating different
+ * viewers and does the specific math for the analysis as well
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisSix extends AnalysisTemplate {
     public String[] graphs = { "Line", "Scatter", "Report", "Bar" };
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
@@ -28,8 +35,10 @@ public class AnalysisSix extends AnalysisTemplate {
     ViewerMain viewer;
     public AnalysisContext context;
     String title = "Ratio of Population to Energy Use";
-    // "SP.POP.TOTL", "EG.USE.PCAP.KG.OE"
 
+    /**
+     * Perform calculations
+     */
     @Override
     public void calculate() {
         context = new AnalysisContext(new AnalysisRatio());
@@ -39,6 +48,11 @@ public class AnalysisSix extends AnalysisTemplate {
 
     }
 
+    /**
+     * 
+     * @return ViewerMain object that stores Graphs
+     */
+    @Override
     public ViewerMain getViewer() {
         return this.viewer;
     }

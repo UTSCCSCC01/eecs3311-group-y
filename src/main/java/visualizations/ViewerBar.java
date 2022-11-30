@@ -23,7 +23,14 @@ import dataFetch.*;
 import strategyAnalysis.*;
 import templateAnalysis.AnalysisOne;
 
-public class ViewerBar extends JPanel implements Viewer {
+/**
+ * Creates bar graph and implements Viewer for
+ * factory pattern
+ * 
+ * @author Abdul, Zuhair
+ *
+ */
+public class ViewerBar extends JFrame implements Viewer {
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -41,27 +48,17 @@ public class ViewerBar extends JPanel implements Viewer {
 
     }
 
-    // ArrayList<StoredData> dataStorage, String title, String xLabel, String
-    // yLabel, String yLabel2, String seriesName,
-    // String seriesName2, String seriesName3
-    public ViewerBar(StoredData data, StoredData data2, StoredData data3, String title, String xLabel, String yLabel,
-            String seriesName) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
-        this.xLabel = xLabel;
-        this.yLabel = yLabel;
-        this.yLabel2 = yLabel;
-        this.title = title;
-        this.data = data;
-        this.data2 = data2;
-        this.data3 = data3;
-
-        populate();
-        draw();
-
-    }
-
+    /**
+     * 
+     * @param dataStorage data to make graph from
+     * @param title       name of graph
+     * @param xLabel      axes label for x
+     * @param yLabel      axes label for y
+     * @param yLabel2     axes label two for y
+     * @param seriesName  name of first indicator
+     * @param seriesName2 name of second indicator
+     * @param seriesName3 name of third indicator
+     */
     public ViewerBar(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
             String seriesName, String seriesName2, String seriesName3) {
         if (dataStorage.equals(null)) {
@@ -79,29 +76,29 @@ public class ViewerBar extends JPanel implements Viewer {
 
     }
 
+    /**
+     * draw object and call helper to populate
+     */
     private void draw() {
         switch (dataStorage.size()) {
             case 0:
                 break;
             case 1:
                 this.data = dataStorage.get(0);
-                this.series1 = data.getSeriesName();
+
                 this.vers = 1;
                 break;
             case 2:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
+
                 this.vers = 2;
                 break;
             case 3:
                 this.data = dataStorage.get(0);
                 this.data2 = dataStorage.get(1);
                 this.data3 = dataStorage.get(2);
-                this.series1 = data.getSeriesName();
-                this.series2 = data2.getSeriesName();
-                this.series3 = data3.getSeriesName();
+
                 this.vers = 3;
                 break;
 
@@ -110,6 +107,9 @@ public class ViewerBar extends JPanel implements Viewer {
         populate();
     }
 
+    /**
+     * populate object
+     */
     public void populate() {
         plot = new CategoryPlot();
         DefaultCategoryDataset dataset, dataset2, dataset3;
@@ -213,6 +213,9 @@ public class ViewerBar extends JPanel implements Viewer {
 
     }
 
+    /**
+     * Creates chart object
+     */
     public void createChart() {
         barChart = new JFreeChart(title, new Font("Serif", java.awt.Font.BOLD, 18), plot, true);
         chartPanel = new ChartPanel(barChart);
@@ -221,10 +224,17 @@ public class ViewerBar extends JPanel implements Viewer {
         chartPanel.setBackground(Color.white);
     }
 
+    /**
+     * 
+     * @return graph
+     */
     public ChartPanel getChart() {
         return this.chartPanel;
     }
 
+    /**
+     * To see chart
+     */
     public void seeExample() {
         BarRenderer br = new BarRenderer();
 
@@ -234,6 +244,10 @@ public class ViewerBar extends JPanel implements Viewer {
         add(chartPanel);
     }
 
+    /**
+     * 
+     * @param chartPanel to view
+     */
     public void viewPanel(ChartPanel chartPanel) {
         BarRenderer br = new BarRenderer();
 
@@ -244,51 +258,17 @@ public class ViewerBar extends JPanel implements Viewer {
 
     }
 
+    /**
+     * 
+     * @param outputScrollPane to view
+     */
     public void viewPanelScroll(JScrollPane outputScrollPane) {
         add(outputScrollPane);
+
+        pack();
+
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ;
     }
 
-    // public static void main(String[] args) {
-    // //String[][] ab = { { "EG.USE.PCAP.KG.OE" } };
-    // String c = "USA";
-    // String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" }
-    // };
-    // DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
-    // // title will later be changed to whatever the analysis is
-    // // ViewerBar tt = new ViewerBar(test.dataStorage.get(0), "Years", "Values",
-    // "Title", c);
-    // //System.out.println(test.getDataStorage().get(0).getSeriesIndicator());
-    // System.out.println(test.getDataStorage().get(0).get(0).getSeriesIndicator());
-    //
-    // }
-
-    public static void main(String[] args) throws IOException {
-        // String[][] indicatorList = new String[][] {
-        // { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-        // { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" }, { "EN.ATM.CO2E.PC",
-        // "NY.GDP.PCAP.CD" }, { "AG.LND.FRST.ZS" },
-        // { "SE.XPD.TOTL.GD.ZS" }, { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-        // { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-        // { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" }, };
-        // String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-        // String cc = "USA";
-        //// DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
-
-        String country_code = "USA";
-
-        DataAcquisition dp1 = new DataAcquisition(
-                new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, "USA", "2013", "2020");
-        // DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code,
-        // "2015", "2020");
-        ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-        AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
-        context.setStrategy(new AnalysisAnnual());
-        context.execute();
-
-        ViewerFactory s = new ViewerFactory();
-        ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc",
-                country_code);
-        d.setVisible(true);
-
-    }
 }

@@ -438,7 +438,6 @@ public class MainUI extends JFrame implements ActionListener {
                 s8 = new AnalysisEight();
                 s8.calculate();
                 viewer = s8.getViewer();
-                viewer.getArray();
                 for (int i = 0; i < viewer.allowedGraphs.length; i++) {
                     viewerData.addItem(viewer.allowedGraphs[i]);
                 }

@@ -3,10 +3,19 @@ package strategyAnalysis;
 import java.util.ArrayList;
 
 import dataFetch.StoredData;
-
+/**
+ * Average strategy that calculates the average between years
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisAverage implements AnalysisStrategy {
 	ArrayList<StoredData> result = new ArrayList<>();
 
+	/**
+	 * 
+	 * @param  object to get data from
+	 */
 	@Override
 	public void performAnalysis(AnalysisContext analysisContext) {
 		ArrayList<StoredData> temp = new ArrayList<>();
@@ -25,11 +34,18 @@ public class AnalysisAverage implements AnalysisStrategy {
 		setAnalysis(temp);
 
 	}
-
+	
+	/**
+	 * 
+	 * @param sd to set to
+	 */
 	public void setAnalysis(ArrayList<StoredData> sd) {
 		this.result = sd;
 	}
 
+	/**
+	 * @return ArrayList of StoredData
+	 */
 	public ArrayList<StoredData> getAnalysis() {
 		return this.result;
 	}

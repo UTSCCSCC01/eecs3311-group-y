@@ -19,6 +19,13 @@ import visualizations.ViewerMain;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
 
+/**
+ * Template for Analysis, has specifications for creating different
+ * viewers and does the specific math for the analysis as well
+ * 
+ * @author Abdul
+ *
+ */
 public class AnalysisSeven extends AnalysisTemplate {
     public String[] graphs = { "Line", "Scatter", "Report" };
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
@@ -26,8 +33,11 @@ public class AnalysisSeven extends AnalysisTemplate {
     public AnalysisContext context;
     ViewerMain viewer;
     String title = "Annual Change of Health Costs vs Air Pollution";
-    // "EN.ATM.PM25.MC.M3" , "AG.LND.FRST.ZS"
 
+
+    /**
+     * Perform Annual calculations
+     */
     @Override
     public void calculate() {
         context = new AnalysisContext(new AnalysisAnnual());
@@ -37,6 +47,11 @@ public class AnalysisSeven extends AnalysisTemplate {
 
     }
 
+    /**
+     * 
+     * @return ViewerMain object that stores Graphs
+     */
+    @Override
     public ViewerMain getViewer() {
         return this.viewer;
     }

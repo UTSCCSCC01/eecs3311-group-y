@@ -10,6 +10,13 @@ import org.jfree.chart.ChartPanel;
 import dataFetch.StoredData;
 import strategyAnalysis.AnalysisContext;
 
+/**
+ * Main that calls on factory and gets called by the analysis templates
+ * to create graphs. This stores graphs
+ * 
+ * @author Abdul, Zuhair
+ *
+ */
 public class ViewerMain {
     private ChartPanel barChart, pieChart, lineChart, scatterChart;
     private JScrollPane reportPlot;
@@ -17,6 +24,13 @@ public class ViewerMain {
     public String title;
     public String[] allowedGraphs;
 
+    /**
+     * Creates graphs and figures out which to create
+     * 
+     * @param analysis      data to create from
+     * @param title         names of graphs
+     * @param allowedGraphs which graphs are allowed to use
+     */
     public ViewerMain(ArrayList<StoredData> analysis, String title, String[] allowedGraphs) {
         this.context = analysis;
         this.title = title;
@@ -31,7 +45,7 @@ public class ViewerMain {
                 this.makeScatterChart();
             if (allowedGraphs[i].equals("Report"))
                 this.makeReport();
-            if (allowedGraphs[i].equals("Line")) {  
+            if (allowedGraphs[i].equals("Line")) {
                 this.makeLineChart();
             }
 
@@ -39,20 +53,27 @@ public class ViewerMain {
 
     }
 
+    /**
+     * 
+     * @param analysis data
+     * @param title    name of
+     */
     public ViewerMain(ArrayList<StoredData> analysis, String title) {
         // TODO Auto-generated constructor stub
         this.context = analysis;
         this.title = title;
     }
 
+    /**
+     * default
+     */
     public ViewerMain() {
         // TODO Auto-generated constructor stub
     }
-    public void getArray() {
-        for (int i = 0; i < allowedGraphs.length; i++) {
-            System.out.println(allowedGraphs[i]);
-        }
-    }
+
+    /**
+     * Make line chart
+     */
     public void makeLineChart() {
 
         ViewerFactory s = new ViewerFactory();
@@ -99,6 +120,9 @@ public class ViewerMain {
 
     }
 
+    /**
+     * Make scatter chart
+     */
     public void makeScatterChart() {
         ViewerFactory s = new ViewerFactory();
         String seriesOne = "";
@@ -143,6 +167,9 @@ public class ViewerMain {
         }
     }
 
+    /**
+     * Make pie chart
+     */
     public void makePieChart() {
         ViewerFactory s = new ViewerFactory();
         String seriesOne = "";
@@ -188,6 +215,9 @@ public class ViewerMain {
 
     }
 
+    /**
+     * Make bar chart
+     */
     public void makeBarChart() {
         ViewerFactory s = new ViewerFactory();
         String seriesOne = "";
@@ -232,6 +262,9 @@ public class ViewerMain {
         }
     }
 
+    /**
+     * Make report
+     */
     public void makeReport() {
         ViewerFactory s = new ViewerFactory();
         String seriesOne = "";
@@ -276,26 +309,46 @@ public class ViewerMain {
         }
     }
 
+    /**
+     * 
+     * @return line chart
+     */
     public ChartPanel getLine() {
         // TODO Auto-generated method stub
         return lineChart;
     }
 
+    /**
+     * 
+     * @return scatter chart
+     */
     public ChartPanel getScat() {
         // TODO Auto-generated method stub
         return scatterChart;
     }
 
+    /**
+     * 
+     * @return report
+     */
     public JScrollPane getReport() {
         // TODO Auto-generated method stub
         return reportPlot;
     }
 
+    /**
+     * 
+     * @return pie chart
+     */
     public ChartPanel getPie() {
         // TODO Auto-generated method stub
         return pieChart;
     }
 
+    /**
+     * 
+     * @return bar chart
+     */
     public ChartPanel getBar() {
         // TODO Auto-generated method stub
         return barChart;

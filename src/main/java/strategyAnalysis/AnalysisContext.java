@@ -5,37 +5,50 @@ import dataFetch.StoredData;
 
 import java.util.ArrayList;
 
-
 /**
  * Implements the Strategy Design Pattern's Context Class Class that is called
  * by the Client/UI to set and execute the strategy
+ * 
+ * @author Abdul, Jason
+ * 
  */
 public class AnalysisContext {
-	private AnalysisStrategy strategy;
+    private AnalysisStrategy strategy;
+
 //    private ParsedData data;
+    /**
+     * 
+     * @param strategy to work with
+     */
+    public AnalysisContext(AnalysisStrategy strategy) {
+        this.strategy = strategy;
+    }
 
-	public AnalysisContext(AnalysisStrategy strategy) {
-		this.strategy = strategy;
-	}
+    /**
+     * 
+     * @return Processed data
+     */
+    public ArrayList<StoredData> getData() {
+        return DataAcquisition.getDataStorage();
+    }
 
-	// Retrieves the data from the specified metadata
-	public ArrayList<StoredData> getData() {
-		return DataAcquisition.getDataStorage();
-	}
+    /**
+     * 
+     * @param strategy to set to
+     */
+    public void setStrategy(AnalysisStrategy strategy) {
+        this.strategy = strategy;
+    }
 
-	// Sets the strategy
-	public void setStrategy(AnalysisStrategy strategy) {
-		this.strategy = strategy;
-	}
+    /**
+     * process data
+     */
+    public void execute() {
+        strategy.performAnalysis(this);
+    }
 
-	// Executes the strategy
-	public void execute() {
-		strategy.performAnalysis(this);
-	}
-
-	public ArrayList<StoredData> getAnalysis() {
-		return strategy.getAnalysis();
-	}
-
+    public ArrayList<StoredData> getAnalysis() {
+        return strategy.getAnalysis();
+    }
 
 }

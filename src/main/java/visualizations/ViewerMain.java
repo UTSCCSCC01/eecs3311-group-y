@@ -359,4 +359,19 @@ public class ViewerMain {
         
     }
 
+    // Retrieves the ViewerMain objects allowed graphs
+    public String[] getGraphs(){
+        return this.allowedGraphs;
+    }
+
+    // Retrieves the title of the ViewerMain object
+    public String getTitle(){
+        return this.title;
+    }
+
+    // Retrieves the AnalysisList of the ViewerMain Object
+    public ArrayList<StoredData> getAnalysisList(){
+        return this.context;
+    }
+
 }

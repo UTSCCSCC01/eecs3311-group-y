@@ -20,7 +20,7 @@ public class AnalysisRatio implements AnalysisStrategy {
      */
     @Override
     public void performAnalysis(AnalysisContext analysisContext) {
-
+        ArrayList<StoredData> restemp = new ArrayList<>();
         if (analysisContext.getData().size() % 2 == 0) {
             StoredData data = analysisContext.getData().get(0);
             StoredData data2 = analysisContext.getData().get(1);
@@ -69,11 +69,12 @@ public class AnalysisRatio implements AnalysisStrategy {
                 }
             }
 
-            res.add(calData);
+            restemp.add(calData);
         } else {
             throw new IllegalArgumentException("There must be two pieces of data for ratios");
         }
-
+        setAnalysis(restemp);
+        
     }
 
     /**

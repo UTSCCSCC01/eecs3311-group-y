@@ -476,7 +476,10 @@ public class MainUI extends JFrame implements ActionListener {
                 observerUpdate();
             }
         } else if (e.getSource() == analysisData) {
-            updateRecalculate();
+            if (analysisData.getSelectedIndex() >= 0) {
+                System.out.println(analysisData.getSelectedIndex() + "here");
+                updateRecalculate();
+            }
         }
     }
 
@@ -510,7 +513,15 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void updateRecalculate() {
-        System.out.println(analysisData.getSelectedItem().toString()); 
+        System.out.println(analysisData.getSelectedItem().toString());
+        if (!analysisData.getSelectedItem().toString().equals(" ")
+                && !countryData.getSelectedItem().toString().equals(" ")
+                && !startYearData.getSelectedItem().toString().equals(" ")
+                && !endYearData.getSelectedItem().toString().equals(" ")) {
+            recalculateButton.setEnabled(true);
+        } else {
+            return;
+        }
     }
 
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
@@ -526,14 +537,12 @@ public class MainUI extends JFrame implements ActionListener {
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
             if (valid) {
-                System.out.println("valid");
+
                 validAnalysis.add(entry.getKey());
             } else {
-                System.out.println("invalid");
             }
         }
         analysisData.removeAllItems();
-        analysisData.addItem("");
         for (int i = 0; i < validAnalysis.size(); i++) {
             analysisData.addItem(validAnalysis.get(i));
         }
@@ -541,6 +550,7 @@ public class MainUI extends JFrame implements ActionListener {
             analysisData.addItem("No valid analysis");
             recalculateButton.setEnabled(false);
         }
+        analysisData.setSelectedIndex(0);
     }
 
     public void updateDates(String selectedStartYear, String selectedEndYear, int countryIndex) {
@@ -559,13 +569,13 @@ public class MainUI extends JFrame implements ActionListener {
         System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
         if (selectedStartYear.equals(selectedEndYear)) {
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(endYearData.getItemCount()-1);
+            endYearData.setSelectedIndex(endYearData.getItemCount() - 1);
         } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
             JOptionPane.showMessageDialog(mainFrame,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error
                                                                                                                   // message
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(endYearData.getItemCount()-1);
+            endYearData.setSelectedIndex(endYearData.getItemCount() - 1);
         } else {
             startYearData.setSelectedItem(selectedStartYear);
             endYearData.setSelectedItem(selectedEndYear);

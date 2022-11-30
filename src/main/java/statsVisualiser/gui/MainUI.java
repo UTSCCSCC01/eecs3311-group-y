@@ -401,16 +401,15 @@ public class MainUI extends JFrame implements ActionListener {
 
     private JPanel panelForGraph;
     private JPanel[][] secPanel = new JPanel[viewsAvaliable.length][viewsAvaliable.length];
-    String[] analysisTypes = { 
-        "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
-        "Annual Change in GDP per Capita and Total Population",
-        "Average Energy Use",
-        "Average Forested Area",
-        "Ratio of CO2 Emissions and GDP per capita",
-        "Ratio of Population to Energy Use",
-        "Ratio of GDP and Renewable Energy Output",
-        "Annual Change of Health Costs vs Air Pollution"};
-
+    String[] analysisTypes = {
+            "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
+            "Annual Change in GDP per Capita and Total Population",
+            "Average Energy Use",
+            "Average Forested Area",
+            "Ratio of CO2 Emissions and GDP per capita",
+            "Ratio of Population to Energy Use",
+            "Ratio of GDP and Renewable Energy Output",
+            "Annual Change of Health Costs vs Air Pollution" };
 
     private void populateData() throws Exception {
         years_tmp = new ArrayList<String>();
@@ -472,11 +471,12 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
         if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) {
             if (countryData.getSelectedIndex() != 0) {
                 observerUpdate();
             }
+        } else if (e.getSource() == analysisData) {
+            updateRecalculate();
         }
     }
 
@@ -494,10 +494,10 @@ public class MainUI extends JFrame implements ActionListener {
         if (countryNull == false) {
             updateDates(selectedStartYear, selectedEndYear, countryIndex);
             updateAnalysis(selectedStartYear, selectedEndYear, countryIndex);
-            updateRecalculate(); 
+            updateRecalculate();
         } else {
             JOptionPane.showMessageDialog(null, "No data for this country");
-            countryData.setSelectedIndex(0); 
+            countryData.setSelectedIndex(0);
         }
     }
 
@@ -508,9 +508,11 @@ public class MainUI extends JFrame implements ActionListener {
         }
         return false;
     }
-    public void updateRecalculate() { 
 
+    public void updateRecalculate() {
+        System.out.println(analysisData.getSelectedItem().toString()); 
     }
+
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
@@ -557,13 +559,13 @@ public class MainUI extends JFrame implements ActionListener {
         System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
         if (selectedStartYear.equals(selectedEndYear)) {
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(1);
+            endYearData.setSelectedIndex(endYearData.getItemCount()-1);
         } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
             JOptionPane.showMessageDialog(mainFrame,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error
                                                                                                                   // message
             startYearData.setSelectedIndex(0);
-            endYearData.setSelectedIndex(1);
+            endYearData.setSelectedIndex(endYearData.getItemCount()-1);
         } else {
             startYearData.setSelectedItem(selectedStartYear);
             endYearData.setSelectedItem(selectedEndYear);

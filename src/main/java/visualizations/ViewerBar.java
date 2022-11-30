@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jfree.chart.ChartPanel;
@@ -22,7 +23,7 @@ import dataFetch.*;
 import strategyAnalysis.*;
 import templateAnalysis.AnalysisOne;
 
-public class ViewerBar extends JFrame implements Viewer {
+public class ViewerBar extends JPanel implements Viewer {
     private StoredData data, data2, data3;
     private String title;
     private String series1;
@@ -36,11 +37,10 @@ public class ViewerBar extends JFrame implements Viewer {
     private CategoryPlot plot;
     private String seriesName, seriesName2, seriesName3;
 
-    
     public ViewerBar() {
-        
+
     }
-    
+
     // ArrayList<StoredData> dataStorage, String title, String xLabel, String
     // yLabel, String yLabel2, String seriesName,
     // String seriesName2, String seriesName3
@@ -138,7 +138,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-               // seeExample();
+                // seeExample();
                 break;
             case 2:
                 dataset = new DefaultCategoryDataset();
@@ -165,7 +165,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-               // seeExample();
+                // seeExample();
 
                 break;
             case 3:
@@ -205,7 +205,7 @@ public class ViewerBar extends JFrame implements Viewer {
 
                 createChart();
                 // to see uncomment this and the code in main
-                //seeExample();
+                // seeExample();
 
                 break;
 
@@ -232,13 +232,8 @@ public class ViewerBar extends JFrame implements Viewer {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
         add(chartPanel);
-        setContentPane(chartPanel);
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
     }
-    
+
     public void viewPanel(ChartPanel chartPanel) {
         BarRenderer br = new BarRenderer();
 
@@ -246,57 +241,54 @@ public class ViewerBar extends JFrame implements Viewer {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         chartPanel.setBackground(Color.white);
         add(chartPanel);
-        setContentPane(chartPanel);
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
-    
+
     public void viewPanelScroll(JScrollPane outputScrollPane) {
         add(outputScrollPane);
-
-        pack();
-
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);;
     }
 
-//    public static void main(String[] args) {
-//        //String[][] ab = { { "EG.USE.PCAP.KG.OE" } };
-//        String c = "USA";
-//        String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" } };
-//        DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
-//        // title will later be changed to whatever the analysis is
-//       // ViewerBar tt = new ViewerBar(test.dataStorage.get(0), "Years", "Values", "Title", c);
-//        //System.out.println(test.getDataStorage().get(0).getSeriesIndicator());
-//        System.out.println(test.getDataStorage().get(0).get(0).getSeriesIndicator());
-//
-//    }
+    // public static void main(String[] args) {
+    // //String[][] ab = { { "EG.USE.PCAP.KG.OE" } };
+    // String c = "USA";
+    // String[][] a = { { "SP.DYN.IMRT.IN", "SH.XPD.CHEX.PC.CD", "SH.MED.BEDS.ZS" }
+    // };
+    // DataAcquisition test = new DataAcquisition(a[0], c, "2010", "2017");
+    // // title will later be changed to whatever the analysis is
+    // // ViewerBar tt = new ViewerBar(test.dataStorage.get(0), "Years", "Values",
+    // "Title", c);
+    // //System.out.println(test.getDataStorage().get(0).getSeriesIndicator());
+    // System.out.println(test.getDataStorage().get(0).get(0).getSeriesIndicator());
+    //
+    // }
 
     public static void main(String[] args) throws IOException {
-//		String[][] indicatorList = new String[][] { 
-//		    { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-//				{ "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" }, { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" }, { "AG.LND.FRST.ZS" },
-//				{ "SE.XPD.TOTL.GD.ZS" }, { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-//				{ "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-//				{ "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" }, };
-//		String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-//		String cc = "USA";
-////      DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
+        // String[][] indicatorList = new String[][] {
+        // { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
+        // { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" }, { "EN.ATM.CO2E.PC",
+        // "NY.GDP.PCAP.CD" }, { "AG.LND.FRST.ZS" },
+        // { "SE.XPD.TOTL.GD.ZS" }, { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
+        // { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
+        // { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" }, };
+        // String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
+        // String cc = "USA";
+        //// DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
 
-		String country_code = "USA";
+        String country_code = "USA";
 
-		DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, "USA", "2013", "2020");
-//      DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-		ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-		AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
-		context.setStrategy(new AnalysisAnnual());
-		context.execute();
+        DataAcquisition dp1 = new DataAcquisition(
+                new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" }, "USA", "2013", "2020");
+        // DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code,
+        // "2015", "2020");
+        ArrayList<StoredData> data = DataAcquisition.getDataStorage();
+        AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
+        context.setStrategy(new AnalysisAnnual());
+        context.execute();
 
-		ViewerFactory s = new ViewerFactory();
-		ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc",
-				country_code);
-		d.setVisible(true);
-
+        ViewerFactory s = new ViewerFactory();
+        ViewerBar d = (ViewerBar) s.CreateViewerFactory("Bar", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc",
+                country_code);
+        d.setVisible(true);
 
     }
 }

@@ -45,13 +45,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.block.GridArrangement;
 import org.jfree.chart.renderer.category.BarRenderer;
 
 public class MainUI extends JFrame implements ActionListener {
 
-    private JFrame mainFrame;
     private JPanel topPanel;
     private JPanel bottomPanel;
+    private JPanel middlePanel; // middle panel
 
     private CountryStorage countryDB;
     private JLabel countrySelectionLabel;
@@ -66,6 +67,7 @@ public class MainUI extends JFrame implements ActionListener {
     private JLabel loading;
     TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
     boolean manualUpdate = false;
+    ViewerMain viewer = new ViewerMain();
     private JComboBox<String> countryData;
     private JComboBox<String> startYearData;
     private JComboBox<String> endYearData;
@@ -78,235 +80,6 @@ public class MainUI extends JFrame implements ActionListener {
     private String[] viewsAvaliable = { "Pie", "Line", "Bar", "Scatter", "Report" };
     private HashMap<String, String> analysisIndicators = new HashMap<String, String>();
 
-    private static final long serialVersionUID = 1L;
-
-    public static void main(String[] args) throws Exception {
-        String c = "USA";
-        String[][] a = { { "SH.MED.BEDS.ZS", "SH.XPD.CHEX.PC.CD", "SP.DYN.IMRT.IN" } };
-
-        // DataAcquisition test = new DataAcquisition(a[0], c, "2014", "2018");
-        //
-        // Viewer_Report tt = new Viewer_Report(test.dataStorage, "Title");
-        // JScrollPane temp = tt.getPanel();
-        //
-        // Viewer_Scatter tt2 = new Viewer_Scatter(test.dataStorage, "Years", "Values",
-        // "Title");
-        // ChartPanel temp2 = tt2.getChart();
-
-        //
-        // s.panelForGraph.add(temp);
-        // s.panelForGraph.add(temp2);
-        // s.panelForGraph.revalidate();
-        boolean userClick = false;
-
-        TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
-        mapToPopulate.put("Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
-                new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" });
-        mapToPopulate.put("Annual Change in GDP per Capita and Total Population",
-                new String[] { "NY.GDP.PCAP.CD", "SP.POP.TOTL" });
-        mapToPopulate.put("Average Government Expenditure Education", new String[] { "SE.XPD.TOTL.GD.ZS" });
-        mapToPopulate.put("Average Forested Area",
-                new String[] { "AG.LND.FRST.ZS" });
-        mapToPopulate.put("Ratio of CO2 Emissions and GDP per capita",
-                new String[] { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" });
-        mapToPopulate.put("Ratio of Population to Energy Use",
-                new String[] { "SP.POP.TOTL", "EG.USE.PCAP.KG.OE" });
-        mapToPopulate.put("Annual Change of Health Costs vs Air Pollution",
-                new String[] { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" });
-        mapToPopulate.put("Ratio of GDP and Renewable Energy Output",
-                new String[] { "NY.GDP.PCAP.CD", "EG.ELC.RNEW.ZS" });
-
-        String selectedAnalysis = "Average Forested Area";
-        String selectedCountry = "USA";
-        String startYear = "2000";
-        String endYear = "2020";
-
-        ViewerBar sd = new ViewerBar();
-
-        DataAcquisition dp4 = new DataAcquisition(mapToPopulate.get(selectedAnalysis), selectedCountry, startYear,
-                endYear);
-        AnalysisOne s = null;
-        AnalysisTwo s2 = null;
-        AnalysisThree s3 = null;
-        AnalysisFour s4 = null;
-        AnalysisFive s5 = null;
-        AnalysisSix s6 = null;
-        AnalysisSeven s7 = null;
-        AnalysisEight s8 = null;
-        ViewerMain viewer = new ViewerMain();
-        switch (selectedAnalysis) {
-            case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
-                // code block
-                s = new AnalysisOne();
-                s.calculate();
-                viewer = s.getViewer();
-                break;
-            case "Annual Change in GDP per Capita and Total Population":
-                // code block
-                s2 = new AnalysisTwo();
-                s2.calculate();
-                viewer = s2.getViewer();
-                break;
-            case "Average Forested Area":
-                // code block
-                s3 = new AnalysisThree();
-                s3.calculate();
-                viewer = s3.getViewer();
-                break;
-            case "Ratio of CO2 Emissions and GDP per capita":
-                // code block
-                s4 = new AnalysisFour();
-                s4.calculate();
-                viewer = s4.getViewer();
-                break;
-            case "Average Government Expenditure Education":
-                // code block
-                s5 = new AnalysisFive();
-                s5.calculate();
-                viewer = s5.getViewer();
-                break;
-            case "Ratio of Population to Energy Use":
-                // code block
-                s6 = new AnalysisSix();
-                s6.calculate();
-                viewer = s6.getViewer();
-                break;
-            case "Annual Change of Health Costs vs Air Pollution":
-                // code block
-                s7 = new AnalysisSeven();
-                s7.calculate();
-                viewer = s7.getViewer();
-                break;
-            case "Ratio of GDP and Renewable Energy Output":
-                // code block
-                s8 = new AnalysisEight();
-                s8.calculate();
-                viewer = s8.getViewer();
-                break;
-            default:
-                System.out.println("Nothing");
-        }
-
-        viewer.makeLineChart();
-        ChartPanel d = viewer.getLine();
-        // sd.viewPanel(d);
-        ChartPanel d3 = viewer.getBar();
-        // sd.viewPanel(d3);
-        ChartPanel d4 = viewer.getScat();
-        // sd.viewPanel(d4);
-        ChartPanel d5 = viewer.getPie();
-        sd.viewPanel(d5);
-        JScrollPane d2 = viewer.getReport();
-        // sd.viewPanelScroll(d2);
-        sd.setVisible(true);
-
-        //
-
-        // Average: Report and Pie
-        // Annual: Report, Line, Scatter
-        // Ratio: Report, Line, Bar, Scatter
-
-    }
-
-    public void seeExample(ChartPanel chartPanel) {
-        BarRenderer br = new BarRenderer();
-
-        br.setMaximumBarWidth(.35);
-        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        chartPanel.setBackground(Color.white);
-        add(chartPanel);
-        setContentPane(chartPanel);
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    }
-
-    public static StoredData average(StoredData data) {
-        StoredData res = new StoredData(data.getInd());
-        float r = 0;
-        int sizeOfResults = data.getValues().size() - 1;
-        for (int i = 0; i < sizeOfResults; i++) {
-            r = r + (data.getValues().get(i));
-        }
-        if (sizeOfResults > 0)
-            r = r / sizeOfResults;
-
-        res.getYears().add(data.getYears().get(sizeOfResults));
-        res.getValues().add(r);
-        return res;
-    }
-
-    public static StoredData calculateRatio(StoredData data, StoredData data2) {
-        int small;
-        String ratioLine = "Ratio of " + data.getSeriesName() + " and " + data2.getSeriesName();
-        String indLine = data.getInd() + "&" + data2.getInd();
-        StoredData calData = new StoredData(indLine, ratioLine);
-        ArrayList<Integer> dataYears = data.getYears();
-        ArrayList<Integer> data2Years = data2.getYears();
-        ArrayList<Float> dataValues = data.getValues();
-        ArrayList<Float> data2Values = data2.getValues();
-        ArrayList<Integer> tempDataYear;
-        ArrayList<Integer> tempData2Year;
-        Integer year;
-
-        if (dataYears.size() < data2Years.size()) {
-            small = dataYears.size();
-            tempDataYear = dataYears;
-            tempData2Year = data2Years;
-        } else if (dataYears.size() > data2Years.size()) {
-            small = data2Years.size();
-            tempDataYear = data2Years;
-            tempData2Year = dataYears;
-        } else {
-            small = data2Years.size();
-            tempDataYear = data2Years;
-            tempData2Year = dataYears;
-        }
-
-        for (int i = 0; i < small; i++) {
-            year = tempDataYear.get(i);
-
-            if (tempData2Year.contains(year)) {
-                if (tempDataYear == dataYears) {
-                    int j = data2Years.indexOf(year);
-                    float ratio = dataValues.get(i) / data2Values.get(j);
-                    calData.getValues().add(ratio);
-                    calData.getYears().add(year);
-                } else {
-                    int j = dataYears.indexOf(year);
-                    float ratio = dataValues.get(j) / data2Values.get(i);
-                    calData.getValues().add(ratio);
-                    calData.getYears().add(year);
-                }
-            }
-        }
-        return calData;
-    }
-
-    public static ArrayList<StoredData> annualPercentageCalculator(ArrayList<StoredData> data) {
-        ArrayList<StoredData> temp = new ArrayList<StoredData>();
-
-        for (int i = 0; i < data.size(); i++) {
-            StoredData resultData = new StoredData(data.get(i).getInd());
-            int endYear = data.get(i).getEndYear();
-            int sizeOfResults = data.get(i).getValues().size() - 1;
-            for (int j = 0; j < sizeOfResults; j++) {
-                Float tempForMath = data.get(i).getValues().get(j) - data.get(i).getValues().get(j + 1);
-                Float tempFloat = tempForMath / data.get(i).getValues().get(j + 1) * 100;
-
-                resultData.getYears().add(endYear - j);
-
-                resultData.getValues().add(tempFloat);
-            }
-            temp.add(resultData);
-
-        }
-
-        return temp;
-
-    }
-
     private static MainUI instance;
 
     public static MainUI getInstance() throws Exception {
@@ -315,21 +88,23 @@ public class MainUI extends JFrame implements ActionListener {
 
         return instance;
     }
-
     private MainUI() throws Exception {
-        mainFrame = new JFrame();
-        mainFrame.setSize(1300, 750);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(1300, 750);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // jpanel creation
         topPanel = new JPanel();
         bottomPanel = new JPanel();
+        middlePanel = new JPanel();
         bottomPanel.setBackground(Color.GRAY);
-        bottomPanel.setPreferredSize(new Dimension(10, 50));
+        bottomPanel.setPreferredSize(new Dimension(1300, 50));
         topPanel.setBackground(Color.GRAY);
-        topPanel.setPreferredSize(new Dimension(10, 50));
-        mainFrame.add(topPanel, BorderLayout.NORTH);
-        mainFrame.add(bottomPanel, BorderLayout.SOUTH);
+        topPanel.setPreferredSize(new Dimension(1300, 50));
+        middlePanel.setPreferredSize(new Dimension(1300, 500));
+        middlePanel.setLayout(new GridLayout(2, 3));
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(middlePanel, BorderLayout.CENTER);
+        this.add(bottomPanel, BorderLayout.SOUTH);
 
         // labels
         analysisLabels = new JLabel("Choose analysis method: ");
@@ -341,7 +116,9 @@ public class MainUI extends JFrame implements ActionListener {
 
         // buttons
         addButton = new JButton("+");
+        addButton.setEnabled(false);
         removeButton = new JButton("-");
+        removeButton.setEnabled(false);
         recalculateButton = new JButton("Recalculate");
         recalculateButton.setEnabled(false);
 
@@ -375,13 +152,12 @@ public class MainUI extends JFrame implements ActionListener {
         recalculateButton.addActionListener(this);
         countryData.addActionListener(this);
 
-        mainFrame.setVisible(true);
+        this.setVisible(true);
+        this.setTitle("Main Stats Page");
         loading.setVisible(false);
-        panelForGraph = new JPanel(new GridLayout(4, 4));
-        panelForGraph.setVisible(true);
-        panelForGraph.revalidate();
-        mainFrame.add(panelForGraph, BorderLayout.CENTER);
-        mainFrame.revalidate();
+        this.setLocationRelativeTo(null);
+        this.pack(); 
+        this.revalidate();
 
     }
 
@@ -393,8 +169,6 @@ public class MainUI extends JFrame implements ActionListener {
 
     };
 
-    private JPanel panelForGraph;
-    private JPanel[][] secPanel = new JPanel[viewsAvaliable.length][viewsAvaliable.length];
     String[] analysisTypes = {
             "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
             "Annual Change in GDP per Capita and Total Population",
@@ -465,8 +239,6 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println("IT WAS ACTIONED AGAIN AHHHHHHHHHH");
-        viewerData.removeAllItems();
         if (e.getSource() == countryData || e.getSource() == startYearData || e.getSource() == endYearData) {
             if (countryData.getSelectedIndex() != 0) {
                 if (manualUpdate == false) {
@@ -475,16 +247,17 @@ public class MainUI extends JFrame implements ActionListener {
             }
         } else if (e.getSource() == analysisData) {
             if (analysisData.getSelectedIndex() >= 0) {
-                System.out.println(analysisData.getSelectedIndex() + "here");
                 updateRecalculate();
             }
         } else if (e.getSource() == recalculateButton) {
             recalculateButton();
         }
+        if (e.getSource() == addButton) {
+            addGraph();
+        }
     }
 
     public void observerUpdate() {
-        System.out.println("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH IT WAS CALLED AGAIN FOR SOME REASON");
         int countryIndex = 0; // index of the country in the countryDB
         String selectedStartYear = "";
         String selectedEndYear = "";
@@ -495,12 +268,8 @@ public class MainUI extends JFrame implements ActionListener {
             }
         }
         if (startYearData.getSelectedItem().equals("") || endYearData.getSelectedItem().equals("")) {
-            System.out.println(countryDB.getCountryStorageList().get(countryIndex).getStartYear());
-            System.out.println(countryDB.getCountryStorageList().get(countryIndex).getEndYear());
             selectedStartYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear() + "";
             selectedEndYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear() + "";
-            System.out.println(selectedStartYear);
-            System.out.println(selectedEndYear);
 
         } else {
             selectedStartYear = startYearData.getSelectedItem().toString();
@@ -519,15 +288,15 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public boolean checkNullCountry(int countryIndex) {
-        System.out.println(countryDB.getCountryStorageList().get(countryIndex).getCountryCode());
         if (countryDB.getCountryStorageList().get(countryIndex).getCountryCode().equals("NA")) {
             return true;
         }
         return false;
     }
-
+    public void removeGraph() { 
+        middlePanel.remove(bottomPanel);
+    }
     public void updateRecalculate() {
-        System.out.println(analysisData.getSelectedItem().toString());
         if (!analysisData.getSelectedItem().toString().equals(" ")
                 && !analysisData.getSelectedItem().toString().equals("No valid analysis")
                 && !countryData.getSelectedItem().toString().equals(" ")
@@ -540,11 +309,7 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void recalculateButton() {
-        ViewerBar sd = new ViewerBar();
-
-        DataAcquisition dp4 = new DataAcquisition(mapToPopulate.get(analysisData.getSelectedItem().toString()),
-                countryData.getSelectedItem().toString(), startYearData.getSelectedItem().toString(),
-                endYearData.getSelectedItem().toString());
+        viewerData.removeAllItems();
         AnalysisOne s = null;
         AnalysisTwo s2 = null;
         AnalysisThree s3 = null;
@@ -553,7 +318,6 @@ public class MainUI extends JFrame implements ActionListener {
         AnalysisSix s6 = null;
         AnalysisSeven s7 = null;
         AnalysisEight s8 = null;
-        ViewerMain viewer = new ViewerMain();
         switch (analysisData.getSelectedItem().toString()) {
             case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
                 // code block
@@ -629,21 +393,39 @@ public class MainUI extends JFrame implements ActionListener {
                 }
                 break;
             default:
-                System.out.println("Nothing");
         }
 
+        addButton.setEnabled(true);
+
+    }
+
+    public void addGraph() {
         viewer.makeLineChart();
         ChartPanel d = viewer.getLine();
-        // sd.viewPanel(d);
-        ChartPanel d3 = viewer.getBar();
-        // sd.viewPanel(d3);
-        ChartPanel d4 = viewer.getScat();
-        // sd.viewPanel(d4);
-        ChartPanel d5 = viewer.getPie();
-        // sd.viewPanel(d5);
-        JScrollPane d2 = viewer.getReport();
-        // sd.viewPanelScroll(d2);
-        sd.setVisible(true);
+        ChartPanel d2 = viewer.getBar();
+        ChartPanel d3 = viewer.getScat();
+        ChartPanel d4 = viewer.getPie();
+        JScrollPane d5 = viewer.getReport();
+
+        if (viewerData.getSelectedItem().toString().equals("Line")) {
+            d.setPreferredSize(new Dimension(260, 150));
+            middlePanel.add(d);
+        } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
+            d2.setPreferredSize(new Dimension(260, 150));
+            middlePanel.add(d2, BorderLayout.EAST);
+        } else if (viewerData.getSelectedItem().toString().equals("Scatter")) {
+            d3.setPreferredSize(new Dimension(260, 150));
+            middlePanel.add(d3);
+        } else if (viewerData.getSelectedItem().toString().equals("Pie")) {
+            d4.setPreferredSize(new Dimension(260, 150));
+            middlePanel.add(d4);
+        } else if (viewerData.getSelectedItem().toString().equals("Report")) {
+            d5.setPreferredSize(new Dimension(260, 150));
+            middlePanel.add(d5);
+        }
+        this.add(middlePanel, BorderLayout.CENTER);
+        this.validate();
+        System.out.println(middlePanel.getComponents());
 
         //
 
@@ -657,12 +439,9 @@ public class MainUI extends JFrame implements ActionListener {
 
         analysisData.removeAllItems();
         for (Entry<String, String[]> entry : mapToPopulate.entrySet()) {
-            System.out.println(entry.getKey());
-            System.out.println(entry.getValue()[0]);
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
-            System.out.println(valid);
             boolean annualValid = DataAcquisition.ifSelectedIsAnnual(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
@@ -694,14 +473,13 @@ public class MainUI extends JFrame implements ActionListener {
         years_tmpCopy = new ArrayList<String>(years_tmp);
         startYearData.setModel(new DefaultComboBoxModel<String>(years_tmp.toArray(new String[years_tmp.size()])));
         endYearData.setModel(new DefaultComboBoxModel<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])));
-        System.out.println(selectedStartYear.equals(" ") && selectedEndYear.equals(" "));
         if (selectedStartYear.equals(selectedEndYear)) {
             manualUpdate = true;
             startYearData.setSelectedIndex(0);
             endYearData.setSelectedIndex(startYearData.getSelectedIndex() + 1);
             manualUpdate = false;
         } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
-            JOptionPane.showMessageDialog(mainFrame,
+            JOptionPane.showMessageDialog(this,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error
                                                                                                                   // message
             manualUpdate = true;

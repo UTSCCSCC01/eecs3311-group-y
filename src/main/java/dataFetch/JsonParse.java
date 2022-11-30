@@ -3,8 +3,20 @@ package dataFetch;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonParser;
 
+/**
+ * Parses input text into Json that can be worked with
+ * 
+ * 
+ * @author Abdul
+ *
+ */
 public class JsonParse {
 
+    /**
+     * 
+     * @param parsedText to parse to Json
+     * @return JsonArray of parsed Json
+     */
     public static JsonArray parseToJson(String parsedText) {
         JsonArray jsonStore = null;
         try {

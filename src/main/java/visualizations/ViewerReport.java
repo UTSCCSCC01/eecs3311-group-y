@@ -17,28 +17,42 @@ import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 import strategyAnalysis.*;
 
-public class ViewerReport extends JFrame implements Viewer{
+/**
+ * Creates report and implements Viewer for
+ * factory pattern
+ * 
+ * @author Abdul, Zuhair
+ *
+ */
+public class ViewerReport extends JFrame implements Viewer {
 
     JScrollPane outputScrollPane;
     ArrayList<StoredData> dataStorage;
     String title;
-    
 
-    public ViewerReport(ArrayList<StoredData> dataStorage2, String title) throws IOException {
+    /**
+     * Creates report
+     * 
+     * @param dataStorage data to create report from
+     * @param title       name of report
+     */
+    public ViewerReport(ArrayList<StoredData> dataStorage2, String title) {
         this.dataStorage = dataStorage2;
         this.title = title;
         populate();
 
     }
 
+    /**
+     * populate report using TreeMaps
+     */
     public void populate() {
         ArrayList<String> names = new ArrayList<String>();
         for (int i = 0; i < dataStorage.size(); i++) {
             names.add(dataStorage.get(i).getSeriesName());
 
         }
-        
-        
+
         TreeMap<Integer, HashMap<String, Float>> mapToPopulate = new TreeMap<Integer, HashMap<String, Float>>();
 
         StringBuilder finalMessage = new StringBuilder();
@@ -94,9 +108,12 @@ public class ViewerReport extends JFrame implements Viewer{
         outputScrollPane.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 // Bottom is to see it in main
-         
+
     }
-    
+
+    /**
+     * see report
+     */
     public void seeExample() {
         add(outputScrollPane);
 
@@ -105,40 +122,12 @@ public class ViewerReport extends JFrame implements Viewer{
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * 
+     * @return report
+     */
     public JScrollPane getPanel() {
         return this.outputScrollPane;
-    }
-
-    public static void main(String[] args) throws IOException {
-        String[][] indicatorList = new String[][] {
-            { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-            { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" },
-            { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" },
-            { "AG.LND.FRST.ZS" },
-            { "SE.XPD.TOTL.GD.ZS" },
-            { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-            { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-            { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" },
-    };
-    String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-    String cc = "USA";
-//  DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
-
-    String country_code = "CA";
-
-    DataAcquisition dp1 = new DataAcquisition(indicatorList[2], country_code, "2015", "2020");
-//  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-    ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-    AnalysisContext context = new AnalysisContext(new AnalysisAverage());
-    context.setStrategy(new AnalysisAverage());
-//  context.setStrategy(new Ratio());
-    context.execute();
-
-    ViewerFactory s = new ViewerFactory();
-    ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc", country_code);
-   // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
-    d.setVisible(true);
-
     }
 
 }

@@ -3,6 +3,14 @@ package dataFetch;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ * StoredData object which has the data for each called Indicator
+ * Has ArrayList of Year and Value which correspond to each other
+ * 
+ * @author Abdul
+ *
+ */
 public class StoredData {
 
     String seriesIndicator;
@@ -13,6 +21,19 @@ public class StoredData {
     HashMap<String, String> analysisIndicators = new HashMap<String, String>();
     HashMap<String, String> axisLabels = new HashMap<String, String>();
 
+    /**
+     * Default constructor
+     */
+    public StoredData() {
+
+    }
+
+    /**
+     * 
+     * @param ind        the indicator value for data
+     * @param yearvalues ArrayList of the values
+     * @param years      ArrayList of the years
+     */
     public StoredData(String ind, ArrayList<Float> yearvalues, ArrayList<Integer> years) {
         this.seriesIndicator = ind;
         this.yearvalues = yearvalues;
@@ -25,26 +46,29 @@ public class StoredData {
 
     }
 
-    public StoredData() {
-        
-    }
-    
-    
+    /**
+     * 
+     * @param ind        the indicator value for data
+     * @param seriesName the name of the series based off indicator
+     */
     public StoredData(String ind, String seriesName) {
         populate();
         this.years = new ArrayList<Integer>();
         this.yearvalues = new ArrayList<Float>();
         this.seriesName = seriesName;
         this.seriesIndicator = ind;
-        
+
         if (analysisIndicators.containsKey(ind))
             this.seriesName = analysisIndicators.get(ind);
         else
             this.seriesName = seriesName;
-        
 
-	}
+    }
 
+    /**
+     * 
+     * @param ind the indicator value for data
+     */
     public StoredData(String ind) {
         populate();
         this.years = new ArrayList<Integer>();
@@ -55,11 +79,13 @@ public class StoredData {
             this.seriesName = analysisIndicators.get(ind);
         else
             this.seriesName = "Cannot Findo";
-        
-        
-	}
-    
-	private void populate() {
+
+    }
+
+    /**
+     * Populates map of analysis indicators for lookup
+     */
+    private void populate() {
         analysisIndicators.put("SP.POP.TOTL", "Total Population");
         analysisIndicators.put("EN.ATM.CO2E.PC", "CO2 emissions (metric tons per capita)");
         analysisIndicators.put("EN.ATM.PM25.MC.M3",
@@ -80,6 +106,9 @@ public class StoredData {
 
     }
 
+    /**
+     * Converts Stored Data to String
+     */
     public String toString() {
         String toReturn = "";
         for (int i = 0; i < years.size(); i++) {
@@ -88,32 +117,60 @@ public class StoredData {
         return toReturn;
     }
 
+    /**
+     * 
+     * @return yearvalues ArrayList of values
+     */
     public ArrayList<Float> getValues() {
         return this.yearvalues;
     }
 
+    /**
+     * 
+     * @return years ArrayList of years
+     */
     public ArrayList<Integer> getYears() {
         return this.years;
     }
 
+    /**
+     * 
+     * @return Start Year
+     */
     public int getStartYear() {
         return Integer.valueOf(this.years.get(this.years.size() - 1));
     }
 
+    /**
+     * 
+     * @return End Year
+     */
     public int getEndYear() {
         return Integer.valueOf(this.years.get(0));
     }
-    
+
+    /**
+     * 
+     * @return Name of Series
+     */
     public String getSeriesName() {
         return this.seriesName;
     }
-    
+
+    /**
+     * 
+     * @param series to set to
+     */
     public void setSeriesName(String name) {
         this.seriesName = name;
     }
 
+    /**
+     * 
+     * @return series Indicator
+     */
     public String getInd() {
         return this.seriesIndicator;
     }
-    
+
 }

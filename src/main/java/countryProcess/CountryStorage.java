@@ -7,14 +7,24 @@ import java.util.Map;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-
+/**
+ * Creates Country Database/Storage list 
+ * Stores every country from JSON database of countries
+ * 
+ * @author Abdul, Zuhair 
+ *
+ */
 public class CountryStorage {
 
     ArrayList<Country> countryStorageList = new ArrayList<>();
     String[] country = new String[4];
-
+    /**
+     * Populates countryStorageList with country object
+     * 
+     * @param fileName file to get data from
+     * @throws Exception if file not found or cannot parse
+     */
     public CountryStorage(String fileName) throws Exception {
-        System.out.println(fileName);
         String json = readFileAsString("src/assets/Countries.json");
 
         JsonArray jsonStore = JsonParser.parseString(json).getAsJsonArray();
@@ -41,14 +51,29 @@ public class CountryStorage {
 
     }
 
+    /**
+     * static method to read the file as a string 
+     * 
+     * @param Name of file to read from
+     * @return Parsed file as string
+     * @throws Exception If file not found
+     */
     public static String readFileAsString(String file) throws Exception {
         return new String(Files.readAllBytes(Paths.get(System.getProperty("user.dir") + "/" + file)));
     }
-
+    
+    /**
+     * 
+     * @return ArrayList of Countries 
+     */
     public ArrayList<Country> getCountryStorageList() {
         return this.countryStorageList;
     }
-
+    
+    /**
+     * 
+     * @param countryStorageList to set current storageList to
+     */
     public void setCountryStorageList(ArrayList<Country> countryStorageList) {
         this.countryStorageList = countryStorageList;
     }

@@ -90,10 +90,15 @@ public class MainUI extends JFrame implements ActionListener {
 //
 //        s.panelForGraph.add(temp);
 //        s.panelForGraph.add(temp2);
+
+        Boolean dp2 = DataAcquisition.checkIfValidData(new String[] { "AG.LND.FRST.ZS" }, 
+                "ALB", "1962", "1963");
+        System.out.println(dp2);
+
         String[] analysisTypes = {
                 "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
                 "Annual Change in GDP per Capita and Total Population",
-                "Average Energy Use",
+                "Average Government Expenditure Education",
                 "Average Forested Area",
                 "Ratio of CO2 Emissions and GDP per capita",
                 "Ratio of Population to Energy Use",
@@ -105,9 +110,9 @@ public class MainUI extends JFrame implements ActionListener {
                 new String[] { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" });
         mapToPopulate.put("Annual Change in GDP per Capita and Total Population",
                 new String[] { "NY.GDP.PCAP.CD", "SP.POP.TOTL" });
-        mapToPopulate.put("Average Energy Use", new String[] { "EG.USE.PCAP.KG.OE" });
         mapToPopulate.put("Average Forested Area",
                 new String[] { "AG.LND.FRST.ZS" });
+        mapToPopulate.put("Average Government Expenditure Education", new String[] { "SE.XPD.TOTL.GD.ZS" });
         mapToPopulate.put("Ratio of CO2 Emissions and GDP per capita",
                 new String[] { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" });
         mapToPopulate.put("Ratio of Population to Energy Use",
@@ -188,25 +193,24 @@ public class MainUI extends JFrame implements ActionListener {
                 System.out.println("Nothing");
         }
 
-        viewer.makeLineChart();
-        ChartPanel d = viewer.getLine();
-      //  sd.viewPanel(d);
-        ChartPanel d3 = viewer.getBar();
-        // sd.viewPanel(d3);
-        ChartPanel d4 = viewer.getScat();
-        // sd.viewPanel(d4);
-        ChartPanel d5 = viewer.getPie();
-        sd.viewPanel(d5);
-        JScrollPane d2 = viewer.getReport();
-        // sd.viewPanelScroll(d2);
-        sd.setVisible(true);
+//        viewer.makeLineChart();
+//        ChartPanel d = viewer.getLine();
+//      //  sd.viewPanel(d);
+//        ChartPanel d3 = viewer.getBar();
+//        // sd.viewPanel(d3);
+//        ChartPanel d4 = viewer.getScat();
+//        // sd.viewPanel(d4);
+//        ChartPanel d5 = viewer.getPie();
+//        sd.viewPanel(d5);
+//        JScrollPane d2 = viewer.getReport();
+//        // sd.viewPanelScroll(d2);
+//        sd.setVisible(true);
 
 //
 
         // Average: Report and Pie
         // Annual: Report, Line, Scatter
         // Ratio: Report, Line, Bar, Scatter
-
 
     }
 

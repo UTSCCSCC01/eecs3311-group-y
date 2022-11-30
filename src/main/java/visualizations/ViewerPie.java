@@ -19,6 +19,13 @@ import dataFetch.DataAcquisition;
 import dataFetch.StoredData;
 import strategyAnalysis.*;
 
+/**
+ * Creates pie chart and implements Viewer for
+ * factory pattern
+ * 
+ * @author Abdul, Zuhair
+ *
+ */
 public class ViewerPie extends JFrame implements Viewer {
     private String data, data2;
     DefaultPieDataset dataset, dataset2;
@@ -31,6 +38,11 @@ public class ViewerPie extends JFrame implements Viewer {
     private String title2, title3;
     private String seriesOne, seriesTwo;
 
+    /**
+     * 
+     * @param dataStorage data to graph from
+     * @param title       name of graph
+     */
     public ViewerPie(ArrayList<StoredData> dataStorage2, String title) {
         if (dataStorage2.equals(null)) {
             return;
@@ -38,10 +50,21 @@ public class ViewerPie extends JFrame implements Viewer {
 
         this.title = title;
         this.dataStorage = dataStorage2;
-        //if(dataStorage.get(0).getEndYear()==dataStorage.get(0).getStartYear()) pop2();
+        // if(dataStorage.get(0).getEndYear()==dataStorage.get(0).getStartYear())
+        // pop2();
         populate();
     }
 
+    /**
+     * 
+     * @param dataStorage data to make graph from
+     * @param title       name of graph
+     * @param title2      axes label for x
+     * @param title3      axes label for y
+     * @param seriesName  name of first indicator
+     * @param seriesName2 name of second indicator
+     * @param seriesName3 name of third indicator
+     */
     public ViewerPie(ArrayList<StoredData> dataStorage, String title, String title2, String title3, String seriesOne,
             String seriesTwo) {
         if (dataStorage.equals(null)) {
@@ -53,15 +76,24 @@ public class ViewerPie extends JFrame implements Viewer {
         this.seriesOne = seriesOne;
         this.seriesTwo = seriesTwo;
         this.dataStorage = dataStorage;
-        if(dataStorage.get(0).getEndYear()==dataStorage.get(0).getStartYear()) populate();
-        
-        pop2();
+        if (dataStorage.get(0).getEndYear() == dataStorage.get(0).getStartYear())
+            populate();
+
+        populate2();
     }
 
+    /**
+     * default
+     */
     public ViewerPie() {
         // TODO Auto-generated constructor stub
     }
 
+    /**
+     * creates data for pie
+     * 
+     * @return pie data
+     */
     private PieDataset createDataset() {
 
         DefaultPieDataset piedataset = new DefaultPieDataset();
@@ -76,6 +108,11 @@ public class ViewerPie extends JFrame implements Viewer {
         return piedataset;
     }
 
+    /**
+     * Creates data set for pair
+     * 
+     * @return pie data
+     */
     private DefaultCategoryDataset createDataset2() {
         DefaultCategoryDataset datasetNew = new DefaultCategoryDataset();
 
@@ -95,6 +132,11 @@ public class ViewerPie extends JFrame implements Viewer {
         return datasetNew;
     }
 
+    /**
+     * Helper to create two pie
+     * 
+     * @return pie chart
+     */
     public JFreeChart helperChart2() {
 
         DefaultCategoryDataset dataset2 = createDataset2();
@@ -105,6 +147,11 @@ public class ViewerPie extends JFrame implements Viewer {
         return pieChart;
     }
 
+    /**
+     * Helper to create one pie
+     * 
+     * @return pie chart
+     */
     public JFreeChart helperChart() {
 
         PieDataset dataset1 = (PieDataset) createDataset();
@@ -115,7 +162,10 @@ public class ViewerPie extends JFrame implements Viewer {
         return jfreechart;
     }
 
-    public void pop2() {
+    /**
+     * Populate chart for two
+     */
+    public void populate2() {
         JFreeChart chart = helperChart2();
         chartPanel = new ChartPanel(chart);
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -124,9 +174,12 @@ public class ViewerPie extends JFrame implements Viewer {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         // uncomment to see example
-     //   seeExample();
+        // seeExample();
     }
 
+    /**
+     * Populate chart for one
+     */
     public void populate() {
         JFreeChart chart = helperChart();
         chartPanel = new ChartPanel(chart);
@@ -136,13 +189,20 @@ public class ViewerPie extends JFrame implements Viewer {
         chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
 //        // uncomment to see example
-    //    seeExample();
+        // seeExample();
     }
 
+    /**
+     * 
+     * @return pie chart
+     */
     public ChartPanel getChart() {
         return this.chartPanel;
     }
 
+    /**
+     * See pie
+     */
     public void seeExample() {
         add(chartPanel);
         pack();
@@ -150,39 +210,16 @@ public class ViewerPie extends JFrame implements Viewer {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    /**
+     * See outside pie
+     * 
+     * @param chartPanel chart to see
+     */
     public void seeExample(ChartPanel chartPanel) {
         add(chartPanel);
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    }
-
-    public static void main(String[] args) throws IOException {
-        String[][] indicatorList = new String[][] { { "EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3" },
-                { "EN.ATM.PM25.MC.M3", "AG.LND.FRST.ZS" }, { "EN.ATM.CO2E.PC", "NY.GDP.PCAP.CD" }, { "AG.LND.FRST.ZS" },
-                { "SE.XPD.TOTL.GD.ZS" }, { "SH.MED.BEDS.ZS", "SE.XPD.TOTL.GD.ZS" },
-                { "SH.XPD.CHEX.GD.ZS", "NY.GDP.PCAP.CD", "SP.DYN.IMRT.IN" },
-                { "SE.XPD.TOTL.GD.ZS", "SH.XPD.CHEX.GD.ZS" }, };
-        String[][] ab = { { "AG.LND.FRST.ZS", "NY.GDP.PCAP.CD" } };
-        String cc = "USA";
-//DataAcquisition test = new DataAcquisition(ab[0], cc, "2010", "2010");
-
-        String country_code = "CA";
-
-        DataAcquisition dp1 = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-//DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
-        ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-        AnalysisContext context = new AnalysisContext(new AnalysisAverage());
-        context.setStrategy(new AnalysisAverage());
-//context.setStrategy(new Ratio());
-        context.execute();
-
-        ViewerFactory s = new ViewerFactory();
-        ViewerPie d = (ViewerPie) s.CreateViewerFactory("Pie", context.getAnalysis(), "s", "d", "f", "dd",
-                "bruh", "cc", country_code);
-        // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f",
-        // country_code, country_code, country_code, country_code);
-        // d.setVisible(true);
     }
 
 }

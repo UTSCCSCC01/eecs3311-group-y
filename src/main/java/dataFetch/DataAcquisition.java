@@ -134,7 +134,7 @@ public class DataAcquisition {
         }
 
         for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
-            if (DataAcquisition.dataStorage.get(i).getValues().size() < 3) {
+            if (DataAcquisition.dataStorage.get(i).getValues().size() <= 3) {
                 return false;
             }
 
@@ -143,6 +143,8 @@ public class DataAcquisition {
         return true;
 
     }
+
+
 
     public ArrayList<Integer> getYearForTest() {
         return this.years;

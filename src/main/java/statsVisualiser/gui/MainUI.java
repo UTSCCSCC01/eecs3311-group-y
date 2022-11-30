@@ -515,6 +515,7 @@ public class MainUI extends JFrame implements ActionListener {
     public void updateRecalculate() {
         System.out.println(analysisData.getSelectedItem().toString());
         if (!analysisData.getSelectedItem().toString().equals(" ")
+                && !analysisData.getSelectedItem().toString().equals("No valid analysis")
                 && !countryData.getSelectedItem().toString().equals(" ")
                 && !startYearData.getSelectedItem().toString().equals(" ")
                 && !endYearData.getSelectedItem().toString().equals(" ")) {
@@ -526,27 +527,25 @@ public class MainUI extends JFrame implements ActionListener {
 
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
-        int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();
-        int endYear = countryDB.getCountryStorageList().get(countryIndex).getEndYear();
-        ArrayList<String> validAnalysis = new ArrayList<String>();
-
+        analysisData.removeAllItems();
         for (Entry<String, String[]> entry : mapToPopulate.entrySet()) {
             System.out.println(entry.getKey());
             System.out.println(entry.getValue()[0]);
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
                     selectedEndYear);
+            boolean annualValid = DataAcquisition.ifSelectedIsAnnual(entry.getValue(),
+                    countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
+                    selectedEndYear);
             if (valid) {
-
-                validAnalysis.add(entry.getKey());
-            } else {
+                if (annualValid == true) {
+                    analysisData.addItem(entry.getKey());
+                } else if (annualValid == false && !entry.getKey().contains("Annual Change")) {
+                    analysisData.addItem(entry.getKey());
+                }
             }
         }
-        analysisData.removeAllItems();
-        for (int i = 0; i < validAnalysis.size(); i++) {
-            analysisData.addItem(validAnalysis.get(i));
-        }
-        if (validAnalysis.size() == 0) {
+        if (analysisData.getItemCount() == 0) {
             analysisData.addItem("No valid analysis");
             recalculateButton.setEnabled(false);
         }
@@ -570,6 +569,7 @@ public class MainUI extends JFrame implements ActionListener {
         if (selectedStartYear.equals(selectedEndYear)) {
             startYearData.setSelectedIndex(0);
             endYearData.setSelectedIndex(endYearData.getItemCount() - 1);
+            observerUpdate();
         } else if (Integer.parseInt(selectedStartYear) > Integer.parseInt(selectedEndYear)) {
             JOptionPane.showMessageDialog(mainFrame,
                     "Starting year must be lower than end year. Years have been reset to their default values."); // error

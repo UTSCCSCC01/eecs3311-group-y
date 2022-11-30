@@ -26,7 +26,9 @@ import templateAnalysis.AnalysisOne;
 import templateAnalysis.AnalysisSeven;
 import templateAnalysis.AnalysisSix;
 import templateAnalysis.AnalysisThree;
+import templateAnalysis.AnalysisTwo;
 import visualizations.ViewerBar;
+import visualizations.ViewerMain;
 import visualizations.ViewerPie;
 import visualizations.ViewerReport;
 import visualizations.ViewerScatter;
@@ -89,7 +91,7 @@ public class MainUI extends JFrame implements ActionListener {
         // Viewer_Scatter tt2 = new Viewer_Scatter(test.dataStorage, "Years", "Values",
         // "Title");
         // ChartPanel temp2 = tt2.getChart();
-        // MainUI s = MainUI.getInstance();
+
         //
         // s.panelForGraph.add(temp);
         // s.panelForGraph.add(temp2);
@@ -101,23 +103,7 @@ public class MainUI extends JFrame implements ActionListener {
                 "Ratio of CO2 Emissions and GDP per capita",
                 "Ratio of Population to Energy Use",
                 "Ratio of GDP and Renewable Energy Output",
-                "Annual Change of Health Costs vs Air Pollution"
-        };
-
-        List al = Arrays.asList(analysisTypes);
-
-        // System.out.println(temp.dataStorage.toString());
-        // System.out.println();
-        // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio
-        // of Total Population to Energy Use"),c,"2014","2019"));
-
-        // MainUI s = MainUI.getInstance();
-        // MainUI.getInstance();
-
-        // System.out.println(dp1.dataStorage.toString());
-        //
-        DataAcquisition dp1 = new DataAcquisition(new String[] { "AG.LND.FRST.ZS", "EN.ATM.CO2E.PC" }, "CA", "2017",
-                "2020"); // "EN.ATM.CO2E.PC"
+                "Annual Change of Health Costs vs Air Pollution" };
 
         TreeMap<String, String[]> mapToPopulate = new TreeMap<String, String[]>();
         mapToPopulate.put("Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
@@ -136,36 +122,109 @@ public class MainUI extends JFrame implements ActionListener {
         mapToPopulate.put("Ratio of GDP and Renewable Energy Output",
                 new String[] { "NY.GDP.PCAP.CD", "EG.ELC.RNEW.ZS" });
 
-        // System.out.println(temp.dataStorage.toString());
-        // System.out.println();
-        // System.out.println(DataAcquisition.checkifValidYear(mapToPopulate.get("Ratio
-        // of Total Population to Energy Use"),c,"2014","2019"));
+        String selectedAnalysis = "Average Forested Area";
+        String selectedCountry = "USA";
+        String startYear = "2000";
+        String endYear = "2020";
 
-        ArrayList<StoredData> temp = annualPercentageCalculator(DataAcquisition.dataStorage);
-        System.out.println("Expected annual is " + temp.toString());
-        System.out.println();
+        ViewerBar sd = new ViewerBar();
 
-        StoredData sop = calculateRatio(DataAcquisition.getDataStorage().get(0),
-                DataAcquisition.getDataStorage().get(1));
-        System.out.println("Expected Ratio is " + sop.toString());
-        System.out.println();
+        DataAcquisition dp4 = new DataAcquisition(mapToPopulate.get(selectedAnalysis), selectedCountry, startYear,
+                endYear);
+        AnalysisOne s = null;
+        AnalysisTwo s2 = null;
+        AnalysisThree s3 = null;
+        AnalysisFour s4 = null;
+        AnalysisFive s5 = null;
+        AnalysisSix s6 = null;
+        AnalysisSeven s7 = null;
+        AnalysisEight s8 = null;
+        ViewerMain viewer = new ViewerMain();
+        switch (selectedAnalysis) {
+            case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
+                // code block
+                s = new AnalysisOne();
+                s.calculate();
+                viewer = s.getViewer();
+                break;
+            case "Annual Change in GDP per Capita and Total Population":
+                // code block
+                s2 = new AnalysisTwo();
+                s2.calculate();
+                viewer = s2.getViewer();
+                break;
+            case "Average Forested Area":
+                // code block
+                s3 = new AnalysisThree();
+                s3.calculate();
+                viewer = s3.getViewer();
+                break;
+            case "Ratio of CO2 Emissions and GDP per capita":
+                // code block
+                s4 = new AnalysisFour();
+                s4.calculate();
+                viewer = s4.getViewer();
+                break;
+            case "Average Government Expenditure Education":
+                // code block
+                s5 = new AnalysisFive();
+                s5.calculate();
+                viewer = s5.getViewer();
+                break;
+            case "Ratio of Population to Energy Use":
+                // code block
+                s6 = new AnalysisSix();
+                s6.calculate();
+                viewer = s6.getViewer();
+                break;
+            case "Annual Change of Health Costs vs Air Pollution":
+                // code block
+                s7 = new AnalysisSeven();
+                s7.calculate();
+                viewer = s7.getViewer();
+                break;
+            case "Ratio of GDP and Renewable Energy Output":
+                // code block
+                s8 = new AnalysisEight();
+                s8.calculate();
+                viewer = s8.getViewer();
+                break;
+            default:
+                System.out.println("Nothing");
+        }
 
-        StoredData d = average(DataAcquisition.getDataStorage().get(0));
-        System.out.println("Expected Average is " + d.toString());
-        System.out.println();
+        viewer.makeLineChart();
+        ChartPanel d = viewer.getLine();
+        // sd.viewPanel(d);
+        ChartPanel d3 = viewer.getBar();
+        // sd.viewPanel(d3);
+        ChartPanel d4 = viewer.getScat();
+        // sd.viewPanel(d4);
+        ChartPanel d5 = viewer.getPie();
+        sd.viewPanel(d5);
+        JScrollPane d2 = viewer.getReport();
+        // sd.viewPanelScroll(d2);
+        sd.setVisible(true);
 
-        AnalysisContext context = new AnalysisContext(new AnalysisAverage());
-        context.setStrategy(new AnalysisAverage());
-        context.execute();
-        System.out.println("Actual Average is " + context.getAnalysis().toString());
-        context = new AnalysisContext(new AnalysisRatio());
-        context.setStrategy(new AnalysisRatio());
-        context.execute();
-        System.out.println("Actual Ratio is " + context.getAnalysis().toString());
-        context = new AnalysisContext(new AnalysisAnnual());
-        context.setStrategy(new AnalysisAnnual());
-        context.execute();
-        System.out.println("Actual Ratio is " + context.getAnalysis().toString());
+        //
+
+        // Average: Report and Pie
+        // Annual: Report, Line, Scatter
+        // Ratio: Report, Line, Bar, Scatter
+
+    }
+
+    public void seeExample(ChartPanel chartPanel) {
+        BarRenderer br = new BarRenderer();
+
+        br.setMaximumBarWidth(.35);
+        chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
+        chartPanel.setBackground(Color.white);
+        add(chartPanel);
+        setContentPane(chartPanel);
+        pack();
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 

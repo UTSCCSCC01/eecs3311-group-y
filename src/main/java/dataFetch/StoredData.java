@@ -76,6 +76,7 @@ public class StoredData {
         analysisIndicators.put("SP.DYN.IMRT.IN", "Mortality rate, infant (per 1,000 live births)");
         analysisIndicators.put("AG.LND.FRST.ZS", "Forested Area");
         analysisIndicators.put("EG.ELC.ACCS.UR.ZS", "Access to electricity");
+        analysisIndicators.put("EG.ELC.RNEW.ZS", "Renewable Energy Output");
 
     }
 

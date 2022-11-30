@@ -210,11 +210,11 @@ public class ViewerLine extends JFrame implements Viewer {
 
     String country_code = "CA";
 
-    DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC","AG.LND.FRST.ZS"}, country_code, "2015", "2020");
+    DataAcquisition dp1 = new DataAcquisition(new String[] {"EN.ATM.CO2E.PC", "EG.USE.PCAP.KG.OE", "EN.ATM.PM25.MC.M3"}, country_code, "2000", "2020");
 //  DataAcquisition dp = new DataAcquisition(indicatorList[0], country_code, "2015", "2020");
     ArrayList<StoredData> data = DataAcquisition.getDataStorage();
-    AnalysisContext context = new AnalysisContext(new AnalysisRatio());
-    context.setStrategy(new AnalysisRatio());
+    AnalysisContext context = new AnalysisContext(new AnalysisAnnual());
+    context.setStrategy(new AnalysisAnnual());
 //  context.setStrategy(new Ratio());
     context.execute();
     System.out.println(context.getData().toString());
@@ -222,7 +222,7 @@ public class ViewerLine extends JFrame implements Viewer {
     ViewerFactory s = new ViewerFactory();
     ViewerLine d = (ViewerLine) s.CreateViewerFactory("Line", context.getAnalysis(), "s", "d", "f", "dd", "bruh", "cc", country_code);
    // ViewerBar d = new ViewerBar(context.getAnalysis(), "s", "d", "f", country_code, country_code, country_code, country_code);
-    //d.setVisible(true);
+    d.setVisible(true);
 
     }
 

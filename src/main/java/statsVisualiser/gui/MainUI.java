@@ -349,6 +349,7 @@ public class MainUI extends JFrame implements ActionListener {
         addButton = new JButton("+");
         removeButton = new JButton("-");
         recalculateButton = new JButton("Recalculate");
+        recalculateButton.setEnabled(false);
 
         // data call
         populateData();
@@ -400,14 +401,16 @@ public class MainUI extends JFrame implements ActionListener {
 
     private JPanel panelForGraph;
     private JPanel[][] secPanel = new JPanel[viewsAvaliable.length][viewsAvaliable.length];
-    private String[] analysisTypes = { "Average Energy Use",
-            "Annual Percentage Change of Total Population and CO2 Emissions",
-            "Annual Percentage Change of GDP per Capit and Total Population",
-            "Ratio of Problems in Accessing Health care : Mortality rate : Infant",
-            "Ratio of Hospital Beds to problems in Accessing Health Care", "Ratio of Total Population to Energy Use",
-            "Ratio of CO2 Emissions and GDP Per Captia", "Ratio of Current Health Expenditure and Hospital Beds",
+    String[] analysisTypes = { 
+        "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution",
+        "Annual Change in GDP per Capita and Total Population",
+        "Average Energy Use",
+        "Average Forested Area",
+        "Ratio of CO2 Emissions and GDP per capita",
+        "Ratio of Population to Energy Use",
+        "Ratio of GDP and Renewable Energy Output",
+        "Annual Change of Health Costs vs Air Pollution"};
 
-    };
 
     private void populateData() throws Exception {
         years_tmp = new ArrayList<String>();
@@ -489,8 +492,9 @@ public class MainUI extends JFrame implements ActionListener {
         }
         boolean countryNull = checkNullCountry(countryIndex);
         if (countryNull == false) {
-            // updateDates(selectedStartYear, selectedEndYear, countryIndex);
-            // updateAnalysis(selectedStartYear, selectedEndYear, countryIndex);
+            updateDates(selectedStartYear, selectedEndYear, countryIndex);
+            updateAnalysis(selectedStartYear, selectedEndYear, countryIndex);
+            updateRecalculate(); 
         } else {
             JOptionPane.showMessageDialog(null, "No data for this country");
             countryData.setSelectedIndex(0); 
@@ -504,7 +508,9 @@ public class MainUI extends JFrame implements ActionListener {
         }
         return false;
     }
+    public void updateRecalculate() { 
 
+    }
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
         int startYear = countryDB.getCountryStorageList().get(countryIndex).getStartYear();

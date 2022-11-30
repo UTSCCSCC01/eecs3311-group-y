@@ -54,6 +54,13 @@ public class MainUI extends JFrame implements ActionListener {
     private JPanel bottomPanel;
     private JPanel middlePanel; // middle panel
 
+    //Chart panels
+    private ChartPanel d; 
+    private ChartPanel d2;
+    private ChartPanel d3;
+    private ChartPanel d4;
+    private JScrollPane d5;
+
     private CountryStorage countryDB;
     private JLabel countrySelectionLabel;
     private JLabel fromLabel;
@@ -297,10 +304,36 @@ public class MainUI extends JFrame implements ActionListener {
         return false;
     }
     public void removeGraph() { 
-        for(int i = 0; i < middlePanel.getComponentCount(); i++) { 
-            System.out.println(middlePanel.getComponents()[i]); 
+        if (viewerData.getSelectedItem().toString().equals("Line")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d)) {
+                middlePanel.remove(d); 
+            } else {
+                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
+            } 
+        } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d2)) {
+                middlePanel.remove(d2); 
+            } else {
+                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
+            }
+        } else if (viewerData.getSelectedItem().toString().equals("Scatter")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d3)) {
+                middlePanel.remove(d3); 
+            } else {
+                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
+            }
+        } else if (viewerData.getSelectedItem().toString().equals("Pie")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d4)) {
+                middlePanel.remove(d4); 
+            } else {
+                JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
+            }
+        } else if(Arrays.asList(middlePanel.getComponents()).contains(d5)) {
+            middlePanel.remove(d5); 
+        } else {
+            JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
         }
-        middlePanel.remove(middlePanel.getComponents()[middlePanel.getComponentCount()-1]);
+
         middlePanel.revalidate();
         middlePanel.repaint();
         this.validate();
@@ -322,6 +355,11 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void recalculateButton() {
+        if(middlePanel.getComponentCount() > 0) {
+            middlePanel.removeAll();
+            middlePanel.revalidate();
+            middlePanel.repaint();
+        }
         viewerData.removeAllItems();
         AnalysisOne s = null;
         AnalysisTwo s2 = null;
@@ -413,30 +451,79 @@ public class MainUI extends JFrame implements ActionListener {
     }
 
     public void addGraph() {
-        viewer.makeLineChart();
-        ChartPanel d = viewer.getLine();
-        ChartPanel d2 = viewer.getBar();
-        ChartPanel d3 = viewer.getScat();
-        ChartPanel d4 = viewer.getPie();
-        JScrollPane d5 = viewer.getReport();
+         d = viewer.getLine();
+         d2 = viewer.getBar();
+         d3 = viewer.getScat();
+         d4 = viewer.getPie();
+         d5 = viewer.getReport();
 
         if (viewerData.getSelectedItem().toString().equals("Line")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d)) {
+                JOptionPane.showMessageDialog(null, "Graph already added");
+                return; 
+            } else {
+                middlePanel.add(d);
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                this.validate();
+                removeButton.setEnabled(true);
+            } 
             d.setPreferredSize(new Dimension(260, 150));
             middlePanel.add(d);
         } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d2)) {
+                JOptionPane.showMessageDialog(null, "Graph already added");
+                return;
+            } else {
+                middlePanel.add(d2);
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                this.validate();
+                removeButton.setEnabled(true);
+            }
             d2.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d2, BorderLayout.EAST);
+            middlePanel.add(d2);
         } else if (viewerData.getSelectedItem().toString().equals("Scatter")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d3)) {
+                JOptionPane.showMessageDialog(null, "Graph already added");
+                return; 
+            } else {
+                middlePanel.add(d3);
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                this.validate();
+                removeButton.setEnabled(true);
+            }
             d3.setPreferredSize(new Dimension(260, 150));
             middlePanel.add(d3);
         } else if (viewerData.getSelectedItem().toString().equals("Pie")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d4)) {
+                JOptionPane.showMessageDialog(null, "Graph already added");
+            } else {
+                middlePanel.add(d4);
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                this.validate();
+                removeButton.setEnabled(true);
+            }
             d4.setPreferredSize(new Dimension(260, 150));
             middlePanel.add(d4);
         } else if (viewerData.getSelectedItem().toString().equals("Report")) {
+            if(Arrays.asList(middlePanel.getComponents()).contains(d5)) {
+                JOptionPane.showMessageDialog(null, "Graph already added");
+                return; 
+            } else {
+                middlePanel.add(d5);
+                middlePanel.revalidate();
+                middlePanel.repaint();
+                this.validate();
+                removeButton.setEnabled(true);
+            }
             d5.setPreferredSize(new Dimension(260, 150));
             middlePanel.add(d5);
         }
         this.add(middlePanel, BorderLayout.CENTER);
+        middlePanel.repaint(); 
         this.validate();
         removeButton.setEnabled(true);
 

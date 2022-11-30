@@ -37,7 +37,6 @@ public class AnalysisThree extends AnalysisTemplate {
         context.setStrategy(new AnalysisAverage());
         context.execute();
         this.viewer = new ViewerMain(context.getAnalysis(), title, graphs);
-
     }
 
     public ViewerMain getViewer() {

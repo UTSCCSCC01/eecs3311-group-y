@@ -101,7 +101,9 @@ public class ViewerReport extends JFrame implements Viewer {
         report.setPreferredSize(new Dimension(200, 200));
 
         report.setBackground(Color.white);
-        outputScrollPane = new JScrollPane(report);
+        outputScrollPane = new JScrollPane(report,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         outputScrollPane.createVerticalScrollBar();
         outputScrollPane.setPreferredSize(new Dimension(500, 300));
         outputScrollPane.setBackground(Color.white);

@@ -153,7 +153,7 @@ public class LoginUI implements ActionListener {
                                                                                                                                                                             // message
         } else { // if the username and password match the regex patterns
             try {
-                createUser(user, pass); // checks if the username and password match the username and password in the
+                removeUser(user, pass); // checks if the username and password match the username and password in the
                                         // json file, if they do, creates user
             } catch (IOException e) { // if the json file is not found
                 e.printStackTrace(); // prints the stack trace
@@ -184,6 +184,21 @@ public class LoginUI implements ActionListener {
             out.append(jsonObj);
             out.close();
             JOptionPane.showMessageDialog(f, "User created successfully.");
+        }
+    }
+
+    public void removeUser(String user, String pass) throws IOException {
+        Map<String, String> users = readUsers(); // read users from csv file
+        if (users.containsKey(user) == false) { // check if user already exists
+            JOptionPane.showMessageDialog(f, "User does not exist.");
+        } else {
+            users.remove(user);
+            String jsonObj = gson.toJson(users); // convert hashmap to json
+            BufferedWriter out = new BufferedWriter(
+                    new FileWriter(new File(System.getProperty("user.dir") + "/src/assets/userList.json")));
+            out.append(jsonObj);
+            out.close();
+            JOptionPane.showMessageDialog(f, "User removed successfully.");
         }
     }
 
@@ -261,6 +276,6 @@ public class LoginUI implements ActionListener {
     public static void main(String[] args) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // setLookandFeel for modern Windows 10
                                                                              // look on buttons and other JComponents
-        LoginUI.getInstance(); // create a new instance of the login UI 
+        LoginUI.getInstance(); // create a new instance of the login UI
     }
 }

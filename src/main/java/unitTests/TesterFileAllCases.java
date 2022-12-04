@@ -269,7 +269,7 @@ public class TesterFileAllCases {
         assertEquals(db.getCountryStorageList().get(4).getCountryName(), "American Samoa");
         assertEquals(db.getCountryStorageList().get(4).getCountryCode(), "NA");
         assertEquals(db.getCountryStorageList().get(0).getCountryName(), "Afghanistan");
-        assertEquals(db.getCountryStorageList().get(0).getCountryCode(), "AFG");
+        assertEquals(db.getCountryStorageList().get(0).getCountryCode(), "NA");
         assertEquals(db.getCountryStorageList().get(0).getStartYear(), 1962);
         assertEquals(db.getCountryStorageList().get(0).getEndYear(), 2021);
     }

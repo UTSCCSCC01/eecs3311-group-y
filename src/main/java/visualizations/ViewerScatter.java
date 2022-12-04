@@ -47,26 +47,6 @@ public class ViewerScatter extends JFrame implements Viewer {
     /**
      * 
      * @param dataStorage data to create graph from
-     * @param xLabel      axes label
-     * @param yLabel      axes label
-     * @param title       name of graph
-     */
-    public ViewerScatter(ArrayList<StoredData> dataStorage, String xLabel, String yLabel, String title) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
-        this.xLabel = xLabel;
-        this.yLabel = yLabel;
-        this.yLabel2 = yLabel;
-        this.title = title;
-        this.dataStorage = dataStorage;
-        draw();
-
-    }
-
-    /**
-     * 
-     * @param dataStorage data to create graph from
      * @param title       name of graph
      * @param xLabel      axes label
      * @param yLabel      axes label
@@ -77,9 +57,6 @@ public class ViewerScatter extends JFrame implements Viewer {
      */
     public ViewerScatter(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
             String seriesName, String seriesName2, String seriesName3) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
         this.xLabel = xLabel;
         this.yLabel = yLabel;
         this.yLabel2 = yLabel2;

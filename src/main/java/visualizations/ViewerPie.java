@@ -44,9 +44,6 @@ public class ViewerPie extends JFrame implements Viewer {
      * @param title       name of graph
      */
     public ViewerPie(ArrayList<StoredData> dataStorage2, String title) {
-        if (dataStorage2.equals(null)) {
-            return;
-        }
 
         this.title = title;
         this.dataStorage = dataStorage2;

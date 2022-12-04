@@ -186,6 +186,12 @@ public class LoginUI implements ActionListener {
             JOptionPane.showMessageDialog(f, "User created successfully.");
         }
     }
+    /**
+     * Removes user 
+     * @param user to remove
+     * @param pass password verify
+     * @throws IOException
+     */
     public void removeUser(String user, String pass) throws IOException { 
         Map<String, String> users = readUsers(); // read users from csv file
         if (users.containsKey(user) == false) { // check if user already exists
@@ -270,6 +276,12 @@ public class LoginUI implements ActionListener {
         f.setLocationRelativeTo(null); // set the location of the frame to the center of the screen
         f.setVisible(true); // set the frame to be visible
 
+    }
+
+    public LoginUI(String string) {
+        LoginUI s = new LoginUI();
+        f.setVisible(false); // set the frame to not be visible
+        
     }
 
     public static void main(String[] args) throws Exception {

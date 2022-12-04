@@ -70,7 +70,7 @@ public class MainUI extends JFrame implements ActionListener {
 
     boolean manualUpdate = false; // Boolean that ensures that when the dates are changed manually, the observer
                                   // is not called again
-    ViewerMain viewer = new ViewerMain();
+    private ViewerMain viewer = new ViewerMain();
 
     // Combo boxes for UI components
     private JComboBox<String> countryData;
@@ -93,6 +93,10 @@ public class MainUI extends JFrame implements ActionListener {
         return instance;
     }
 
+    public void getInstanceTest() throws Exception {
+        this.setVisible(false);
+    }
+    
     private MainUI() throws Exception {
         this.setSize(1300, 750);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,15 +104,15 @@ public class MainUI extends JFrame implements ActionListener {
         // jpanel creation
         topPanel = new JPanel();
         bottomPanel = new JPanel();
-        middlePanel = new JPanel();
+        setMiddlePanel(new JPanel());
         bottomPanel.setBackground(Color.GRAY);
         bottomPanel.setPreferredSize(new Dimension(1300, 50));
         topPanel.setBackground(Color.GRAY);
         topPanel.setPreferredSize(new Dimension(1300, 50));
-        middlePanel.setPreferredSize(new Dimension(1300, 500));
-        middlePanel.setLayout(new GridLayout(2, 3));
+        getMiddlePanel().setPreferredSize(new Dimension(1300, 500));
+        getMiddlePanel().setLayout(new GridLayout(2, 3));
         this.add(topPanel, BorderLayout.NORTH);
-        this.add(middlePanel, BorderLayout.CENTER);
+        this.add(getMiddlePanel(), BorderLayout.CENTER);
         this.add(bottomPanel, BorderLayout.SOUTH);
 
         // labels
@@ -131,12 +135,12 @@ public class MainUI extends JFrame implements ActionListener {
 
         // adding to panels
         bottomPanel.add(viewerLabels);
-        bottomPanel.add(viewerData);
+        bottomPanel.add(getViewerData());
         bottomPanel.add(addButton);
         bottomPanel.add(removeButton);
         bottomPanel.add(Box.createHorizontalStrut(50));
         bottomPanel.add(analysisLabels);
-        bottomPanel.add(analysisData);
+        bottomPanel.add(getAnalysisData());
         bottomPanel.add(recalculateButton);
         topPanel.add(countrySelectionLabel);
         topPanel.add(countryData);
@@ -147,7 +151,7 @@ public class MainUI extends JFrame implements ActionListener {
         topPanel.add(endYearData);
 
         // adding listeners
-        analysisData.addActionListener(this);
+        getAnalysisData().addActionListener(this);
         addButton.addActionListener(this);
         removeButton.addActionListener(this);
         startYearData.addActionListener(this);
@@ -231,10 +235,11 @@ public class MainUI extends JFrame implements ActionListener {
         endYearData = new JComboBox<String>(years_tmpCopy.toArray(new String[years_tmpCopy.size()])); // adding years to
                                                                                                       // the end year
                                                                                                       // data combobox
-        analysisData = new JComboBox<String>(); // setting an empty analysis data combobox for the user to select from
-                                                // after they have picked a country and years
-        viewerData = new JComboBox<String>(); // setting an empty viewer data combobox for the user to select from after
-                                              // they have picked a country and years
+        setAnalysisData(new JComboBox<String>()); // setting an empty analysis data combobox for the user to select from
+                                                  // after they have picked a country and years
+        setViewerData(new JComboBox<String>()); // setting an empty viewer data combobox for the user to select from
+                                                // after
+                                                // they have picked a country and years
 
     }
 
@@ -252,8 +257,8 @@ public class MainUI extends JFrame implements ActionListener {
                     observerUpdate(); // call observerUpdate which will update all observer components
                 }
             }
-        } else if (e.getSource() == analysisData) { // if the user selects an analysis data
-            if (analysisData.getSelectedIndex() >= 0) { // if the user has selected an analysis data
+        } else if (e.getSource() == getAnalysisData()) { // if the user selects an analysis data
+            if (getAnalysisData().getSelectedIndex() >= 0) { // if the user has selected an analysis data
                 updateRecalculate(); // call updateRecalculate which will unlock the recalculate button if all UI
                                      // elements are selected
             }
@@ -353,43 +358,43 @@ public class MainUI extends JFrame implements ActionListener {
     public void removeGraph() { // removes a graph from the UI
 
         // If statements to check if which graph is selected and remove it from the UI
-        if (viewerData.getSelectedItem().toString().equals("Line")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d)) { // if the line graph is in the middle panel
-                middlePanel.remove(d); // remove the line graph from the middle panel
+        if (getViewerData().getSelectedItem().toString().equals("Line")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d)) { // if the line graph is in the middle panel
+                getMiddlePanel().remove(d); // remove the line graph from the middle panel
             } else {
                 JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer"); // otherwise,
                                                                                                       // display a
                                                                                                       // message to the
                                                                                                       // user
             }
-        } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d2)) {
-                middlePanel.remove(d2);
+        } else if (getViewerData().getSelectedItem().toString().equals("Bar")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d2)) {
+                getMiddlePanel().remove(d2);
             } else {
                 JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
             }
-        } else if (viewerData.getSelectedItem().toString().equals("Scatter")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d3)) {
-                middlePanel.remove(d3);
+        } else if (getViewerData().getSelectedItem().toString().equals("Scatter")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d3)) {
+                getMiddlePanel().remove(d3);
             } else {
                 JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
             }
-        } else if (viewerData.getSelectedItem().toString().equals("Pie")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d4)) {
-                middlePanel.remove(d4);
+        } else if (getViewerData().getSelectedItem().toString().equals("Pie")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d4)) {
+                getMiddlePanel().remove(d4);
             } else {
                 JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
             }
-        } else if (Arrays.asList(middlePanel.getComponents()).contains(d5)) {
-            middlePanel.remove(d5);
+        } else if (Arrays.asList(getMiddlePanel().getComponents()).contains(d5)) {
+            getMiddlePanel().remove(d5);
         } else {
             JOptionPane.showMessageDialog(null, "You must remove a graph that is in the viewer");
         }
 
-        middlePanel.revalidate(); // revalidate the middle panel
-        middlePanel.repaint(); // repaint the middle panel
+        getMiddlePanel().revalidate(); // revalidate the middle panel
+        getMiddlePanel().repaint(); // repaint the middle panel
         this.validate();
-        if (middlePanel.getComponentCount() == 0) { // if there are no graphs in the middle panel
+        if (getMiddlePanel().getComponentCount() == 0) { // if there are no graphs in the middle panel
             removeButton.setEnabled(false); // disable the remove button
         }
 
@@ -400,8 +405,8 @@ public class MainUI extends JFrame implements ActionListener {
      * elements to recalculate the data
      */
     public void updateRecalculate() { // unlocks the recalculate button if all UI elements are selected
-        if (!analysisData.getSelectedItem().toString().equals(" ")
-                && !analysisData.getSelectedItem().toString().equals("No valid analysis")
+        if (!getAnalysisData().getSelectedItem().toString().equals(" ")
+                && !getAnalysisData().getSelectedItem().toString().equals("No valid analysis")
                 && !countryData.getSelectedItem().toString().equals(" ")
                 && !startYearData.getSelectedItem().toString().equals(" ")
                 && !endYearData.getSelectedItem().toString().equals(" ")) {
@@ -415,12 +420,12 @@ public class MainUI extends JFrame implements ActionListener {
      * Calculates which views are available for selected analysis type
      */
     public void recalculateButton() { // recalculates the analysis data
-        if (middlePanel.getComponentCount() > 0) { // if there is a graph in the middle panel
-            middlePanel.removeAll(); // remove all graphs from the middle panel
-            middlePanel.revalidate(); // revalidate the middle panel
-            middlePanel.repaint(); // repaint the middle panel
+        if (getMiddlePanel().getComponentCount() > 0) { // if there is a graph in the middle panel
+            getMiddlePanel().removeAll(); // remove all graphs from the middle panel
+            getMiddlePanel().revalidate(); // revalidate the middle panel
+            getMiddlePanel().repaint(); // repaint the middle panel
         }
-        viewerData.removeAllItems(); // remove all items from the viewer data combobox
+        getViewerData().removeAllItems(); // remove all items from the viewer data combobox
         // Create analysis objects
         AnalysisOne s = null;
         AnalysisTwo s2 = null;
@@ -432,77 +437,77 @@ public class MainUI extends JFrame implements ActionListener {
         AnalysisEight s8 = null;
         // Switch case to check which analysis is selected and create the appropriate
         // analysis object
-        switch (analysisData.getSelectedItem().toString()) {
+        switch (getAnalysisData().getSelectedItem().toString()) {
             case "Annual Change of CO2 Emissions vs Energy Use vs Air Pollution":
                 // code block
                 s = new AnalysisOne();
                 s.calculate();
-                viewer = s.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Annual Change in GDP per Capita and Total Population":
                 // code block
                 s2 = new AnalysisTwo();
                 s2.calculate();
-                viewer = s2.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s2.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Average Forested Area":
                 // code block
                 s3 = new AnalysisThree();
                 s3.calculate();
-                viewer = s3.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s3.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Ratio of CO2 Emissions and GDP per capita":
                 // code block
                 s4 = new AnalysisFour();
                 s4.calculate();
-                viewer = s4.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s4.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Average Government Expenditure Education":
                 // code block
                 s5 = new AnalysisFive();
                 s5.calculate();
-                viewer = s5.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s5.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Ratio of Population to Energy Use":
                 // code block
                 s6 = new AnalysisSix();
                 s6.calculate();
-                viewer = s6.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s6.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Annual Change of Health Costs vs Air Pollution":
                 // code block
                 s7 = new AnalysisSeven();
                 s7.calculate();
-                viewer = s7.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s7.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             case "Ratio of GDP and Renewable Energy Output":
                 // code block
                 s8 = new AnalysisEight();
                 s8.calculate();
-                viewer = s8.getViewer();
-                for (int i = 0; i < viewer.allowedGraphs.length; i++) {
-                    viewerData.addItem(viewer.allowedGraphs[i]);
+                setViewer(s8.getViewer());
+                for (int i = 0; i < getViewer().allowedGraphs.length; i++) {
+                    getViewerData().addItem(getViewer().allowedGraphs[i]);
                 }
                 break;
             default:
@@ -517,82 +522,82 @@ public class MainUI extends JFrame implements ActionListener {
      */
     public void addGraph() {
         // Create analysis objects
-        d = viewer.getLine();
-        d2 = viewer.getBar();
-        d3 = viewer.getScat();
-        d4 = viewer.getPie();
-        d5 = viewer.getReport();
+        d = getViewer().getLine();
+        d2 = getViewer().getBar();
+        d3 = getViewer().getScat();
+        d4 = getViewer().getPie();
+        d5 = getViewer().getReport();
 
         // Switch case to check which graph is selected and add the appropriate graph to
         // the middle panel
-        if (viewerData.getSelectedItem().toString().equals("Line")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d)) {
+        if (getViewerData().getSelectedItem().toString().equals("Line")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
                 return;
             } else {
-                middlePanel.add(d);
-                middlePanel.revalidate();
-                middlePanel.repaint();
+                getMiddlePanel().add(d);
+                getMiddlePanel().revalidate();
+                getMiddlePanel().repaint();
                 this.validate();
                 removeButton.setEnabled(true);
             }
             d.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d);
-        } else if (viewerData.getSelectedItem().toString().equals("Bar")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d2)) {
+            getMiddlePanel().add(d);
+        } else if (getViewerData().getSelectedItem().toString().equals("Bar")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d2)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
                 return;
             } else {
-                middlePanel.add(d2);
-                middlePanel.revalidate();
-                middlePanel.repaint();
+                getMiddlePanel().add(d2);
+                getMiddlePanel().revalidate();
+                getMiddlePanel().repaint();
                 this.validate();
                 removeButton.setEnabled(true);
             }
             d2.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d2);
-        } else if (viewerData.getSelectedItem().toString().equals("Scatter")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d3)) {
+            getMiddlePanel().add(d2);
+        } else if (getViewerData().getSelectedItem().toString().equals("Scatter")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d3)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
                 return;
             } else {
-                middlePanel.add(d3);
-                middlePanel.revalidate();
-                middlePanel.repaint();
+                getMiddlePanel().add(d3);
+                getMiddlePanel().revalidate();
+                getMiddlePanel().repaint();
                 this.validate();
                 removeButton.setEnabled(true);
             }
             d3.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d3);
-        } else if (viewerData.getSelectedItem().toString().equals("Pie")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d4)) {
+            getMiddlePanel().add(d3);
+        } else if (getViewerData().getSelectedItem().toString().equals("Pie")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d4)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
             } else {
-                middlePanel.add(d4);
-                middlePanel.revalidate();
-                middlePanel.repaint();
+                getMiddlePanel().add(d4);
+                getMiddlePanel().revalidate();
+                getMiddlePanel().repaint();
                 this.validate();
                 removeButton.setEnabled(true);
             }
             d4.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d4);
-        } else if (viewerData.getSelectedItem().toString().equals("Report")) {
-            if (Arrays.asList(middlePanel.getComponents()).contains(d5)) {
+            getMiddlePanel().add(d4);
+        } else if (getViewerData().getSelectedItem().toString().equals("Report")) {
+            if (Arrays.asList(getMiddlePanel().getComponents()).contains(d5)) {
                 JOptionPane.showMessageDialog(null, "Graph already added");
                 return;
             } else {
-                middlePanel.add(d5);
-                middlePanel.revalidate();
-                middlePanel.repaint();
+                getMiddlePanel().add(d5);
+                getMiddlePanel().revalidate();
+                getMiddlePanel().repaint();
                 this.validate();
                 removeButton.setEnabled(true);
             }
             d5.setPreferredSize(new Dimension(260, 150));
-            middlePanel.add(d5);
+            getMiddlePanel().add(d5);
         }
         // Add the graph to the middle panel
-        this.add(middlePanel, BorderLayout.CENTER);
-        middlePanel.repaint(); // repaint the middle panel
+        this.add(getMiddlePanel(), BorderLayout.CENTER);
+        getMiddlePanel().repaint(); // repaint the middle panel
         this.validate();
         removeButton.setEnabled(true); // enable the remove button
     }
@@ -605,7 +610,7 @@ public class MainUI extends JFrame implements ActionListener {
      */
     public void updateAnalysis(String selectedStartYear, String selectedEndYear, int countryIndex) {
 
-        analysisData.removeAllItems(); // remove all items from the analysis data combo box
+        getAnalysisData().removeAllItems(); // remove all items from the analysis data combo box
         for (Entry<String, String[]> entry : mapToPopulate.entrySet()) { // loop through the map
             boolean valid = DataAcquisition.checkIfValidData(entry.getValue(),
                     countryDB.getCountryStorageList().get(countryIndex).getCountryCode(), selectedStartYear,
@@ -615,22 +620,22 @@ public class MainUI extends JFrame implements ActionListener {
                     selectedEndYear); // check if the data allows for annual analysis
             if (valid) { // if the data is valid
                 if (annualValid == true) { // if the data allows for annual analysis
-                    analysisData.addItem(entry.getKey()); // add the data to the combo box
+                    getAnalysisData().addItem(entry.getKey()); // add the data to the combo box
                 } else if (annualValid == false && !entry.getKey().contains("Annual Change")) { // if the data does not
                                                                                                 // allow for annual
                                                                                                 // analysis, add the
                                                                                                 // data to the combo box
                                                                                                 // that is not annual
                                                                                                 // change
-                    analysisData.addItem(entry.getKey()); // add the data to the combo box
+                    getAnalysisData().addItem(entry.getKey()); // add the data to the combo box
                 }
             }
         }
-        if (analysisData.getItemCount() == 0) { // if there are no items in the combo box
-            analysisData.addItem("No valid analysis"); // add the no valid analysis item
+        if (getAnalysisData().getItemCount() == 0) { // if there are no items in the combo box
+            getAnalysisData().addItem("No valid analysis"); // add the no valid analysis item
             recalculateButton.setEnabled(false); // disable the recalculate button
         }
-        analysisData.setSelectedIndex(0); // set the selected index to 0
+        getAnalysisData().setSelectedIndex(0); // set the selected index to 0
     }
 
     /**
@@ -701,6 +706,38 @@ public class MainUI extends JFrame implements ActionListener {
 
     public CountryStorage getCountryDatabase() { // get the country database
         return this.countryDB;
+    }
+
+    public JComboBox<String> getAnalysisData() {
+        return analysisData;
+    }
+
+    public void setAnalysisData(JComboBox<String> analysisData) {
+        this.analysisData = analysisData;
+    }
+
+    public JComboBox<String> getViewerData() {
+        return viewerData;
+    }
+
+    public void setViewerData(JComboBox<String> viewerData) {
+        this.viewerData = viewerData;
+    }
+
+    public JPanel getMiddlePanel() {
+        return middlePanel;
+    }
+
+    public void setMiddlePanel(JPanel middlePanel) {
+        this.middlePanel = middlePanel;
+    }
+
+    public ViewerMain getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(ViewerMain viewer) {
+        this.viewer = viewer;
     }
 
 }

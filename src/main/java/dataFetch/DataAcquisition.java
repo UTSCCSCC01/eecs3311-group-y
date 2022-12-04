@@ -26,10 +26,10 @@ public class DataAcquisition {
 
     /**
      * 
-     * @param ind array of indicators to get data from
-     * @param countrycode code of country to retrieve data from
-     * @param startingYear year to start data retrieval 
-     * @param endingYear year to end data retrieval 
+     * @param ind          array of indicators to get data from
+     * @param countrycode  code of country to retrieve data from
+     * @param startingYear year to start data retrieval
+     * @param endingYear   year to end data retrieval
      */
     public DataAcquisition(String[] ind, String countrycode, String startingYear, String endingYear) {
 
@@ -42,11 +42,12 @@ public class DataAcquisition {
             // array lists to populate
             yearvalues = new ArrayList<>();
             years = new ArrayList<>();
-            // make URL
-            String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
-                    + ind[j] + "?date=" + startingYear + ":" + endingYear + "&format=json", "can");
 
             try {
+                // make URL
+                String urlToGet = String.format("http://api.worldbank.org/v2/country/" + countrycode + "/indicator/"
+                        + ind[j] + "?date=" + startingYear + ":" + endingYear + "&format=json", "can");
+
                 // make HTTP connection
                 URL urlConstruct = new URL(urlToGet);
                 String parsedText = "";
@@ -67,7 +68,7 @@ public class DataAcquisition {
                     if (jsonStore.isJsonNull()) {
                         System.out.println("Null");
                     } else if (jsonStore.size() > 1) {
-                        
+
                         // Process Json array and convert to values we can use
                         JsonProcess.ProcessJsonArray(jsonStore);
                         yearvalues = JsonProcess.getYearValues();
@@ -96,18 +97,19 @@ public class DataAcquisition {
     }
 
     /**
-     * Method to check if Valid Year, now obsolete 
+     * Method to check if Valid Year, now obsolete
      *
-     * @param ind array of indicators to get data from
-     * @param countrycode code of country to retrieve data from
-     * @param startingYear year to start data retrieval 
-     * @param endingYear year to end data retrieval 
+     * @param ind          array of indicators to get data from
+     * @param countrycode  code of country to retrieve data from
+     * @param startingYear year to start data retrieval
+     * @param endingYear   year to end data retrieval
      * @return whether the year range and country are valid
      */
     public static Boolean checkifValidYear(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
         int minIndex = 1000;
-        if(DataAcquisition.dataStorage.size() == 0) return false;
+        if (DataAcquisition.dataStorage.size() == 0)
+            return false;
         for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
             if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
                 minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
@@ -124,49 +126,51 @@ public class DataAcquisition {
         return true;
 
     }
+
     /**
      * Method to check if country and year range have valid data
      *
-     * @param ind array of indicators to get data from
-     * @param countrycode code of country to retrieve data from
-     * @param startingYear year to start data retrieval 
-     * @param endingYear year to end data retrieval 
+     * @param ind          array of indicators to get data from
+     * @param countrycode  code of country to retrieve data from
+     * @param startingYear year to start data retrieval
+     * @param endingYear   year to end data retrieval
      * @return whether the year range and country have valid data to work with
      */
-        public static Boolean checkIfValidData(String[] ind, String countrycode, String startingYear, String endingYear) {
-            DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
-            if (DataAcquisition.dataStorage.size() == 0) {
-                return false;
-            }
-            if(DataAcquisition.dataStorage.get(0).years.size() == 0) {
-                return false;
-            }
-            int minIndex = 1000;
-            for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
-                if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
-                    minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
-                }
-                if (DataAcquisition.dataStorage.get(i).getValues().size() == 0) {
-                    return false;
-                }
-            }
-            if (minIndex == 0) {
-                return false;
-            }
-    
-            return true;
-    
+    public static Boolean checkIfValidData(String[] ind, String countrycode, String startingYear, String endingYear) {
+        DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
+        if (DataAcquisition.dataStorage.size() == 0) {
+            return false;
         }
-    
+        if (DataAcquisition.dataStorage.get(0).years.size() == 0) {
+            return false;
+        }
+        int minIndex = 1000;
+        for (int i = 0; i < DataAcquisition.dataStorage.size(); i++) {
+            if (DataAcquisition.dataStorage.get(i).getValues().size() < minIndex) {
+                minIndex = DataAcquisition.dataStorage.get(i).getValues().size();
+            }
+            if (DataAcquisition.dataStorage.get(i).getValues().size() == 0) {
+                return false;
+            }
+        }
+        if (minIndex == 0) {
+            return false;
+        }
+
+        return true;
+
+    }
+
     /**
-     * Method to check if country and year range have valid data for 
+     * Method to check if country and year range have valid data for
      * the Annual percentage calculation
      *
-     * @param ind array of indicators to get data from
-     * @param countrycode code of country to retrieve data from
-     * @param startingYear year to start data retrieval 
-     * @param endingYear year to end data retrieval 
-     * @return whether the year range and country have valid data to work with for annual 
+     * @param ind          array of indicators to get data from
+     * @param countrycode  code of country to retrieve data from
+     * @param startingYear year to start data retrieval
+     * @param endingYear   year to end data retrieval
+     * @return whether the year range and country have valid data to work with for
+     *         annual
      */
     public static Boolean ifSelectedIsAnnual(String[] ind, String countrycode, String startingYear, String endingYear) {
         DataAcquisition temp = new DataAcquisition(ind, countrycode, startingYear, endingYear);
@@ -192,7 +196,7 @@ public class DataAcquisition {
     public ArrayList<Integer> getYearForTest() {
         return this.years;
     }
-    
+
     /**
      * @return Array List of Stored Data from data fetching
      */

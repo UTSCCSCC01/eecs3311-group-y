@@ -61,9 +61,7 @@ public class ViewerBar extends JFrame implements Viewer {
      */
     public ViewerBar(ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2,
             String seriesName, String seriesName2, String seriesName3) {
-        if (dataStorage.equals(null)) {
-            return;
-        }
+
         this.xLabel = xLabel;
         this.yLabel = yLabel;
         this.yLabel2 = yLabel2;

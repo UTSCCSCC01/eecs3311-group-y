@@ -20,6 +20,7 @@ public class AnalysisAverage implements AnalysisStrategy {
 	public void performAnalysis(AnalysisContext analysisContext) {
 		ArrayList<StoredData> temp = new ArrayList<>();
 		StoredData res = new StoredData(analysisContext.getData().get(0).getInd());
+		System.out.println(analysisContext.getData().get(0).toString());
 		float r = 0;
 		int sizeOfResults = analysisContext.getData().get(0).getValues().size() - 1;
 		for (int i = 0; i < sizeOfResults; i++) {
@@ -27,7 +28,6 @@ public class AnalysisAverage implements AnalysisStrategy {
 		}
 		if (sizeOfResults > 0)
 			r = r / sizeOfResults;
-
 		res.getYears().add(analysisContext.getData().get(0).getYears().get(sizeOfResults));
 		res.getValues().add(r);
 		temp.add(res);

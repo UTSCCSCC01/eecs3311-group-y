@@ -70,11 +70,4 @@ public class CountryStorage {
         return this.countryStorageList;
     }
     
-    /**
-     * 
-     * @param countryStorageList to set current storageList to
-     */
-    public void setCountryStorageList(ArrayList<Country> countryStorageList) {
-        this.countryStorageList = countryStorageList;
-    }
 }

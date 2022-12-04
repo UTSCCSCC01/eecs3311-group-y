@@ -7,6 +7,8 @@ import dataFetch.StoredData;
 
 public class ViewerFactory {
 
+    private static final Viewer Viewer = null;
+
     //ArrayList<StoredData> dataStorage, String title, String xLabel, String yLabel, String yLabel2, String seriesName,
     //String seriesName2, String seriesName3
     public Viewer CreateViewerFactory(
@@ -18,7 +20,7 @@ public class ViewerFactory {
             String title, 
             String seriesName, 
             String seriesName2, 
-            String seriesName3) throws IOException {
+            String seriesName3){
         if (viewerType == null || viewerType.isEmpty())
             return null;    
         switch (viewerType) {
@@ -33,8 +35,9 @@ public class ViewerFactory {
             case "Bar":
                 return new ViewerBar(dataStorage, title, xLabel, yLabel, yLabel2, seriesName, seriesName2, seriesName3);
             default:
-                throw new IllegalArgumentException("Unknown Graph " + viewerType);
+                return Viewer;
         }
+        
 
     }
 

@@ -95,28 +95,20 @@ public class ViewerMain {
                 seriesOne = context.get(0).getSeriesName();
                 break;
             default:
-                // code block
+                return;
         }
 
-        try {
-
-            ViewerLine d = (ViewerLine) s.CreateViewerFactory(
-                    "Line",
-                    context,
-                    "Year",
-                    "Value",
-                    "Value",
-                    title,
-                    seriesOne,
-                    seriesTwo,
-                    seriesThree);
-            this.lineChart = d.getChart();
-        }
-
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ViewerLine d = (ViewerLine) s.CreateViewerFactory(
+                "Line",
+                context,
+                "Year",
+                "Value",
+                "Value",
+                title,
+                seriesOne,
+                seriesTwo,
+                seriesThree);
+        this.lineChart = d.getChart();
 
     }
 
@@ -143,28 +135,21 @@ public class ViewerMain {
                 seriesOne = context.get(0).getSeriesName();
                 break;
             default:
-                // code block
+                return;
+       
         }
 
-        try {
-
-            ViewerScatter d = (ViewerScatter) s.CreateViewerFactory(
-                    "Scatter",
-                    context,
-                    "Year",
-                    "Value",
-                    "Value",
-                    title,
-                    seriesOne,
-                    seriesTwo,
-                    seriesThree);
-            this.scatterChart = d.getChart();
-        }
-
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ViewerScatter d = (ViewerScatter) s.CreateViewerFactory(
+                "Scatter",
+                context,
+                "Year",
+                "Value",
+                "Value",
+                title,
+                seriesOne,
+                seriesTwo,
+                seriesThree);
+        this.scatterChart = d.getChart();
     }
 
     /**
@@ -190,28 +175,20 @@ public class ViewerMain {
                 seriesOne = context.get(0).getSeriesName();
                 break;
             default:
-                // code block
+                return;
         }
 
-        try {
-
-            ViewerPie d = (ViewerPie) s.CreateViewerFactory(
-                    "Pie",
-                    context,
-                    "Year",
-                    "Value",
-                    "Value",
-                    title,
-                    seriesOne,
-                    seriesTwo,
-                    seriesThree);
-            this.pieChart = d.getChart();
-        }
-
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ViewerPie d = (ViewerPie) s.CreateViewerFactory(
+                "Pie",
+                context,
+                "Year",
+                "Value",
+                "Value",
+                title,
+                seriesOne,
+                seriesTwo,
+                seriesThree);
+        this.pieChart = d.getChart();
 
     }
 
@@ -238,28 +215,20 @@ public class ViewerMain {
                 seriesOne = context.get(0).getSeriesName();
                 break;
             default:
-                // code block
+                return;
         }
 
-        try {
-
-            ViewerBar d = (ViewerBar) s.CreateViewerFactory(
-                    "Bar",
-                    context,
-                    "Year",
-                    "Value",
-                    "Value",
-                    title,
-                    seriesOne,
-                    seriesTwo,
-                    seriesThree);
-            this.barChart = d.getChart();
-        }
-
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ViewerBar d = (ViewerBar) s.CreateViewerFactory(
+                "Bar",
+                context,
+                "Year",
+                "Value",
+                "Value",
+                title,
+                seriesOne,
+                seriesTwo,
+                seriesThree);
+        this.barChart = d.getChart();
     }
 
     /**
@@ -285,28 +254,20 @@ public class ViewerMain {
                 seriesOne = context.get(0).getSeriesName();
                 break;
             default:
-                // code block
+                return;
         }
 
-        try {
-
-            ViewerReport d = (ViewerReport) s.CreateViewerFactory(
-                    "Report",
-                    context,
-                    "Year",
-                    "Value",
-                    "Value",
-                    title,
-                    seriesOne,
-                    seriesTwo,
-                    seriesThree);
-            this.reportPlot = d.getPanel();
-        }
-
-        catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        ViewerReport d = (ViewerReport) s.CreateViewerFactory(
+                "Report",
+                context,
+                "Year",
+                "Value",
+                "Value",
+                title,
+                seriesOne,
+                seriesTwo,
+                seriesThree);
+        this.reportPlot = d.getPanel();
     }
 
     /**
@@ -354,10 +315,6 @@ public class ViewerMain {
         return barChart;
     }
 
-    public void getArray() {
-        // TODO Auto-generated method stub
-        
-    }
 
     // Retrieves the ViewerMain objects allowed graphs
     public String[] getGraphs(){
